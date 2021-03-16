@@ -15,8 +15,14 @@ window.Run();
 
 void Update(float time)
 {
-    x += time * 0.1f;
-    window.KeyboardState.IsKeyDown(Keys.Left);
+    if (window.KeyboardState.IsKeyDown(Keys.Right))
+    {
+        x += time + 0.01f;
+    }
+    if (window.KeyboardState.IsKeyDown(Keys.Left))
+    {
+        x += time - 0.02f;
+    }
 }
 
 void Draw()
@@ -25,7 +31,7 @@ void Draw()
     GL.Begin(PrimitiveType.Quads);
     GL.Vertex2(x + 0f, 0f);
     GL.Vertex2(x + 10f, 0f);
-    GL.Vertex2(x + 1f, 1f);
+    GL.Vertex2(x + 10f, 1f);
     GL.Vertex2(x + 0f, 1f);
     GL.End();
     window.SwapBuffers();
