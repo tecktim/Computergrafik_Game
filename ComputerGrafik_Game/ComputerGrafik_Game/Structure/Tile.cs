@@ -1,4 +1,9 @@
-﻿using System;
+﻿using OpenTK.Graphics.OpenGL;
+using OpenTK.Windowing.Common;
+using OpenTK.Windowing.Desktop;
+using OpenTK.Mathematics;
+using OpenTK.Windowing.GraphicsLibraryFramework;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -7,14 +12,14 @@ namespace ComputerGrafik_Game.Structure
     /// <summary>
     /// Describes the Tiles of the Game
     /// </summary>
-    class Tile
+    public class Tile
     {
-        private int posX;
-        private int posY;
-        private int size;
+        public float posX;
+        public float posY;
+        public float size;
 
-        private int X;
-        private int Y;
+        public int X;
+        public int Y;
 
         /// <summary>
         /// Constructor for Tiles
@@ -24,33 +29,38 @@ namespace ComputerGrafik_Game.Structure
         /// <param name="size">Size of a Tile</param>
         /// <param name="i">With this you can get the X. tile vertically</param>
         /// <param name="j">With this you can get the Y. tile horizontally</param>
-        public Tile(int posX, int posY, int size, int i, int j)
+        public Tile(float posX, float posY, float size, int i, int j)
         {
             this.posX = posX;
             this.posY = posY;
             this.size = size;
             this.X = i;
             this.Y = j;
-            System.Diagnostics.Debug.Print("Tile: x: " + posX + " y: " + posY);
+           //System.Diagnostics.Debug.Print("Tile: x: " + posX + " y: " + posY);
         }
 
-        public int getPosX()
+        public void drawTile()
         {
-            return this.posX;
-        }
-
-        public int getPosY()
-        {
-            return this.posY;
-        }
-
-        public int getX()
-        {
-            return this.X;
-        }
-        public int getY()
-        {
-            return this.Y;
+            
+            GL.Begin(PrimitiveType.Quads);
+            GL.Color3(System.Drawing.Color.Gray);
+            /*
+            GL.Vertex2(this.posX, this.posY);
+            GL.Vertex2(this.posX + this.size, this.posY);
+            GL.Vertex2(this.posX + this.size, this.posY + this.size);
+            GL.Vertex2(this.posX, this.posY + this.size);
+            */
+            /*
+            GL.Vertex2(new Vector2(this.posX * 1f / 1280f,this.posY * 1f / 720f));
+            GL.Vertex2(new Vector2(this.posX + this.size * 1f / 1280f, this.posY * 1f / 720f));
+            GL.Vertex2(new Vector2(this.posX + this.size * 1f / 1280f, this.posY + this.size * 1f / 720f));
+            GL.Vertex2(new Vector2(this.posX * 1f / 1280f, this.posY + this.size * 1f / 720f));
+            */
+            GL.Vertex2(new Vector2(this.posX / 1280f, this.posY / 800f));
+            GL.Vertex2(new Vector2(this.posX + this.size/ 1280f, this.posY / 800f));
+            GL.Vertex2(new Vector2(this.posX + this.size / 1280f, this.posY + this.size / 800f));
+            GL.Vertex2(new Vector2(this.posX / 1280f, this.posY + this.size / 800f));
+            GL.End();
         }
     }
 }

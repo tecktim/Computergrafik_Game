@@ -18,7 +18,7 @@ namespace ComputerGrafik_Game.Structure
     {
         int xTiles;
         int yTiles;
-        ArrayList tileList = new ArrayList();
+        Tile[,] tileList;
 
         /// <summary>
         /// Creates a Grid on the whole window with its Tiles in size of tileSize
@@ -26,16 +26,22 @@ namespace ComputerGrafik_Game.Structure
         /// <param name="windowWidth">Width of the Window</param>
         /// <param name="windowHeight">Height of the Window</param>
         /// <param name="tileSize">Size of a tile</param>
-        public Grid(int windowWidth, int windowHeight, int tileSize)
+        public Grid(float windowWidth, float windowHeight, float tileSize)
         {
-            this.xTiles = windowWidth / tileSize;
-            this.yTiles = windowHeight / tileSize;
+            this.xTiles = Convert.ToInt32(windowWidth / tileSize); 
+            this.yTiles = Convert.ToInt32(windowHeight / tileSize);
 
-            for(int i=0;i<xTiles;i++)
+            System.Diagnostics.Debug.Print("xTiles: " + xTiles);
+            System.Diagnostics.Debug.Print("yTiles: " + yTiles);
+
+            this.tileList = new Tile[xTiles, yTiles];
+
+            for (int i=0;i<xTiles;i++)
             {
                 for(int j=0;j<yTiles;j++)
                 {
-                    tileList.Add(new Tile(tileSize * i, tileSize * j, tileSize, i, j));
+                    Tile tile = new Tile(tileSize * i - windowWidth/2, -(tileSize * j - windowHeight/2), tileSize, i, j);
+                    tileList[i, j] = tile;
                 }
             }
         }
@@ -43,9 +49,13 @@ namespace ComputerGrafik_Game.Structure
         // GridTesting
         public void drawGrid()
         {
-            foreach(Tile tile in tileList) {
-                GL.Begin(PrimitiveType.LineLoop);
-
+            for (int i = 0; i < xTiles; i++)
+            {
+                for (int j = 0; j <  yTiles; j++)
+                {
+                    tileList[i, j].drawTile();
+                    System.Diagnostics.Debug.Print(""+"i: "+i+", j: "+j+" posX: "+tileList[i,j].posX+" posY: "+tileList[i,j].posY);
+                }
             }
         }
 
