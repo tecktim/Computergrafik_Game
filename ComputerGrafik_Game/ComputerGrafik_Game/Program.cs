@@ -6,11 +6,19 @@ using OpenTK.Mathematics;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 using ComputerGrafik_Game.Structure;
 
-GameWindow window = new GameWindow(GameWindowSettings.Default, new NativeWindowSettings { Profile = ContextProfile.Compatability });
-
-int windowWidth = 1280;
-int windowHeight = 720;
-int tileSize = 80;
+GameWindow window = new GameWindow(
+    new GameWindowSettings
+    {
+        RenderFrequency = 60,
+        UpdateFrequency = 60
+    },
+    new NativeWindowSettings
+    {
+        Location = new Vector2i(250, 250),
+        Size = new Vector2i(1280, 800),
+        Profile = ContextProfile.Compatability
+    }
+    );
 
 GL.ClearColor(Color4.Brown);
 float x = 0f;
@@ -27,12 +35,7 @@ void Update(float time)
 void Draw()
 {
     GL.Clear(ClearBufferMask.ColorBufferBit);
-    GL.Begin(PrimitiveType.Quads);
-    GL.Vertex2(x + 0f, 0f);
-    GL.Vertex2(x + 10f, 0f);
-    GL.Vertex2(x + 10f, 1f);
-    GL.Vertex2(x + 0f, 1f);
-    GL.End();
+
     window.SwapBuffers();
 }
 

@@ -12,5 +12,6 @@ namespace ComputerGrafik_Game.Structure
         private bool bounty;
 
 
+
     }
 }
