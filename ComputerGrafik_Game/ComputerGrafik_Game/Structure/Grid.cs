@@ -45,7 +45,7 @@ namespace ComputerGrafik_Game.Structure
         {
             foreach(Tile tile in tileList) {
                 GL.Begin(PrimitiveType.LineLoop);
-               
+
             }
         }
 
