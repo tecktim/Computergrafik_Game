@@ -4,47 +4,65 @@ using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.GraphicsLibraryFramework;
+using ComputerGrafik_Game;
 using ComputerGrafik_Game.Structure;
+//using ComputerGrafik_Game.GlobalVariables;
 
-GameWindow window = new GameWindow(GameWindowSettings.Default, new NativeWindowSettings { Profile = ContextProfile.Compatability });
+GameWindow window = new GameWindow(
+    new GameWindowSettings
+    {
+        RenderFrequency = 60,
+        UpdateFrequency = 60
+    },
+    new NativeWindowSettings
+    {
+        Location = new Vector2i(250, 250),
+        Size = new Vector2i(1280, 800),
+        Profile = ContextProfile.Compatability
+    }
+    );
 
-int windowWidth = 1280;
-int windowHeight = 720;
-int tileSize = 80;
+float tileSize = 80;
 
-window.Size = new Vector2i(windowWidth,windowHeight);
-Grid grid = new Grid(windowWidth, windowHeight, tileSize);
+//GlobalVariables globalVariables = new GlobalVariables(window);
+//Grid grid = new Grid(Convert.ToSingle(window.Size.X), Convert.ToSingle(window.Size.Y), tileSize);
 
-GL.ClearColor(Color4.Brown);
-float x = 0f;
+Enemy enemy1 = new Enemy(100, 0.5f, 0.1f, 100, new Vector2(0.0f, 0.0f));
+
+//GL.ClearColor(0,0,0,255);
 
 window.UpdateFrame += args => Update((float)args.Time);
 window.RenderFrame += _ => Draw();
 window.Run();
 
+
 void Update(float time)
 {
-    if (window.KeyboardState.IsKeyDown(Keys.Right))
-    {
-        x += time + 0.01f;
-    }
-    if (window.KeyboardState.IsKeyDown(Keys.Left))
-    {
-        x += time - 0.02f;
-    }
+    //enemy1.update();
 }
 
 void Draw()
 {
-    GL.Clear(ClearBufferMask.ColorBufferBit);
-    GL.Begin(PrimitiveType.Quads);
-    GL.Vertex2(x + 0f, 0f);
-    GL.Vertex2(x + 10f, 0f);
-    GL.Vertex2(x + 10f, 1f);
-    GL.Vertex2(x + 0f, 1f);
+    GL.LoadIdentity();
+    //GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Line);
+    //GL.Ortho(0.0f, window.Size.X, 0.0f, window.Size.Y, 0f, 1000f);
+    //GL.Ortho(1.0f, 0.0f, 0.0f, 1.0f, 0f, 1000.0f);
+
+    enemy1.draw();
+    GL.Begin(PrimitiveType.Triangles);
+    GL.Color3(System.Drawing.Color.White);
+    GL.Vertex2(0.0f, 0.0f);
+    GL.Vertex2(0.5f, 0.0f);
+    GL.Vertex2(0.5f, 0.5f);
     GL.End();
+    //GL.Viewport(0, 0, window.Size.X, window.Size.Y);
+    GL.Clear(ClearBufferMask.ColorBufferBit);
+    //grid.drawGrid();
+    
     window.SwapBuffers();
+    System.Diagnostics.Debug.Print("Drawing dono");
 }
+
 
 namespace ComputerGrafik_Game
 {
