@@ -16,16 +16,17 @@ GameWindow window = new GameWindow(
     },
     new NativeWindowSettings
     {
-        Location = new Vector2i(250, 250),
+        Location = new Vector2i(200, 200),
         Size = new Vector2i(1280, 800),
         Profile = ContextProfile.Compatability
     }
     );
 
+Vector2 spawn = new Vector2(0.0f, 0.0f);
+Enemy enemyTest = new Enemy(100.0, 0.1f, 0.01f, 100, spawn);
+
 GL.ClearColor(Color4.Brown);
 float x = 0f;
-
-//GL.ClearColor(0,0,0,255);
 
 window.UpdateFrame += args => Update((float)args.Time);
 window.RenderFrame += _ => Draw();
@@ -34,26 +35,14 @@ window.Run();
 
 void Update(float time)
 {
-    
+    enemyTest.update();
 }
 
 void Draw()
 {
     GL.LoadIdentity();
-    //GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Line);
-    //GL.Ortho(0.0f, window.Size.X, 0.0f, window.Size.Y, 0f, 1000f);
-    //GL.Ortho(1.0f, 0.0f, 0.0f, 1.0f, 0f, 1000.0f);
-
-    enemy1.draw();
-    GL.Begin(PrimitiveType.Triangles);
-    GL.Color3(System.Drawing.Color.White);
-    GL.Vertex2(0.0f, 0.0f);
-    GL.Vertex2(0.5f, 0.0f);
-    GL.Vertex2(0.5f, 0.5f);
-    GL.End();
-    //GL.Viewport(0, 0, window.Size.X, window.Size.Y);
     GL.Clear(ClearBufferMask.ColorBufferBit);
-
+    enemyTest.draw();
     window.SwapBuffers();
     System.Diagnostics.Debug.Print("Drawing dono");
 }

@@ -35,17 +35,15 @@ namespace ComputerGrafik_Game.Structure
             this.alive = true;
             this.spawn = spawn;
             this.a = spawn;
-            //this.b = spawn + new Vector2(0, size);
-            this.b = new Vector2(0.5f, 0.0f);
-            //this.c = spawn + new Vector2(size, -size / 2f);
-            this.c = new Vector2(0.5f, 0.5f);          
+            this.b = new Vector2(spawn.X+size/2, spawn.Y+size);
+            this.c = new Vector2(spawn.X+size, spawn.Y);
         }
 
         public void update()
         {
-            a = a + new Vector2(0.001f, 0.001f);
-            b = b + new Vector2(0.001f, 0.001f);
-            c = c + new Vector2(0.001f, 0.001f);
+            a = a + new Vector2(0.0f, 0.0005f);
+            b = b + new Vector2(0.0f, 0.0005f);
+            c = c + new Vector2(0.0f, 0.0005f);
         }
 
         public void draw()
@@ -56,7 +54,6 @@ namespace ComputerGrafik_Game.Structure
             GL.Vertex2(b);
             GL.Vertex2(c);
             GL.End();
-
         }
 
 
