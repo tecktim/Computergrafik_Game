@@ -12,9 +12,6 @@ int windowWidth = 1280;
 int windowHeight = 720;
 int tileSize = 80;
 
-window.Size = new Vector2i(windowWidth,windowHeight);
-Grid grid = new Grid(windowWidth, windowHeight, tileSize);
-
 GL.ClearColor(Color4.Brown);
 float x = 0f;
 
@@ -24,14 +21,7 @@ window.Run();
 
 void Update(float time)
 {
-    if (window.KeyboardState.IsKeyDown(Keys.Right))
-    {
-        x += time + 0.01f;
-    }
-    if (window.KeyboardState.IsKeyDown(Keys.Left))
-    {
-        x += time - 0.02f;
-    }
+    
 }
 
 void Draw()
