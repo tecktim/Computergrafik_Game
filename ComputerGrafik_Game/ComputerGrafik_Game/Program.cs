@@ -4,8 +4,17 @@ using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.GraphicsLibraryFramework;
+using ComputerGrafik_Game.Structure;
 
 GameWindow window = new GameWindow(GameWindowSettings.Default, new NativeWindowSettings { Profile = ContextProfile.Compatability });
+
+int windowWidth = 1280;
+int windowHeight = 720;
+int tileSize = 80;
+
+window.Size = new Vector2i(windowWidth,windowHeight);
+Grid grid = new Grid(windowWidth, windowHeight, tileSize);
+
 GL.ClearColor(Color4.Brown);
 float x = 0f;
 
