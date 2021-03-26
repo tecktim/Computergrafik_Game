@@ -18,7 +18,7 @@ namespace ComputerGrafik_Game.Structure
     {
         int xTiles;
         int yTiles;
-        ArrayList tileList = new ArrayList();
+        Tile[,] tileList;
 
         /// <summary>
         /// Creates a Grid on the whole window with its Tiles in size of tileSize
@@ -35,7 +35,8 @@ namespace ComputerGrafik_Game.Structure
             {
                 for(int j=0;j<yTiles;j++)
                 {
-                    tileList.Add(new Tile(tileSize * i, tileSize * j, tileSize, i, j));
+                    Tile tile = new Tile(tileSize * i, tileSize * j, tileSize, i, j);
+                    tileList[i, j] = tile;
                 }
             }
         }
@@ -43,9 +44,14 @@ namespace ComputerGrafik_Game.Structure
         // GridTesting
         public void drawGrid()
         {
-            foreach(Tile tile in tileList) {
-                GL.Begin(PrimitiveType.LineLoop);
-               
+            for (int i = 0; i < xTiles; i++)
+            {
+                for (int j = 0; j < yTiles; j++)
+                {
+
+                    GL.Begin(PrimitiveType.LineLoop);
+                    GL.Vertex2();
+                }
             }
         }
 

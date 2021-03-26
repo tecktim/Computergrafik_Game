@@ -9,8 +9,8 @@ namespace ComputerGrafik_Game.Structure
     /// </summary>
     class Tile
     {
-        private int posX;
-        private int posY;
+        private float posX;
+        private float posY;
         private int size;
 
         private int X;
@@ -34,12 +34,12 @@ namespace ComputerGrafik_Game.Structure
             System.Diagnostics.Debug.Print("Tile: x: " + posX + " y: " + posY);
         }
 
-        public int getPosX()
+        public float getPosX()
         {
             return this.posX;
         }
 
-        public int getPosY()
+        public float getPosY()
         {
             return this.posY;
         }
