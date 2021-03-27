@@ -27,29 +27,34 @@ namespace ComputerGrafik_Game.Structure
             this.globalVariables = globalVariables;
         }
 
-        private void moveLeft()
+        Vector2 left = new Vector2(-0.005f, 0.0f);
+        Vector2 right = new Vector2(0.005f, 0.0f);
+        Vector2 up = new Vector2(0.0f, 0.005f);
+        Vector2 down = new Vector2(0.0f, -0.005f);
+
+        public void moveLeft()
         {
-            a = a + new Vector2(-0.005f, 0.0f);
-            b = b + new Vector2(-0.005f, 0.0f);
-            c = c + new Vector2(-0.005f, 0.0f);
+            a = a + left;
+            b = b + left;
+            c = c + left;
         }
-        private void moveRight()
+        public void moveRight()
         {
-            a = a + new Vector2(0.005f, 0.0f);
-            b = b + new Vector2(0.005f, 0.0f);
-            c = c + new Vector2(0.005f, 0.0f);
+            a = a + right;
+            b = b + right;
+            c = c + right;
         }
-        private void moveUp()
+        public void moveUp()
         {
-            a = a + new Vector2(0.0f, 0.005f);
-            b = b + new Vector2(0.0f, 0.005f);
-            c = c + new Vector2(0.0f, 0.005f);
+            a = a + up;
+            b = b + up;
+            c = c + up;
         }
-        private void moveDown()
+        public void moveDown()
         {
-            a = a + new Vector2(0.0f, -0.005f);
-            b = b + new Vector2(0.0f, -0.005f);
-            c = c + new Vector2(0.0f, -0.005f);
+            a = a + down;
+            b = b + down;
+            c = c + down;
         }
 
         public void update(string dir)

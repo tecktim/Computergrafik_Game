@@ -1,29 +1,28 @@
 ﻿using OpenTK.Graphics.OpenGL;
+using OpenTK.Mathematics;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace ComputerGrafik_Game.Structure
 {
-    class Map
+    public class Map
     {
-        float xStart;
-        float yStart;
+        public Vector2 point1;
+        public Vector2 point2;
 
-        public Map(float xStart, float yStart)
+        public Map(Vector2 point1, Vector2 point2)
         {
-            this.xStart = xStart;
-            this.yStart = yStart;
+            this.point1 = point1;
+            this.point2 = point2;
         }
 
         public void draw()
         {
-            GL.Begin(PrimitiveType.LineLoop);
+            GL.Begin(PrimitiveType.Lines);
             GL.Color3(System.Drawing.Color.White);
-            GL.Vertex2(xStart, yStart);
-            GL.Vertex2(xStart, yStart+0.5f);
-            GL.Vertex2(xStart + 0.5f, yStart+0.5f);
-            GL.Vertex2(xStart + 0.5f, yStart+1.0f);
+            GL.Vertex2(point1.X, point1.Y);
+            GL.Vertex2(point2.X, point2.Y);
             GL.End();
         }
 
