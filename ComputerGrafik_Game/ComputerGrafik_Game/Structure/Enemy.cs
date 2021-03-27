@@ -11,24 +11,8 @@ namespace ComputerGrafik_Game.Structure
 {
     class Enemy
     {
-        private double health;
-        private float size;
-        private float speed;
-        private bool alive;
-        private int bounty;
-        private Vector2 spawn;
-        private Vector2 a;
-        private Vector2 b;
-        private Vector2 c;
-        GlobalVariables globalVariables;
-        
-         
 
-        private float posX;
-        private float posY;
-
-
-        public Enemy(double health, float size, float speed, int bounty, Vector2 spawn, GlobalVariables globalVariables) //https://www.youtube.com/watch?v=mmo3HFa2vjg
+        public Enemy(double health, float size, float speed, int bounty, Vector2 spawn, GlobalVariables globalVariables) 
 
         {
             this.health = health;
@@ -37,10 +21,35 @@ namespace ComputerGrafik_Game.Structure
             this.bounty = bounty;
             this.alive = true;
             this.spawn = spawn;
-            this.a = new Vector2(spawn.X - size / 2, spawn.Y - size / 2);
-            this.b = new Vector2(spawn.X-size/2, spawn.Y+size);
+            this.a = new Vector2(spawn.X, spawn.Y);
+            this.b = new Vector2(spawn.X+size/2, spawn.Y+size);
             this.c = new Vector2(spawn.X+size, spawn.Y);
             this.globalVariables = globalVariables;
+        }
+
+        private void moveLeft()
+        {
+            a = a + new Vector2(-0.005f, 0.0f);
+            b = b + new Vector2(-0.005f, 0.0f);
+            c = c + new Vector2(-0.005f, 0.0f);
+        }
+        private void moveRight()
+        {
+            a = a + new Vector2(0.005f, 0.0f);
+            b = b + new Vector2(0.005f, 0.0f);
+            c = c + new Vector2(0.005f, 0.0f);
+        }
+        private void moveUp()
+        {
+            a = a + new Vector2(0.0f, 0.005f);
+            b = b + new Vector2(0.0f, 0.005f);
+            c = c + new Vector2(0.0f, 0.005f);
+        }
+        private void moveDown()
+        {
+            a = a + new Vector2(0.0f, -0.005f);
+            b = b + new Vector2(0.0f, -0.005f);
+            c = c + new Vector2(0.0f, -0.005f);
         }
 
         public void update(string dir)
@@ -48,24 +57,16 @@ namespace ComputerGrafik_Game.Structure
             switch (dir)
             {
                 case "UP":
-                 a = a + new Vector2(0.0f, 0.005f);
-                 b = b + new Vector2(0.0f, 0.005f);
-                 c = c + new Vector2(0.0f, 0.005f);
+                    moveUp();
                     break;
                 case "LEFT":
-                    a = a + new Vector2(-0.005f, 0.0f);
-                    b = b + new Vector2(-0.005f, 0.0f);
-                    c = c + new Vector2(-0.005f, 0.0f);
+                    moveLeft();
                     break;
                 case "RIGHT":
-                    a = a + new Vector2(0.005f, 0.0f);
-                    b = b + new Vector2(0.005f, 0.0f);
-                    c = c + new Vector2(0.005f, 0.0f);
+                    moveRight();
                     break;
                 case "DOWN":
-                    a = a + new Vector2(0.0f, -0.005f);
-                    b = b + new Vector2(0.0f, -0.005f);
-                    c = c + new Vector2(0.0f, -0.005f);
+                    moveDown();
                     break;
 
             }
@@ -80,6 +81,18 @@ namespace ComputerGrafik_Game.Structure
             GL.Vertex2(c);
             GL.End();
         }
+
+        public double health { get; set; }
+        public float size { get; set; }
+        public float speed { get; set; }
+        public int bounty { get; set; }
+        public Vector2 spawn { get; set; }
+        public GlobalVariables globalVariables { get; set; }
+        public Vector2 a { get; set; }
+        public Vector2 b { get; set; }
+        public Vector2 c { get; set; }
+        public bool alive { get; set; }
+
 
 
     }
