@@ -6,6 +6,8 @@ using OpenTK.Mathematics;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 using ComputerGrafik_Game;
 using ComputerGrafik_Game.Structure;
+using ComputerGrafik_Game.Collision;
+
 //using ComputerGrafik_Game.GlobalVariables;
 
 GameWindow window = new GameWindow(
@@ -34,6 +36,27 @@ Enemy enemy1 = new Enemy(100, 0.5f, 0.1f, 100, new Vector2(0.0f, 0.0f));
 window.UpdateFrame += args => Update((float)args.Time);
 window.RenderFrame += _ => Draw();
 window.Run();
+
+CircleCollider thisCircle = new CircleCollider(new Vector2(0.2f,0.2f), 0.19f);
+CircleCollider otherCircle = new CircleCollider(new Vector2(0.4f,0.4f), 0.19f);
+if (thisCircle.Circle2CircleCollider(otherCircle) == true)
+{
+    System.Diagnostics.Debug.Print("Colliding true");
+}
+else
+{
+    System.Diagnostics.Debug.Print("Colliding false");
+}
+thisCircle = new CircleCollider(new Vector2(0.2f, 0.2f), 0.21f);
+otherCircle = new CircleCollider(new Vector2(0.4f, 0.4f), 0.21f);
+if (thisCircle.Circle2CircleCollider(otherCircle) == true)
+{
+    System.Diagnostics.Debug.Print("Colliding true");
+}
+else
+{
+    System.Diagnostics.Debug.Print("Colliding false");
+}
 
 
 void Update(float time)
