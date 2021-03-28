@@ -9,9 +9,6 @@ namespace ComputerGrafik_Game.Structure
 {
     public class Map
     {
-        public Vector2 point1;
-        public Vector2 point2;
-
         public Map(Vector2 point1, Vector2 point2)
         {
             this.point1 = point1;
@@ -27,6 +24,9 @@ namespace ComputerGrafik_Game.Structure
             GL.Vertex2(point2.X, point2.Y);
             GL.End();
         }
+
+        public Vector2 point1 { get; set; }
+        public Vector2 point2 { get; set; }
 
     }
 }

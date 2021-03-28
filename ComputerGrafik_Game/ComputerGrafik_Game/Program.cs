@@ -43,6 +43,8 @@ wayPointList.Add(way2);
 wayPointList.Add(way3);
 wayPointList.Add(way4);
 
+Tower towerTest1 = new Tower(1.0, 1.0, 1.0, .1f, -0.2f, 0.0f, 100);
+
 GL.ClearColor(Color4.Brown);
 
 KeyboardState input = window.KeyboardState;
@@ -98,6 +100,8 @@ void Draw()
     enemyTest2.draw();
     enemyTest3.draw();
     enemyTest4.draw();
+
+    towerTest1.draw();
 
     way1.draw();
     way2.draw();
