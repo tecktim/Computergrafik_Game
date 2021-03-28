@@ -6,6 +6,8 @@ using OpenTK.Mathematics;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 using ComputerGrafik_Game;
 using ComputerGrafik_Game.Structure;
+using System.Collections.Generic;
+using ComputerGrafik_Game.Collision;
 //using ComputerGrafik_Game.GlobalVariables;
 
 GameWindow window = new GameWindow(
