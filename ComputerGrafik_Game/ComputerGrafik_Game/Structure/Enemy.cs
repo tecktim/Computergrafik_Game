@@ -131,7 +131,6 @@ namespace ComputerGrafik_Game.Structure
             this.a = new Vector2((float)Math.Round((decimal)this.a.X, 3), (float)Math.Round((decimal)this.a.Y, 3));
             this.b = new Vector2((float)Math.Round((decimal)this.b.X, 3), (float)Math.Round((decimal)this.b.Y, 3));
             this.c = new Vector2((float)Math.Round((decimal)this.c.X, 3), (float)Math.Round((decimal)this.c.Y, 3));
-
         }
 
         public double health { get; set; }

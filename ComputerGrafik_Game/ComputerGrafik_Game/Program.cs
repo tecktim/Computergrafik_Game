@@ -51,8 +51,6 @@ window.UpdateFrame += args => Update((float)args.Time);
 window.RenderFrame += _ => Draw();
 window.Run();
 
-
-
 void Update(float time)
 {
     System.Diagnostics.Debug.Print("Time: " + time);
@@ -61,9 +59,6 @@ void Update(float time)
     enemyTest2.update(wayPointList);
     enemyTest3.update(wayPointList);
     enemyTest4.update(wayPointList);
-
-
-
 
     if (input.IsKeyDown(Keys.Left)) { enemyTest.update("LEFT"); }
     if (input.IsKeyDown(Keys.Right)) { enemyTest.update("RIGHT"); }
