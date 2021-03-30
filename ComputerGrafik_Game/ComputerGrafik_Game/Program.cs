@@ -43,7 +43,7 @@ wayPointList.Add(way2);
 wayPointList.Add(way3);
 wayPointList.Add(way4);
 
-Tower towerTest1 = new Tower(1.0, 1.0, 1.0, .1f, -0.2f, 0.0f, 100);
+Tower towerTest1 = new Tower(1.0f, 1.0f, 1.0f, .2f, new Vector2(-0.2f, 0.0f), 100);
 
 GL.ClearColor(Color4.Brown);
 
@@ -55,24 +55,10 @@ window.Run();
 
 CircleCollider thisCircle = new CircleCollider(new Vector2(0.2f,0.2f), 0.19f);
 CircleCollider otherCircle = new CircleCollider(new Vector2(0.4f,0.4f), 0.19f);
-if (thisCircle.Circle2CircleCollider(otherCircle) == true)
-{
-    System.Diagnostics.Debug.Print("Colliding true");
-}
-else
-{
-    System.Diagnostics.Debug.Print("Colliding false");
-}
+
 thisCircle = new CircleCollider(new Vector2(0.2f, 0.2f), 0.21f);
 otherCircle = new CircleCollider(new Vector2(0.4f, 0.4f), 0.21f);
-if (thisCircle.Circle2CircleCollider(otherCircle) == true)
-{
-    System.Diagnostics.Debug.Print("Colliding true");
-}
-else
-{
-    System.Diagnostics.Debug.Print("Colliding false");
-}
+
 
 
 void Update(float time)
@@ -83,11 +69,6 @@ void Update(float time)
     enemyTest2.update(wayPointList);
     enemyTest3.update(wayPointList);
     enemyTest4.update(wayPointList);
-
-    if (input.IsKeyDown(Keys.Left)) { enemyTest.update("LEFT"); }
-    if (input.IsKeyDown(Keys.Right)) { enemyTest.update("RIGHT"); }
-    if (input.IsKeyDown(Keys.Up)) { enemyTest.update("UP"); }
-    if (input.IsKeyDown(Keys.Down)) { enemyTest.update("DOWN"); }
 }
 
 void Draw()
@@ -108,7 +89,7 @@ void Draw()
     way3.draw();
     way4.draw();
     window.SwapBuffers();
-    System.Diagnostics.Debug.Print("Drawing dono");
+    System.Diagnostics.Debug.Print("Drawing donezo");
 }
 
 

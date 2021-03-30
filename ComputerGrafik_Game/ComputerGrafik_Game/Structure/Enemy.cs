@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Collections;
+using ComputerGrafik_Game.Collision;
 
 namespace ComputerGrafik_Game.Structure
 {
@@ -25,6 +26,8 @@ namespace ComputerGrafik_Game.Structure
             this.b = new Vector2(spawn.X + size / 2, spawn.Y + size);
             this.c = new Vector2(spawn.X + size, spawn.Y);
             this.globalVariables = globalVariables;
+            this.center = new Vector2((this.a.X + this.c.X)/2, (this.a.Y + this.b.Y)/2);
+            this.hitCollider = new CircleCollider(this.center, this.size);
         }
 
         Vector2 left = new Vector2(-0.005f, 0.0f);
@@ -57,26 +60,6 @@ namespace ComputerGrafik_Game.Structure
             c = c + down;
         }
 
-        public void update(string dir)
-        {
-            switch (dir)
-            {
-                case "UP":
-                    moveUp();
-                    break;
-                case "LEFT":
-                    moveLeft();
-                    break;
-                case "RIGHT":
-                    moveRight();
-                    break;
-                case "DOWN":
-                    moveDown();
-                    break;
-
-            }
-        }
-
         public void draw()
         {
             GL.Begin(PrimitiveType.Triangles);
@@ -86,6 +69,9 @@ namespace ComputerGrafik_Game.Structure
             GL.Vertex2(c);
             GL.End();
         }
+
+
+
         int i = 0;
         public void update(List<Map> wayPointList)
         {
@@ -133,6 +119,8 @@ namespace ComputerGrafik_Game.Structure
             this.c = new Vector2((float)Math.Round((decimal)this.c.X, 3), (float)Math.Round((decimal)this.c.Y, 3));
         }
 
+        public CircleCollider hitCollider { get; set; }
+        public Vector2 center { get; set; }
         public double health { get; set; }
         public float size { get; set; }
         public float speed { get; set; }
