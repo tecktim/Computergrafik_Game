@@ -9,6 +9,7 @@ using System.Text;
 using System.Collections;
 using ComputerGrafik_Game.Collision;
 
+
 namespace ComputerGrafik_Game.Structure
 {
     class Tower
@@ -27,7 +28,16 @@ namespace ComputerGrafik_Game.Structure
 
         public void update()
         {
-            
+            CircleCollider otherCircle;
+            otherCircle = enemyTest.hitCollider;
+            if (this.rangeCollider.Circle2CircleCollider(otherCircle) == true)
+            {
+                System.Diagnostics.Debug.Print("In Range: true");
+            }
+            else
+            {
+                System.Diagnostics.Debug.Print("In Range: false");
+            }
         }
 
         public void draw()

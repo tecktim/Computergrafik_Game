@@ -119,7 +119,7 @@ namespace ComputerGrafik_Game.Structure
             this.c = new Vector2((float)Math.Round((decimal)this.c.X, 3), (float)Math.Round((decimal)this.c.Y, 3));
         }
 
-        public CircleCollider hitCollider { get; set; }
+        public CircleCollider hitCollider { get; }
         public Vector2 center { get; set; }
         public double health { get; set; }
         public float size { get; set; }

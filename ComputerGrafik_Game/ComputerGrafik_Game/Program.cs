@@ -53,12 +53,6 @@ window.UpdateFrame += args => Update((float)args.Time);
 window.RenderFrame += _ => Draw();
 window.Run();
 
-CircleCollider thisCircle = new CircleCollider(new Vector2(0.2f,0.2f), 0.19f);
-CircleCollider otherCircle = new CircleCollider(new Vector2(0.4f,0.4f), 0.19f);
-
-thisCircle = new CircleCollider(new Vector2(0.2f, 0.2f), 0.21f);
-otherCircle = new CircleCollider(new Vector2(0.4f, 0.4f), 0.21f);
-
 
 
 void Update(float time)
