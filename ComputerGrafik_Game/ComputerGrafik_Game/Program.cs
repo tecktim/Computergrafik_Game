@@ -43,6 +43,9 @@ wayPointList.Add(way2);
 wayPointList.Add(way3);
 wayPointList.Add(way4);
 
+Grid gridTest = new Grid(12, 12);
+
+
 Tower towerTest1 = new Tower(1.0f, 1.0f, 1.0f, .2f, new Vector2(-0.2f, 0.0f), 100);
 
 GL.ClearColor(Color4.Brown);
@@ -77,6 +80,8 @@ void Draw()
     enemyTest4.draw();
 
     towerTest1.draw();
+    gridTest.draw();
+
 
     way1.draw();
     way2.draw();

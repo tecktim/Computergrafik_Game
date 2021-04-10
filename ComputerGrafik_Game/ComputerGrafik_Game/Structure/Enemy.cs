@@ -111,7 +111,6 @@ namespace ComputerGrafik_Game.Structure
             }
         }
 
-
         void correctRound()
         {
             this.a = new Vector2((float)Math.Round((decimal)this.a.X, 3), (float)Math.Round((decimal)this.a.Y, 3));
@@ -131,8 +130,5 @@ namespace ComputerGrafik_Game.Structure
         public Vector2 b { get; set; }
         public Vector2 c { get; set; }
         public bool alive { get; set; }
-
-
-
     }
 }

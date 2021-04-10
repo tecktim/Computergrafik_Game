@@ -1,63 +1,87 @@
 ﻿using OpenTK.Graphics.OpenGL;
-using OpenTK.Windowing.Common;
-using OpenTK.Windowing.Desktop;
 using OpenTK.Mathematics;
-using OpenTK.Windowing.GraphicsLibraryFramework;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Text;
-
 
 namespace ComputerGrafik_Game.Structure
 {
-    /// <summary>
-    /// Describes the Grid of the Game
-    /// </summary>
+    public enum CellType { Empty, Sniper, Rifle};
     class Grid
     {
-        int xTiles;
-        int yTiles;
-        Tile[,] tileList;
-
-        /// <summary>
-        /// Creates a Grid on the whole window with its Tiles in size of tileSize
-        /// </summary>
-        /// <param name="windowWidth">Width of the Window</param>
-        /// <param name="windowHeight">Height of the Window</param>
-        /// <param name="tileSize">Size of a tile</param>
-        public Grid(float windowWidth, float windowHeight, float tileSize)
+        public Grid(int row, int column)
         {
-            this.xTiles = Convert.ToInt32(windowWidth / tileSize); 
-            this.yTiles = Convert.ToInt32(windowHeight / tileSize);
-
-            System.Diagnostics.Debug.Print("xTiles: " + xTiles);
-            System.Diagnostics.Debug.Print("yTiles: " + yTiles);
-
-            this.tileList = new Tile[xTiles, yTiles];
-
-            for (int i=0;i<xTiles;i++)
-            {
-                for(int j=0;j<yTiles;j++)
-                {
-                    Tile tile = new Tile(tileSize * i - windowWidth/2, -(tileSize * j - windowHeight/2), tileSize, i, j);
-                    tileList[i, j] = tile;
-                }
-            }
+            this.rows = row;
+            this.columns = column;
+            Cells = new CellType[columns * rows];
+            Array.Fill(Cells, CellType.Empty);
         }
 
-        // GridTesting
-        public void drawGrid()
+
+
+
+
+
+
+        public CellType this[int x, int y]
         {
-            for (int i = 0; i < xTiles; i++)
-            {
-                for (int j = 0; j <  yTiles; j++)
-                {
-                    tileList[i, j].drawTile();
-                    System.Diagnostics.Debug.Print(""+"i: "+i+", j: "+j+" posX: "+tileList[i,j].posX+" posY: "+tileList[i,j].posY);
-                }
-            }
+            get { return Cells[x + columns * y]; }
+            set { Cells[x + columns * y] = value; }
         }
 
+        public void initialize()
+        {
+            //make every cell empty
+            
+        }
+
+        public void update()
+        {
+        }
+
+        public void draw()
+        {
+            DrawGrid(this);
+        }
+
+        private void DrawGrid(Grid grid)
+        {
+            DrawGridLines(grid.columns, grid.rows);
+
+            //Use this to draw the towers
+
+            /* GL.Color4(Color4.Gray);
+             * for (int column = 0; column < grid.columns; ++column)
+            {
+                for (int row = 0; row < grid.rows; ++row)
+                {
+                    if (CellType.circle == grid[column, row])
+                    {
+                        DrawCircle(new Vector2(column + 0.5f, row + 0.5f), 0.4f);
+                    }
+                }
+            }*/
+        }
+
+        private static void DrawGridLines(int columns, int rows)
+        {
+            GL.Color4(Color4.White);
+            GL.LineWidth(1.0f);
+            GL.Begin(PrimitiveType.Lines);
+            for (float x = 0; x < columns + 1; ++x)
+            {
+                GL.Vertex2(x, 0f);
+                GL.Vertex2(x, rows);
+            }
+            for (float y = 0; y < rows + 1; ++y)
+            {
+                GL.Vertex2(0f, y);
+                GL.Vertex2(columns, y);
+            }
+            GL.End();
+        }
+
+        int rows { get; set; }
+        int columns { get; set; }
+        public CellType[] Cells;
     }
 }

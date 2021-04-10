@@ -28,8 +28,8 @@ namespace ComputerGrafik_Game.Structure
 
         public void update()
         {
-            CircleCollider otherCircle;
-            otherCircle = enemyTest.hitCollider;
+            /*CircleCollider otherCircle;
+           
             if (this.rangeCollider.Circle2CircleCollider(otherCircle) == true)
             {
                 System.Diagnostics.Debug.Print("In Range: true");
@@ -37,7 +37,7 @@ namespace ComputerGrafik_Game.Structure
             else
             {
                 System.Diagnostics.Debug.Print("In Range: false");
-            }
+            }*/
         }
 
         public void draw()
