@@ -14,7 +14,7 @@ namespace ComputerGrafik_Game.Structure
 {
     class Tower
     {
-        public Tower(float attackSpeed, float attackRange, float attackDamage, float sizeXY, Vector2 position, int cost)
+        public Tower(float attackSpeed, float attackRange, float attackDamage, float sizeXY, Vector2 position, int cost, string type)
         {
             this.attackSpeed = attackSpeed;
             this.attackRange = attackRange;
@@ -24,20 +24,25 @@ namespace ComputerGrafik_Game.Structure
             this.position = position;
             this.center = new Vector2(position.X+ sizeXY/2, position.Y+ sizeXY/2);
             this.rangeCollider = new CircleCollider(center, attackRange);
+            this.type = type;
         }
 
         public void update()
         {
-            /*CircleCollider otherCircle;
-           
-            if (this.rangeCollider.Circle2CircleCollider(otherCircle) == true)
+        }
+
+        public void checkRange(CircleCollider enemyCollider)
+        {
+            bool inRangeTrue = this.rangeCollider.Circle2CircleCollider(enemyCollider);
+
+            if (inRangeTrue)
             {
                 System.Diagnostics.Debug.Print("In Range: true");
             }
             else
             {
                 System.Diagnostics.Debug.Print("In Range: false");
-            }*/
+            }
         }
 
         public void draw()
@@ -61,5 +66,6 @@ namespace ComputerGrafik_Game.Structure
         public float sizeXY { get; set; }
         public Vector2 position { get; set; }
         public int cost { get; set; }
+        public string type { get; set; }
     }
 }

@@ -46,7 +46,7 @@ wayPointList.Add(way4);
 Grid gridTest = new Grid(12, 12);
 
 
-Tower towerTest1 = new Tower(1.0f, 1.0f, 1.0f, .2f, new Vector2(-0.2f, 0.0f), 100);
+Tower towerTest1 = new Tower(1.0f, 1.0f, 1.0f, .2f, new Vector2(0.0f, 0.0f), 100, "rifle");
 
 GL.ClearColor(Color4.Brown);
 
@@ -61,11 +61,18 @@ window.Run();
 void Update(float time)
 {
     System.Diagnostics.Debug.Print("Time: " + time);
+    towerTest1.checkRange(enemyTest.hitCollider);
+    towerTest1.checkRange(enemyTest1.hitCollider);
+    towerTest1.checkRange(enemyTest2.hitCollider);
+    towerTest1.checkRange(enemyTest3.hitCollider);
+    towerTest1.checkRange(enemyTest4.hitCollider);
     enemyTest.update(wayPointList);
     enemyTest1.update(wayPointList);
     enemyTest2.update(wayPointList);
     enemyTest3.update(wayPointList);
     enemyTest4.update(wayPointList);
+
+
 }
 
 void Draw()
