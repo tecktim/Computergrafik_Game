@@ -23,7 +23,7 @@ namespace ComputerGrafik_Game.Structure
             this.cost = cost;
             this.position = position;
             this.center = new Vector2(position.X+ sizeXY/2, position.Y+ sizeXY/2);
-            this.rangeCollider = new CircleCollider(center, attackRange);
+            this.rangeCollider = new CircleCollider(center, attackRange/2);
             this.type = type;
         }
 

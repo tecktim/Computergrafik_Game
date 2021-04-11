@@ -27,7 +27,7 @@ namespace ComputerGrafik_Game.Structure
             this.c = new Vector2(spawn.X + size, spawn.Y);
             this.globalVariables = globalVariables;
             this.center = new Vector2((this.a.X + this.c.X)/2, (this.a.Y + this.b.Y)/2);
-            this.hitCollider = new CircleCollider(this.center, this.size);
+            this.hitCollider = new CircleCollider(this.center, this.size/2);
         }
 
         Vector2 left = new Vector2(-0.005f, 0.0f);
@@ -75,6 +75,10 @@ namespace ComputerGrafik_Game.Structure
         int i = 0;
         public void update(List<Map> wayPointList)
         {
+            this.center = new Vector2((this.a.X + this.c.X) / 2, (this.a.Y + this.b.Y) / 2);
+            this.hitCollider = new CircleCollider(this.center, this.size / 2);
+
+
 
             if (i < wayPointList.Count)
             {
@@ -118,7 +122,7 @@ namespace ComputerGrafik_Game.Structure
             this.c = new Vector2((float)Math.Round((decimal)this.c.X, 3), (float)Math.Round((decimal)this.c.Y, 3));
         }
 
-        public CircleCollider hitCollider { get; }
+        public CircleCollider hitCollider { get; set; }
         public Vector2 center { get; set; }
         public double health { get; set; }
         public float size { get; set; }
