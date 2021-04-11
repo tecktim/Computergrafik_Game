@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Collections;
 using ComputerGrafik_Game.Collision;
-
+using ComputerGrafik_Game.Structure.Projectiles;
 
 namespace ComputerGrafik_Game.Structure
 {
@@ -31,17 +31,28 @@ namespace ComputerGrafik_Game.Structure
         {
         }
 
-        public void checkRange(CircleCollider enemyCollider)
+        public void checkRange(CircleCollider enemyCollider, float time)
         {
             bool inRangeTrue = this.rangeCollider.Circle2CircleCollider(enemyCollider);
 
             if (inRangeTrue)
             {
                 System.Diagnostics.Debug.Print("In Range: true");
+                //shoot - spawn bullet - do damage
+                //1. schuss - shoot bool wird false gesetzt - zeit vergeht je nach attackspeed -
+                //bool wird wieder true gesetzt - 2. Schuss - wiederholen
+
+                Bullet bullet = new Bullet(0.01f, 0.01f, 0.005f, System.Drawing.Color.AliceBlue);
+                /*if(time / this.attackSpeed == irgendwas oder sonstwas)
+                {
+                    bullet.draw();
+                    bullet.update();
+                }*/
             }
             else
             {
                 System.Diagnostics.Debug.Print("In Range: false");
+                //nothing happens
             }
         }
 

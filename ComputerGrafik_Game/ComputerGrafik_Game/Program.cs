@@ -60,11 +60,11 @@ window.Run();
 void Update(float time)
 {
     System.Diagnostics.Debug.Print("Time: " + time);
-    towerTest1.checkRange(enemyTest.hitCollider);
-    towerTest1.checkRange(enemyTest1.hitCollider);
-    towerTest1.checkRange(enemyTest2.hitCollider);
-    towerTest1.checkRange(enemyTest3.hitCollider);
-    towerTest1.checkRange(enemyTest4.hitCollider);
+    towerTest1.checkRange(enemyTest.hitCollider, time);
+    towerTest1.checkRange(enemyTest1.hitCollider, time);
+    towerTest1.checkRange(enemyTest2.hitCollider, time);
+    towerTest1.checkRange(enemyTest3.hitCollider, time);
+    towerTest1.checkRange(enemyTest4.hitCollider, time);
     enemyTest.update(wayPointList);
     enemyTest1.update(wayPointList);
     enemyTest2.update(wayPointList);

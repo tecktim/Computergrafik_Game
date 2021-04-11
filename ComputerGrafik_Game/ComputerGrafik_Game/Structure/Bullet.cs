@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OpenTK.Mathematics;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,7 +7,7 @@ namespace ComputerGrafik_Game.Structure.Projectiles
 {
     class Bullet
     {
-        public Bullet(float velocity, float bulletLength, float bulletWidth, float bulletColor)
+        public Bullet(float velocity, float bulletLength, float bulletWidth,  Color4 bulletColor)
         {
             this.velocity = velocity;
             this.bulletLength = bulletLength;
@@ -14,9 +15,18 @@ namespace ComputerGrafik_Game.Structure.Projectiles
             this.bulletColor = bulletColor;
         }
 
+        
+        public void draw()
+        {
+
+        }
+        public void update()
+        {
+
+        }
         public float velocity { get; set; }
         public float bulletLength { get; set; }
         public float bulletWidth { get; set; }
-        public float bulletColor { get; set; }
+        public Color4 bulletColor { get; set; }
     }
 }
