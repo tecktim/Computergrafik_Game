@@ -9,12 +9,14 @@ using System.Text;
 using System.Collections;
 using ComputerGrafik_Game.Collision;
 using ComputerGrafik_Game.Structure.Projectiles;
+using System.Diagnostics;
+using System.Threading;
 
 namespace ComputerGrafik_Game.Structure
 {
     class Tower
     {
-        public Tower(float attackSpeed, float attackRange, float attackDamage, float sizeXY, Vector2 position, int cost, string type)
+        public Tower(int attackSpeedInMills, float attackRange, float attackDamage, float sizeXY, Vector2 position, int cost, string type, Stopwatch asTimer)
         {
             this.attackSpeed = attackSpeed;
             this.attackRange = attackRange;
@@ -25,35 +27,68 @@ namespace ComputerGrafik_Game.Structure
             this.center = new Vector2(position.X+ sizeXY/2, position.Y+ sizeXY/2);
             this.rangeCollider = new CircleCollider(center, attackRange/2);
             this.type = type;
+            this.asTimer = asTimer;
         }
+
+
 
         public void update()
         {
+
         }
 
-        public void checkRange(CircleCollider enemyCollider, float time)
+        int j = 0;
+        int k = 0;
+        public void checkAttack(Enemy enemy)
         {
-            bool inRangeTrue = this.rangeCollider.Circle2CircleCollider(enemyCollider);
+            this.asTimer.Start();
+            Thread.Sleep(attackSpeed);
+            this.asTimer.Stop();
+            
+
+            if (asTimer.ElapsedTicks > attackSpeed)
+            {
+                checkRange(enemy);
+                asTimer.Restart();
+                j++;
+                System.Diagnostics.Debug.Print("this is a shoot, elapsedMillis is: " + asTimer.ElapsedTicks + " try no:" + j);
+            }
+            else
+            {
+                k++;
+                System.Diagnostics.Debug.Print("this is a  NOT  A shoot, elapsedMillis is: " + asTimer.ElapsedTicks + " try no:" + k);
+
+
+            }
+        }
+        public void checkRange(Enemy enemy)
+        {
+            bool inRangeTrue = this.rangeCollider.Circle2CircleCollider(enemy.hitCollider);
 
             if (inRangeTrue)
             {
                 System.Diagnostics.Debug.Print(this.type + " In Range: true");
+                Bullet bullet = new Bullet(0.01f, 0.01f, 0.005f, this.attackDamage, System.Drawing.Color.AliceBlue);
+                shootBullet(bullet);
+
                 //shoot - spawn bullet - do damage
                 //1. schuss - shoot bool wird false gesetzt - zeit vergeht je nach attackspeed -
                 //bool wird wieder true gesetzt - 2. Schuss - wiederholen
-
-                Bullet bullet = new Bullet(0.01f, 0.01f, 0.005f, System.Drawing.Color.AliceBlue);
-                /*if(time / this.attackSpeed == irgendwas oder sonstwas)
-                {
-                    bullet.draw();
-                    bullet.update();
-                }*/
             }
             else
             {
                 System.Diagnostics.Debug.Print(this.type +  " In Range: false");
                 //nothing happens
             }
+        }
+
+        void shootBullet(Bullet bullet)
+        {
+
+            bullet.draw();
+            bullet.update();
+            System.Diagnostics.Debug.Print(this.type + " IS SHOOOOOOTING YAAAAA");
+
         }
 
         public void draw()
@@ -70,7 +105,7 @@ namespace ComputerGrafik_Game.Structure
         public CircleCollider rangeCollider { get; set; }
         public Vector2 center { get; set; }
         public float radius { get; set; }
-        public float attackSpeed { get; set; }
+        public int attackSpeed { get; set; }
         public float attackRange { get; set; }
         public float attackDamage { get; set; }
         //Ground area (rectangle)
@@ -78,5 +113,7 @@ namespace ComputerGrafik_Game.Structure
         public Vector2 position { get; set; }
         public int cost { get; set; }
         public string type { get; set; }
+        public Stopwatch asTimer { get; set; }
+        public int elapsedMillis { get; set; }
     }
 }

@@ -63,7 +63,6 @@ namespace ComputerGrafik_Game.Structure
         public void draw()
         {
             drawEnemy();
-            
         }
 
         private void drawEnemy()

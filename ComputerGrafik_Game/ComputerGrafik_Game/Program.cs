@@ -8,6 +8,7 @@ using ComputerGrafik_Game;
 using ComputerGrafik_Game.Structure;
 using System.Collections.Generic;
 using ComputerGrafik_Game.Collision;
+using System.Diagnostics;
 //using ComputerGrafik_Game.GlobalVariables;
 
 GameWindow window = new GameWindow(
@@ -45,8 +46,8 @@ wayPointList.Add(way4);
 
 //Grid gridTest = new Grid(12, 12);
 
-Tower towerTest1 = new Tower(1.0f, 0.7f, 1.0f, .2f, new Vector2(-0.2f, 0.0f), 100, "rifle");
-Tower towerTest2 = new Tower(1.0f, 1.4f, 1.0f, .2f, new Vector2(0.4f, -0.1f), 100, "sniper");
+Tower towerTest1 = new Tower(1000, 0.7f, 1.0f, .2f, new Vector2(-0.2f, 0.0f), 100, "rifle", new Stopwatch());
+Tower towerTest2 = new Tower(1000, 1.4f, 1.0f, .2f, new Vector2(0.4f, -0.1f), 100, "sniper", new Stopwatch());
 
 
 
@@ -62,10 +63,9 @@ window.Run();
 
 void Update(float time)
 {
-    System.Diagnostics.Debug.Print("Time: " + time);
-    towerTest1.checkRange(enemyTest.hitCollider, time);
+    towerTest1.checkAttack(enemyTest);
     
-    towerTest2.checkRange(enemyTest.hitCollider, time);
+    towerTest2.checkAttack(enemyTest);
     
     enemyTest.update(wayPointList);
     //enemyTest1.update(wayPointList);

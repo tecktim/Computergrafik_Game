@@ -7,7 +7,7 @@ namespace ComputerGrafik_Game.Structure.Projectiles
 {
     class Bullet
     {
-        public Bullet(float velocity, float bulletLength, float bulletWidth,  Color4 bulletColor)
+        public Bullet(float velocity, float bulletLength, float bulletWidth, float damage, Color4 bulletColor)
         {
             this.velocity = velocity;
             this.bulletLength = bulletLength;
