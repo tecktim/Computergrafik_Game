@@ -37,7 +37,7 @@ namespace ComputerGrafik_Game.Structure
 
             if (inRangeTrue)
             {
-                System.Diagnostics.Debug.Print("In Range: true");
+                System.Diagnostics.Debug.Print(this.type + " In Range: true");
                 //shoot - spawn bullet - do damage
                 //1. schuss - shoot bool wird false gesetzt - zeit vergeht je nach attackspeed -
                 //bool wird wieder true gesetzt - 2. Schuss - wiederholen
@@ -51,7 +51,7 @@ namespace ComputerGrafik_Game.Structure
             }
             else
             {
-                System.Diagnostics.Debug.Print("In Range: false");
+                System.Diagnostics.Debug.Print(this.type +  " In Range: false");
                 //nothing happens
             }
         }

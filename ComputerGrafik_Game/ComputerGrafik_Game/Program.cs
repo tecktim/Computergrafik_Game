@@ -28,10 +28,10 @@ GlobalVariables globalVariables = new GlobalVariables(window);
 
 Vector2 spawn = new Vector2(-1.0f, -0.5f);
 Enemy enemyTest = new Enemy(100.0, 0.1f, 0.01f, 100, spawn, globalVariables);
-Enemy enemyTest1 = new Enemy(100.0, 0.1f, 0.01f, 100, new Vector2(-1.05f, -0.5f), globalVariables);
+/*Enemy enemyTest1 = new Enemy(100.0, 0.1f, 0.01f, 100, new Vector2(-1.05f, -0.5f), globalVariables);
 Enemy enemyTest2 = new Enemy(100.0, 0.1f, 0.01f, 100, new Vector2(-1.1f, -0.5f), globalVariables);
 Enemy enemyTest3 = new Enemy(100.0, 0.1f, 0.01f, 100, new Vector2(-1.15f, -0.5f), globalVariables);
-Enemy enemyTest4 = new Enemy(100.0, 0.1f, 0.01f, 100, new Vector2(-1.2f, -0.5f), globalVariables);
+Enemy enemyTest4 = new Enemy(100.0, 0.1f, 0.01f, 100, new Vector2(-1.2f, -0.5f), globalVariables);*/
 
 Map way1 = new Map(enemyTest.a, new Vector2(0.1f, -0.5f));
 Map way2 = new Map(new Vector2(0.1f, -0.5f), new Vector2(0.1f, 0.5f));
@@ -45,7 +45,10 @@ wayPointList.Add(way4);
 
 //Grid gridTest = new Grid(12, 12);
 
-Tower towerTest1 = new Tower(1.0f, 1.0f, 1.0f, .2f, new Vector2(-0.2f, 0.0f), 100, "rifle");
+Tower towerTest1 = new Tower(1.0f, 0.7f, 1.0f, .2f, new Vector2(-0.2f, 0.0f), 100, "rifle");
+Tower towerTest2 = new Tower(1.0f, 1.4f, 1.0f, .2f, new Vector2(0.4f, -0.1f), 100, "sniper");
+
+
 
 GL.ClearColor(Color4.Brown);
 
@@ -61,15 +64,14 @@ void Update(float time)
 {
     System.Diagnostics.Debug.Print("Time: " + time);
     towerTest1.checkRange(enemyTest.hitCollider, time);
-    towerTest1.checkRange(enemyTest1.hitCollider, time);
-    towerTest1.checkRange(enemyTest2.hitCollider, time);
-    towerTest1.checkRange(enemyTest3.hitCollider, time);
-    towerTest1.checkRange(enemyTest4.hitCollider, time);
+    
+    towerTest2.checkRange(enemyTest.hitCollider, time);
+    
     enemyTest.update(wayPointList);
-    enemyTest1.update(wayPointList);
-    enemyTest2.update(wayPointList);
-    enemyTest3.update(wayPointList);
-    enemyTest4.update(wayPointList);
+    //enemyTest1.update(wayPointList);
+    //enemyTest2.update(wayPointList);
+    //enemyTest3.update(wayPointList);
+    //enemyTest4.update(wayPointList);
 
 
 }
@@ -80,13 +82,22 @@ void Draw()
     GL.LoadIdentity();
     GL.Clear(ClearBufferMask.ColorBufferBit);
     enemyTest.draw();
-    enemyTest1.draw();
+    enemyTest.hitCollider.DrawCircleCollider();
+    /*enemyTest1.draw();
+    enemyTest1.hitCollider.DrawCircleCollider();
     enemyTest2.draw();
+    enemyTest2.hitCollider.DrawCircleCollider();
     enemyTest3.draw();
+    enemyTest3.hitCollider.DrawCircleCollider();
     enemyTest4.draw();
+    enemyTest4.hitCollider.DrawCircleCollider();*/
 
     towerTest1.draw();
+    towerTest1.rangeCollider.DrawCircleCollider();
     //gridTest.draw();
+
+    towerTest2.draw();
+    towerTest2.rangeCollider.DrawCircleCollider();
 
 
     way1.draw();

@@ -62,22 +62,26 @@ namespace ComputerGrafik_Game.Structure
 
         public void draw()
         {
-            GL.Begin(PrimitiveType.Triangles);
-            GL.Color3(System.Drawing.Color.White);
-            GL.Vertex2(a);
-            GL.Vertex2(b);
-            GL.Vertex2(c);
-            GL.End();
+            drawEnemy();
+            
         }
 
-
+        private void drawEnemy()
+        {
+            GL.Begin(PrimitiveType.Triangles);
+            GL.Color3(System.Drawing.Color.White);
+            GL.Vertex2(this.a);
+            GL.Vertex2(this.b);
+            GL.Vertex2(this.c);
+            GL.End();
+        }
 
         int i = 0;
         public void update(List<Map> wayPointList)
         {
             this.center = new Vector2((this.a.X + this.c.X) / 2, (this.a.Y + this.b.Y) / 2);
             this.hitCollider = new CircleCollider(this.center, this.size / 2);
-
+            
 
 
             if (i < wayPointList.Count)
