@@ -45,6 +45,12 @@ window.Run();
 
 void Update(float time)
 {
+    if (input.IsKeyDown(Keys.Space))
+    {
+        System.Diagnostics.Debug.Print("Space");
+        waveController.createEnemy(enemies);
+    }
+    
     for (int i = 0; i < enemies.Count; i++)
     {
         enemies[i].update(wayPointList);

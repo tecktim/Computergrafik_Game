@@ -24,5 +24,13 @@ namespace ComputerGrafik_Game
             }
             return enemies;
         }
+
+        public void createEnemy(List<Enemy> enemies)
+        {
+            if (enemies.Count < 30) {
+                Enemy enemy = new Enemy(100.0, 0.1f, 0.01f, 100, new OpenTK.Mathematics.Vector2(-1.0f, -0.5f));
+                enemies.Add(enemy);
+            } 
+        }
     }
 }
