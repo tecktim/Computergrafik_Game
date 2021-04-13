@@ -30,6 +30,7 @@ GL.ClearColor(Color4.LightBlue);
 WaveController waveController = new WaveController(10, 0.1f);
 List<Enemy> enemies = waveController.createWave();
 
+
 MapController mapBuild = new MapController();
 List<Map> wayPointList = mapBuild.buildMap();
 
@@ -48,7 +49,6 @@ void Update(float time)
     {
         enemies[i].update(wayPointList);
     }
-
 }
 
 void Draw()
