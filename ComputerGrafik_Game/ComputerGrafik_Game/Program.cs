@@ -46,8 +46,8 @@ wayPointList.Add(way4);
 
 //Grid gridTest = new Grid(12, 12);
 
-Tower towerTest1 = new Tower(1000, 0.7f, 1.0f, .2f, new Vector2(-0.2f, 0.0f), 100, "rifle", new Stopwatch());
-Tower towerTest2 = new Tower(1000, 1.4f, 1.0f, .2f, new Vector2(0.4f, -0.1f), 100, "sniper", new Stopwatch());
+Tower towerTest1 = new Tower(1000, 0.7f, 1.0f, .2f, new Vector2(-0.2f, 0.0f), 100, "rifle");
+Tower towerTest2 = new Tower(1000, 1.4f, 1.0f, .2f, new Vector2(0.4f, -0.1f), 100, "sniper");
 
 
 
@@ -63,10 +63,6 @@ window.Run();
 
 void Update(float time)
 {
-    towerTest1.checkAttack(enemyTest);
-    
-    towerTest2.checkAttack(enemyTest);
-    
     enemyTest.update(wayPointList);
     //enemyTest1.update(wayPointList);
     //enemyTest2.update(wayPointList);

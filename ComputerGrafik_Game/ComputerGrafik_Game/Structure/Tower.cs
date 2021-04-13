@@ -4,6 +4,7 @@ using OpenTK.Windowing.Desktop;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 using System;
+using System.Timers;
 using System.Collections.Generic;
 using System.Text;
 using System.Collections;
@@ -16,9 +17,9 @@ namespace ComputerGrafik_Game.Structure
 {
     class Tower
     {
-        public Tower(int attackSpeedInMills, float attackRange, float attackDamage, float sizeXY, Vector2 position, int cost, string type, Stopwatch asTimer)
+        public Tower(int attackSpeedInMills, float attackRange, float attackDamage, float sizeXY, Vector2 position, int cost, string type)
         {
-            this.attackSpeed = attackSpeed;
+            this.attackSpeed = attackSpeedInMills;
             this.attackRange = attackRange;
             this.attackDamage = attackDamage;
             this.sizeXY = sizeXY;
@@ -27,41 +28,34 @@ namespace ComputerGrafik_Game.Structure
             this.center = new Vector2(position.X+ sizeXY/2, position.Y+ sizeXY/2);
             this.rangeCollider = new CircleCollider(center, attackRange/2);
             this.type = type;
-            this.asTimer = asTimer;
+            SetTimer();
         }
 
 
 
-        public void update()
+        public void update(List<Enemy> enemies)
         {
 
         }
 
-        int j = 0;
-        int k = 0;
-        public void checkAttack(Enemy enemy)
+        private void SetTimer()
         {
-            this.asTimer.Start();
-            Thread.Sleep(attackSpeed);
-            this.asTimer.Stop();
-            
-
-            if (asTimer.ElapsedTicks > attackSpeed)
-            {
-                checkRange(enemy);
-                asTimer.Restart();
-                j++;
-                System.Diagnostics.Debug.Print("this is a shoot, elapsedMillis is: " + asTimer.ElapsedTicks + " try no:" + j);
-            }
-            else
-            {
-                k++;
-                System.Diagnostics.Debug.Print("this is a  NOT  A shoot, elapsedMillis is: " + asTimer.ElapsedTicks + " try no:" + k);
-
-
-            }
+            // Creating timer with attackSpeed (millis) as interval
+            System.Timers.Timer asTimer = new System.Timers.Timer(this.attackSpeed);
+            // Hook up elapsed event for the timer
+            asTimer.Elapsed += OnTimedEvent;
+            asTimer.AutoReset = true;
+            asTimer.Enabled = true;
         }
-        public void checkRange(Enemy enemy)
+
+        public static void OnTimedEvent(Object source, ElapsedEventArgs e)
+        {
+            System.Diagnostics.Debug.Print("Hello attack speed timer");
+
+        }
+
+
+        private void CheckRange(Enemy enemy)
         {
             bool inRangeTrue = this.rangeCollider.Circle2CircleCollider(enemy.hitCollider);
 
@@ -69,11 +63,7 @@ namespace ComputerGrafik_Game.Structure
             {
                 System.Diagnostics.Debug.Print(this.type + " In Range: true");
                 Bullet bullet = new Bullet(0.01f, 0.01f, 0.005f, this.attackDamage, System.Drawing.Color.AliceBlue);
-                shootBullet(bullet);
-
-                //shoot - spawn bullet - do damage
-                //1. schuss - shoot bool wird false gesetzt - zeit vergeht je nach attackspeed -
-                //bool wird wieder true gesetzt - 2. Schuss - wiederholen
+                ShootBullet(bullet);
             }
             else
             {
@@ -82,7 +72,7 @@ namespace ComputerGrafik_Game.Structure
             }
         }
 
-        void shootBullet(Bullet bullet)
+        private void ShootBullet(Bullet bullet)
         {
 
             bullet.draw();
@@ -113,7 +103,7 @@ namespace ComputerGrafik_Game.Structure
         public Vector2 position { get; set; }
         public int cost { get; set; }
         public string type { get; set; }
-        public Stopwatch asTimer { get; set; }
+        public System.Timers.Timer asTimer { get; set; }
         public int elapsedMillis { get; set; }
     }
 }
