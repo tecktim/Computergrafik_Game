@@ -15,11 +15,13 @@ namespace ComputerGrafik_Game.Structure
             this.point2 = point2;
         }
 
+
+        
         
         public void draw()
         {
             GL.Begin(PrimitiveType.Lines);
-            GL.Color3(System.Drawing.Color.White);
+            GL.Color3(System.Drawing.Color.Black);
             GL.Vertex2(point1.X, point1.Y);
             GL.Vertex2(point2.X, point2.Y);
             GL.End();

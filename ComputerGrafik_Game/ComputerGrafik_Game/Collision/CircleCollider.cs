@@ -20,9 +20,7 @@ namespace ComputerGrafik_Game.Collision
         {
             float radius = this.radius + otherCollider.radius;
             float deltaX = this.center.X - otherCollider.center.X;
-            //deltaX = deltaX * deltaX;
             float deltaY = this.center.Y - otherCollider.center.Y;
-            //deltaY = deltaY * deltaY;
             if((deltaX + deltaY)*(deltaX+deltaY) < (this.radius + otherCollider.radius) * (this.radius + otherCollider.radius))
             {
                 return true;
@@ -38,7 +36,7 @@ namespace ComputerGrafik_Game.Collision
         public void DrawCircleCollider()
         {
             GL.Begin(PrimitiveType.LineLoop);
-            GL.Color3(System.Drawing.Color.Aquamarine);
+            GL.Color3(System.Drawing.Color.Black);
             foreach (var point in this.circlePoints)
             {
                 GL.Vertex2(this.center + this.radius * point);

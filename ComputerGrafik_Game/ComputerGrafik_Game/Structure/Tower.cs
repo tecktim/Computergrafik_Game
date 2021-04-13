@@ -17,7 +17,7 @@ namespace ComputerGrafik_Game.Structure
 {
     class Tower
     {
-        public Tower(int attackSpeedInMills, float attackRange, float attackDamage, float sizeXY, Vector2 position, int cost, string type)
+        public Tower(int attackSpeedInMills, float attackRange, float attackDamage, float sizeXY, Vector2 position, int cost, string type, List<Enemy> enemies)
         {
             this.attackSpeed = attackSpeedInMills;
             this.attackRange = attackRange;
@@ -28,6 +28,7 @@ namespace ComputerGrafik_Game.Structure
             this.center = new Vector2(position.X+ sizeXY/2, position.Y+ sizeXY/2);
             this.rangeCollider = new CircleCollider(center, attackRange/2);
             this.type = type;
+            this.enemies = enemies;
             SetTimer();
         }
 
@@ -35,9 +36,10 @@ namespace ComputerGrafik_Game.Structure
 
         public void update(List<Enemy> enemies)
         {
-
+            
         }
-
+        int i = 0;
+        //https://docs.microsoft.com/de-de/dotnet/api/system.timers.timer?view=net-5.0
         private void SetTimer()
         {
             // Creating timer with attackSpeed (millis) as interval
@@ -48,43 +50,61 @@ namespace ComputerGrafik_Game.Structure
             asTimer.Enabled = true;
         }
 
-        public static void OnTimedEvent(Object source, ElapsedEventArgs e)
+        public void OnTimedEvent(Object source, ElapsedEventArgs e)
         {
-            System.Diagnostics.Debug.Print("Hello attack speed timer");
-
+            this.CheckRange();
         }
 
 
-        private void CheckRange(Enemy enemy)
+        public void CheckRange()
         {
-            bool inRangeTrue = this.rangeCollider.Circle2CircleCollider(enemy.hitCollider);
-
-            if (inRangeTrue)
+            if (i < enemies.Count)
             {
-                System.Diagnostics.Debug.Print(this.type + " In Range: true");
-                Bullet bullet = new Bullet(0.01f, 0.01f, 0.005f, this.attackDamage, System.Drawing.Color.AliceBlue);
-                ShootBullet(bullet);
-            }
-            else
-            {
-                System.Diagnostics.Debug.Print(this.type +  " In Range: false");
-                //nothing happens
-            }
-        }
+                bool inRangeTrue = this.rangeCollider.Circle2CircleCollider(enemies[i].hitCollider);
+                if (inRangeTrue)
+                {
+                    System.Diagnostics.Debug.Print(this.type + " In Range: true");
+                    Bullet bullet = new Bullet(0.01f, 0.01f, 0.005f, this.attackDamage, System.Drawing.Color.AliceBlue);
 
-        private void ShootBullet(Bullet bullet)
+                    ShootBullet(bullet, enemies[i]);
+
+                }
+                else
+                {
+                    System.Diagnostics.Debug.Print(this.type + " In Range: false");
+                    //nothing happens
+                }
+                
+            }
+    }
+
+        private void ShootBullet(Bullet bullet, Enemy enemy)
         {
-
+            
             bullet.draw();
             bullet.update();
-            System.Diagnostics.Debug.Print(this.type + " IS SHOOOOOOTING YAAAAA");
+            enemy.enemyHit(this);
+            i++;
+            if (i == enemies.Count)
+            {
+                i = 0;
+            }
+            System.Diagnostics.Debug.Print(this.type + " shooting\n");
 
         }
 
         public void draw()
         {
             GL.Begin(PrimitiveType.Quads);
-            GL.Color3(System.Drawing.Color.Black);
+            switch (this.type)
+            {
+                case "rifle":
+                    GL.Color3(System.Drawing.Color.Black);
+                    break;
+                case "sniper":
+                    GL.Color3(System.Drawing.Color.AntiqueWhite);
+                    break;
+            }
             GL.Vertex2(position.X, position.Y);
             GL.Vertex2(position.X + sizeXY, position.Y);
             GL.Vertex2(position.X + sizeXY, position.Y + sizeXY);
@@ -105,5 +125,6 @@ namespace ComputerGrafik_Game.Structure
         public string type { get; set; }
         public System.Timers.Timer asTimer { get; set; }
         public int elapsedMillis { get; set; }
+        public List<Enemy> enemies { get; set; }
     }
 }

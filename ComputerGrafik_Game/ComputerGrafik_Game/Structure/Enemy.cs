@@ -8,12 +8,13 @@ using System.Collections.Generic;
 using System.Text;
 using System.Collections;
 using ComputerGrafik_Game.Collision;
+using System.ComponentModel;
 
 namespace ComputerGrafik_Game.Structure
 {
-    class Enemy
+    class Enemy 
     {
-        public Enemy(double health, float size, float speed, int bounty, Vector2 spawn, GlobalVariables globalVariables)
+        public Enemy(double health, float size, float speed, int bounty, Vector2 spawn)
 
         {
             this.health = health;
@@ -25,35 +26,35 @@ namespace ComputerGrafik_Game.Structure
             this.a = new Vector2(spawn.X, spawn.Y);
             this.b = new Vector2(spawn.X + size / 2, spawn.Y + size);
             this.c = new Vector2(spawn.X + size, spawn.Y);
-            this.globalVariables = globalVariables;
             this.center = new Vector2((this.a.X + this.c.X)/2, (this.a.Y + this.b.Y)/2);
             this.hitCollider = new CircleCollider(this.center, this.size/2);
+
         }
 
-        Vector2 left = new Vector2(-0.005f, 0.0f);
-        Vector2 right = new Vector2(0.005f, 0.0f);
-        Vector2 up = new Vector2(0.0f, 0.005f);
-        Vector2 down = new Vector2(0.0f, -0.005f);
+        private Vector2 left = new Vector2(-0.005f, 0.0f);
+        private Vector2 right = new Vector2(0.005f, 0.0f);
+        private Vector2 up = new Vector2(0.0f, 0.005f);
+        private Vector2 down = new Vector2(0.0f, -0.005f);
 
-        public void moveLeft()
+        private void moveLeft()
         {
             a = a + left;
             b = b + left;
             c = c + left;
         }
-        public void moveRight()
+        private void moveRight()
         {
             a = a + right;
             b = b + right;
             c = c + right;
         }
-        public void moveUp()
+        private void moveUp()
         {
             a = a + up;
             b = b + up;
             c = c + up;
         }
-        public void moveDown()
+        private void moveDown()
         {
             a = a + down;
             b = b + down;
@@ -68,19 +69,35 @@ namespace ComputerGrafik_Game.Structure
         private void drawEnemy()
         {
             GL.Begin(PrimitiveType.Triangles);
-            GL.Color3(System.Drawing.Color.White);
+            if (health >= 75) {
+                GL.Color3(System.Drawing.Color.Green);
+            }
+            if (health < 75 && health > 25)
+            {
+                GL.Color3(System.Drawing.Color.Orange);
+            }
+            if(health <= 25)
+            {
+                GL.Color3(System.Drawing.Color.Red);
+            }
+
             GL.Vertex2(this.a);
             GL.Vertex2(this.b);
             GL.Vertex2(this.c);
             GL.End();
         }
 
+
         int i = 0;
         public void update(List<Map> wayPointList)
         {
             this.center = new Vector2((this.a.X + this.c.X) / 2, (this.a.Y + this.b.Y) / 2);
-            this.hitCollider = new CircleCollider(this.center, this.size / 2);
+            this.hitCollider = new CircleCollider(this.center - new Vector2(0f, size / 6), this.size / 1.8f);
             
+            if(this.health <= 0) {
+                dispose();
+                
+            }
 
 
             if (i < wayPointList.Count)
@@ -116,14 +133,46 @@ namespace ComputerGrafik_Game.Structure
                     }
                 }
             }
+            else
+            {
+                dispose();
+            }
         }
 
-        void correctRound()
+        public void dispose()
+        {
+            float dead = -5000.0f;
+            this.a = new Vector2(+-dead, +-dead);
+            this.b = new Vector2(+-dead, +-dead);
+            this.c = new Vector2(+-dead, +-dead);
+        }
+
+        private void correctRound()
         {
             this.a = new Vector2((float)Math.Round((decimal)this.a.X, 3), (float)Math.Round((decimal)this.a.Y, 3));
             this.b = new Vector2((float)Math.Round((decimal)this.b.X, 3), (float)Math.Round((decimal)this.b.Y, 3));
             this.c = new Vector2((float)Math.Round((decimal)this.c.X, 3), (float)Math.Round((decimal)this.c.Y, 3));
         }
+
+        public bool enemyHit(Tower tower)
+        {
+            if (health > 0)
+            {
+                this.health = health - tower.attackDamage;
+                alive = true;
+                System.Diagnostics.Debug.Print("Enemy health: " + health);
+                return alive;
+            }
+            else
+            {
+                dispose();
+                alive = false;
+                System.Diagnostics.Debug.Print("Enemy health: " + health);
+                return alive;
+            }
+            
+        }
+
 
         public CircleCollider hitCollider { get; set; }
         public Vector2 center { get; set; }
@@ -132,10 +181,10 @@ namespace ComputerGrafik_Game.Structure
         public float speed { get; set; }
         public int bounty { get; set; }
         public Vector2 spawn { get; set; }
-        public GlobalVariables globalVariables { get; set; }
         public Vector2 a { get; set; }
         public Vector2 b { get; set; }
         public Vector2 c { get; set; }
         public bool alive { get; set; }
     }
 }
+
