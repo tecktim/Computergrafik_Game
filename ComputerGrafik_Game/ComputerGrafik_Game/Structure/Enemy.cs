@@ -26,9 +26,26 @@ namespace ComputerGrafik_Game.Structure
             this.a = new Vector2(spawn.X, spawn.Y);
             this.b = new Vector2(spawn.X + size / 2, spawn.Y + size);
             this.c = new Vector2(spawn.X + size, spawn.Y);
+
+            // A IS LOWER LEFT, B IS LOWER RIGHT, C IS UPPER RIGHT, D IS UPPER LEFT (Corners of the healthbar)
+            this.hbInnerA = new Vector2(this.a.X + 0.01f, this.b.Y + 0.02f);
+            this.hbInnerB = new Vector2(this.c.X - 0.01f, this.b.Y + 0.02f);
+            this.hbInnerC = new Vector2(this.c.X - 0.01f, this.b.Y + 0.04f);
+            this.hbInnerD = new Vector2(this.a.X + 0.01f, this.b.Y + 0.04f);
+
+            this.hbOuterA = hbInnerA;
+            this.hbOuterB = hbInnerB;
+            this.hbOuterC = hbInnerC;
+            this.hbOuterD = hbInnerD;
+
+
+            /*this.hbInnerA = new Vector2(hbOuterA.X + 0.02f * hbOuterB.X, hbOuterA.Y + 0.02f * hbOuterD.Y);
+            this.hbInnerB = new Vector2(hbOuterB.X - 0.02f * hbOuterA.X, hbOuterB.Y + 0.02f * hbOuterC.Y);
+            this.hbInnerC = new Vector2(hbOuterC.X - 0.02f * (hbOuterD.X + hbOuterC.X), hbOuterC.Y - 0.02f * hbOuterC.Y);
+            this.hbInnerD = new Vector2(hbOuterD.X - 0.02f * hbOuterD.X, hbOuterD.Y - 0.02f * hbOuterD.Y);*/
+
             this.center = new Vector2((this.a.X + this.c.X)/2, (this.a.Y + this.b.Y)/2);
             this.hitCollider = new CircleCollider(this.center, this.size/2);
-
         }
 
         private Vector2 left = new Vector2(-0.005f, 0.0f);
@@ -36,34 +53,65 @@ namespace ComputerGrafik_Game.Structure
         private Vector2 up = new Vector2(0.0f, 0.005f);
         private Vector2 down = new Vector2(0.0f, -0.005f);
 
+        private Vector2 dead = new Vector2(5000.0f, -5000.0f);
+
+
+        private void updatePosition(Vector2 direction)
+        {
+            this.a = this.a + direction;
+            this.b = this.b + direction;
+            this.c = this.c + direction;
+            this.hbOuterA = this.hbOuterA + direction;
+            this.hbOuterB = this.hbOuterB + direction;
+            this.hbOuterC = this.hbOuterC + direction;
+            this.hbOuterD = this.hbOuterD + direction;
+            this.hbInnerA = this.hbInnerA + direction;
+            this.hbInnerB = this.hbInnerB + direction;
+            this.hbInnerC = this.hbInnerC + direction;
+            this.hbInnerD = this.hbInnerD + direction;
+        } 
+
         private void moveLeft()
         {
-            a = a + left;
-            b = b + left;
-            c = c + left;
+                updatePosition(left);
         }
         private void moveRight()
         {
-            a = a + right;
-            b = b + right;
-            c = c + right;
+
+            updatePosition(right);
         }
         private void moveUp()
         {
-            a = a + up;
-            b = b + up;
-            c = c + up;
+            updatePosition(up);
         }
         private void moveDown()
         {
-            a = a + down;
-            b = b + down;
-            c = c + down;
+            updatePosition(down);
         }
 
         public void draw()
         {
             drawEnemy();
+           drawHealth();
+        }
+
+        public void drawHealth()
+        {
+            GL.Begin(PrimitiveType.Quads);
+            GL.Color3(System.Drawing.Color.DarkOliveGreen);
+            GL.Vertex2(this.hbInnerA);
+            GL.Vertex2(this.hbInnerB);
+            GL.Vertex2(this.hbInnerC);
+            GL.Vertex2(this.hbInnerD);
+            GL.End();
+            GL.Begin(PrimitiveType.LineLoop);
+            GL.Color3(System.Drawing.Color.Red);
+            GL.LineWidth(5f);
+            GL.Vertex2(this.hbOuterA);
+            GL.Vertex2(this.hbOuterB);
+            GL.Vertex2(this.hbOuterC);
+            GL.Vertex2(this.hbOuterD);
+            GL.End();
         }
 
         private void drawEnemy()
@@ -76,11 +124,10 @@ namespace ComputerGrafik_Game.Structure
             {
                 GL.Color3(System.Drawing.Color.Orange);
             }
-            if(health <= 25)
+            if (health <= 25)
             {
                 GL.Color3(System.Drawing.Color.Red);
             }
-
             GL.Vertex2(this.a);
             GL.Vertex2(this.b);
             GL.Vertex2(this.c);
@@ -95,8 +142,7 @@ namespace ComputerGrafik_Game.Structure
             this.hitCollider = new CircleCollider(this.center - new Vector2(0f, size / 6), this.size / 1.8f);
             
             if(this.health <= 0) {
-                dispose();
-                
+                this.dispose();
             }
 
 
@@ -123,6 +169,7 @@ namespace ComputerGrafik_Game.Structure
                 else if (this.a.Y > waypoint.point2.Y)
                 {
                     this.moveDown();
+
                     this.correctRound();
                 }
                 else
@@ -135,16 +182,14 @@ namespace ComputerGrafik_Game.Structure
             }
             else
             {
-                dispose();
+                this.dispose();
             }
         }
 
         public void dispose()
         {
-            float dead = -5000.0f;
-            this.a = new Vector2(+-dead, +-dead);
-            this.b = new Vector2(+-dead, +-dead);
-            this.c = new Vector2(+-dead, +-dead);
+            this.alive = false;
+            updatePosition(this.dead);
         }
 
         private void correctRound()
@@ -154,29 +199,31 @@ namespace ComputerGrafik_Game.Structure
             this.c = new Vector2((float)Math.Round((decimal)this.c.X, 3), (float)Math.Round((decimal)this.c.Y, 3));
         }
 
+        float percent;
+        float hbsize;
         public bool enemyHit(Tower tower)
         {
-            if (health > 0)
-            {
-                this.health = health - tower.attackDamage;
-                alive = true;
-                System.Diagnostics.Debug.Print("Enemy health: " + health);
-                return alive;
+            this.health = this.health - tower.attackDamage;
+            double nextHealth = this.health - tower.attackDamage * 2;
+            hbsize = -((1.0f / 100.0f) - (float) this.health) / 1000.0f;
+            System.Diagnostics.Debug.Print("hbsize: " + hbsize);
+            if (nextHealth > 0) {
+                this.hbInnerB = new Vector2(this.hbInnerB.X - hbsize, this.hbInnerB.Y);
+                this.hbInnerC = new Vector2(this.hbInnerC.X - hbsize, this.hbInnerC.Y);
             }
-            else
-            {
-                dispose();
-                alive = false;
-                System.Diagnostics.Debug.Print("Enemy health: " + health);
-                return alive;
-            }
-            
+            if (health <0) { this.dispose(); return false; }
+            alive = true;
+            System.Diagnostics.Debug.Print("Enemy health: " + this.health);
+            return alive;
+
+
         }
 
 
         public CircleCollider hitCollider { get; set; }
         public Vector2 center { get; set; }
         public double health { get; set; }
+        public static double MaxHealth = 100;
         public float size { get; set; }
         public float speed { get; set; }
         public int bounty { get; set; }
@@ -184,6 +231,14 @@ namespace ComputerGrafik_Game.Structure
         public Vector2 a { get; set; }
         public Vector2 b { get; set; }
         public Vector2 c { get; set; }
+        public Vector2 hbOuterA { get; set; }
+        public Vector2 hbOuterB { get; set; }
+        public Vector2 hbOuterC { get; set; }
+        public Vector2 hbOuterD { get; set; }
+        public Vector2 hbInnerA { get; set; }
+        public Vector2 hbInnerB { get; set; }
+        public Vector2 hbInnerC { get; set; }
+        public Vector2 hbInnerD { get; set; }
         public bool alive { get; set; }
     }
 }
