@@ -147,6 +147,12 @@ namespace ComputerGrafik_Game.Structure
             this.c = new Vector2(+-dead, +-dead);
         }
 
+        /*
+        Map way1 = new Map(new Vector2(-1.0f, -0.5f), new Vector2(0.1f, -0.5f));
+        Map way2 = new Map(new Vector2(0.1f, -0.5f), new Vector2(0.1f, 0.5f));
+        Map way3 = new Map(new Vector2(0.1f, 0.5f), new Vector2(0.75f, 0.5f));
+        Map way4 = new Map(new Vector2(0.75f, 0.5f), new Vector2(0.75f, -1.0f));
+        */
         private void correctRound()
         {
             this.a = new Vector2((float)Math.Round((decimal)this.a.X, 3), (float)Math.Round((decimal)this.a.Y, 3));
@@ -160,14 +166,14 @@ namespace ComputerGrafik_Game.Structure
             {
                 this.health = health - tower.attackDamage;
                 alive = true;
-                System.Diagnostics.Debug.Print("Enemy health: " + health);
+                //System.Diagnostics.Debug.Print("Enemy health: " + health);
                 return alive;
             }
             else
             {
                 dispose();
                 alive = false;
-                System.Diagnostics.Debug.Print("Enemy health: " + health);
+                //System.Diagnostics.Debug.Print("Enemy health: " + health);
                 return alive;
             }
             
