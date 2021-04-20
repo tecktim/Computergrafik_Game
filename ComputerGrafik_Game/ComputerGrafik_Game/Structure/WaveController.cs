@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 namespace ComputerGrafik_Game
 {
-    class WaveController
+    internal class WaveController
     {
-        int enemyCount;
-        float distance;
+        private int enemyCount;
+        private float distance;
         public WaveController(int enemyCount, float distance)
         {
             this.enemyCount = enemyCount;
@@ -26,7 +26,7 @@ namespace ComputerGrafik_Game
 
         public void createEnemy(List<Enemy> enemies)
         {
-            if (enemies.Count < 30)
+            if (enemies.Count < 3000)
             {
                 Enemy enemy = new Enemy(100.0, 0.1f, 0.01f, 100, new OpenTK.Mathematics.Vector2(-1.0f, -0.5f));
                 enemies.Add(enemy);

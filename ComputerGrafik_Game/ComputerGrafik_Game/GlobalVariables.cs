@@ -4,10 +4,10 @@ namespace ComputerGrafik_Game
 {
     public class GlobalVariables
     {
-        GameWindow globalWindow;
+        private GameWindow globalWindow;
         public GlobalVariables(GameWindow window)
         {
-            this.globalWindow = window;
+            globalWindow = window;
         }
     }
 }

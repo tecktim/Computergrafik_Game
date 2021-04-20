@@ -5,10 +5,10 @@ using System.Collections.Generic;
 
 namespace ComputerGrafik_Game.Collision
 {
-    class CircleCollider
+    internal class CircleCollider
     {
-        Vector2 center;
-        float radius;
+        private Vector2 center;
+        private float radius;
 
         public CircleCollider(Vector2 center, float radius)
         {
@@ -20,10 +20,10 @@ namespace ComputerGrafik_Game.Collision
         public bool Circle2CircleCollider(CircleCollider otherCollider)
         {
             float radius = this.radius + otherCollider.radius;
-            float deltaX = this.center.X - otherCollider.center.X;
-            float deltaY = this.center.Y - otherCollider.center.Y;
+            float deltaX = center.X - otherCollider.center.X;
+            float deltaY = center.Y - otherCollider.center.Y;
 
-            float distance = (float)Math.Sqrt((double)((deltaX * deltaX) + (deltaY * deltaY)));
+            float distance = (float)Math.Sqrt((deltaX * deltaX) + (deltaY * deltaY));
             if (distance < radius)
             {
                 return true;
@@ -38,8 +38,8 @@ namespace ComputerGrafik_Game.Collision
         public bool Circle2CircleCollider(CircleCollider otherCollider, bool useNoSqrt)
         {
             float radius = this.radius + otherCollider.radius;
-            float deltaX = this.center.X - otherCollider.center.X;
-            float deltaY = this.center.Y - otherCollider.center.Y;
+            float deltaX = center.X - otherCollider.center.X;
+            float deltaY = center.Y - otherCollider.center.Y;
 
             float delta = (deltaX * deltaX) + (deltaY * deltaY);
             if (delta < radius * radius)
@@ -58,9 +58,9 @@ namespace ComputerGrafik_Game.Collision
         {
             GL.Begin(PrimitiveType.LineLoop);
             GL.Color3(System.Drawing.Color.Black);
-            foreach (var point in this.circlePoints)
+            foreach (var point in circlePoints)
             {
-                GL.Vertex2(this.center + this.radius * point);
+                GL.Vertex2(center + radius * point);
             }
             GL.End();
         }

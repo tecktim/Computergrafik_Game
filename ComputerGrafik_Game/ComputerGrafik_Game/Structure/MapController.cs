@@ -3,12 +3,12 @@ using System.Collections.Generic;
 
 namespace ComputerGrafik_Game.Structure
 {
-    class MapController
+    internal class MapController
     {
-        Map way1 = new Map(new Vector2(-1.0f, -0.5f), new Vector2(0.1f, -0.5f));
-        Map way2 = new Map(new Vector2(0.1f, -0.5f), new Vector2(0.1f, 0.5f));
-        Map way3 = new Map(new Vector2(0.1f, 0.5f), new Vector2(0.75f, 0.5f));
-        Map way4 = new Map(new Vector2(0.75f, 0.5f), new Vector2(0.75f, -1.0f));
+        private Map way1 = new Map(new Vector2(-1.0f, -0.5f), new Vector2(0.1f, -0.5f));
+        private Map way2 = new Map(new Vector2(0.1f, -0.5f), new Vector2(0.1f, 0.5f));
+        private Map way3 = new Map(new Vector2(0.1f, 0.5f), new Vector2(0.75f, 0.5f));
+        private Map way4 = new Map(new Vector2(0.75f, 0.5f), new Vector2(0.75f, -1.0f));
 
 
 

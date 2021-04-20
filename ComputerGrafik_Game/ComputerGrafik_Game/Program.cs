@@ -31,7 +31,10 @@ List<Enemy> enemies = waveController.createWave();
 MapController mapBuild = new MapController();
 List<Map> wayPointList = mapBuild.buildMap();
 
-TowerController towerController = new TowerController(enemies);
+BulletController bulletController = new BulletController();
+List<Bullet> bulletList = bulletController.buildBulletList();
+
+TowerController towerController = new TowerController(enemies, bulletList);
 List<Tower> towerList = towerController.towerList();
 
 KeyboardState input = window.KeyboardState;
@@ -44,13 +47,13 @@ void Update(float time)
 {
     if (input.IsKeyDown(Keys.Space))
     {
-        System.Diagnostics.Debug.Print("Space");
         waveController.createEnemy(enemies);
     }
 
+
     for (int i = 0; i < enemies.Count; i++)
     {
-        enemies[i].update(wayPointList);
+        enemies[i].update(wayPointList, enemies);
     }
 }
 
@@ -74,6 +77,11 @@ void Draw()
     for (int i = 0; i < wayPointList.Count; i++)
     {
         wayPointList[i].draw();
+    }
+
+    for (int i = 0; i < bulletList.Count; i++)
+    {
+        bulletList[i].draw();
     }
     window.SwapBuffers();
 }
