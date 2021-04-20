@@ -27,7 +27,7 @@ GameWindow window = new GameWindow(
 
 GL.ClearColor(Color4.LightBlue);
 
-WaveController waveController = new WaveController(10, 0.1f);
+WaveController waveController = new WaveController(30, 0.1f);
 List<Enemy> enemies = waveController.createWave();
 
 

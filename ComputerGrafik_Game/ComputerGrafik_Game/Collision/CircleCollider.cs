@@ -23,8 +23,8 @@ namespace ComputerGrafik_Game.Collision
             float deltaX = this.center.X - otherCollider.center.X;
             float deltaY = this.center.Y - otherCollider.center.Y;
 
-            float distance = (float) Math.Sqrt((double) ((deltaX * deltaX) + (deltaY * deltaY))); 
-             if (distance < radius)
+            float distance = (float)Math.Sqrt((double)((deltaX * deltaX) + (deltaY * deltaY)));
+            if (distance < radius)
             {
                 return true;
             }
@@ -40,7 +40,7 @@ namespace ComputerGrafik_Game.Collision
             float radius = this.radius + otherCollider.radius;
             float deltaX = this.center.X - otherCollider.center.X;
             float deltaY = this.center.Y - otherCollider.center.Y;
-            
+
             float delta = (deltaX * deltaX) + (deltaY * deltaY);
             if (delta < radius * radius)
             {
@@ -52,7 +52,7 @@ namespace ComputerGrafik_Game.Collision
             }
         }
 
-        private readonly List<Vector2> circlePoints = CreateCirclePoints(100);
+        private readonly List<Vector2> circlePoints = CreateCirclePoints(20);
 
         public void DrawCircleCollider()
         {
