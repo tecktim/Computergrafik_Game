@@ -199,26 +199,39 @@ namespace ComputerGrafik_Game.Structure
             this.c = new Vector2((float)Math.Round((decimal)this.c.X, 3), (float)Math.Round((decimal)this.c.Y, 3));
         }
 
-        float percent;
-        float hbsize;
         public bool enemyHit(Tower tower)
         {
+            
             this.health = this.health - tower.attackDamage;
-            double nextHealth = this.health - tower.attackDamage * 2;
-            hbsize = -((1.0f / 100.0f) - (float) this.health) / 1000.0f;
-            System.Diagnostics.Debug.Print("hbsize: " + hbsize);
-            if (nextHealth > 0) {
-                this.hbInnerB = new Vector2(this.hbInnerB.X - hbsize, this.hbInnerB.Y);
-                this.hbInnerC = new Vector2(this.hbInnerC.X - hbsize, this.hbInnerC.Y);
-            }
-            if (health <0) { this.dispose(); return false; }
+
+            float hbOffset1 = (float)this.health / 100/ 35;
+            System.Diagnostics.Debug.Print("enemy hbOffset 1 " + hbOffset1);
+
+            float hbOffset2 = 1 - hbOffset1;
+            System.Diagnostics.Debug.Print("enemy hbOffset 2 " + hbOffset2);
+
+
+            this.hbInnerB = new Vector2(this.hbInnerB.X - hbOffset1 , this.hbInnerB.Y);
+            this.hbInnerC = new Vector2(this.hbInnerC.X - hbOffset1 , this.hbInnerC.Y);
+
+            //this.hbInnerB = new Vector2(this.hbInnerA.X, this.hbInnerB.Y);
+            //this.hbInnerC = new Vector2(this.hbInnerD.X, this.hbInnerC.Y);
+            
+
             alive = true;
             System.Diagnostics.Debug.Print("Enemy health: " + this.health);
+            if (health <0) { this.dispose(); return false; }
             return alive;
-
-
         }
 
+        public bool enemyFinalHit(Tower tower)
+        {
+            this.hbInnerB = new Vector2(this.hbInnerA.X, this.hbInnerB.Y);
+            this.hbInnerC = new Vector2(this.hbInnerD.X, this.hbInnerC.Y);
+            this.health = 0;
+            this.dispose();
+            return !alive;
+        }
 
         public CircleCollider hitCollider { get; set; }
         public Vector2 center { get; set; }

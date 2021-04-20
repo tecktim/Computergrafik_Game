@@ -65,7 +65,7 @@ namespace ComputerGrafik_Game.Structure
                 {
                     System.Diagnostics.Debug.Print(this.type + " In Range: true");
                     Bullet bullet = new Bullet(0.01f, 0.01f, 0.005f, this.attackDamage, System.Drawing.Color.AliceBlue);
-
+                    
                     ShootBullet(bullet, enemies[i]);
 
                 }
@@ -83,7 +83,14 @@ namespace ComputerGrafik_Game.Structure
             
             bullet.draw();
             bullet.update();
-            enemy.enemyHit(this);
+            if (enemy.health > this.attackDamage)
+            {
+                enemy.enemyHit(this);
+            }
+            else
+            {
+                enemy.enemyFinalHit(this);
+            }
             i++;
             if (i == enemies.Count)
             {
