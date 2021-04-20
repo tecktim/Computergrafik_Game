@@ -16,12 +16,33 @@ namespace ComputerGrafik_Game.Collision
             this.radius = radius;
         }
 
+        //funktioniert immer perfekt
         public bool Circle2CircleCollider(CircleCollider otherCollider)
         {
             float radius = this.radius + otherCollider.radius;
             float deltaX = this.center.X - otherCollider.center.X;
             float deltaY = this.center.Y - otherCollider.center.Y;
-            if((deltaX + deltaY)*(deltaX+deltaY) < (this.radius + otherCollider.radius) * (this.radius + otherCollider.radius))
+
+            float distance = (float)Math.Sqrt((double)((deltaX * deltaX) + (deltaY * deltaY)));
+            if (distance < radius)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        //funktioniert leider nicht immer richtig
+        public bool Circle2CircleCollider(CircleCollider otherCollider, bool useNoSqrt)
+        {
+            float radius = this.radius + otherCollider.radius;
+            float deltaX = this.center.X - otherCollider.center.X;
+            float deltaY = this.center.Y - otherCollider.center.Y;
+
+            float delta = (deltaX * deltaX) + (deltaY * deltaY);
+            if (delta < radius * radius)
             {
                 return true;
             }
