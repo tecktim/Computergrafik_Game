@@ -58,14 +58,15 @@ namespace ComputerGrafik_Game.Structure
 
         public void CheckRange()
         {
-            if (i < enemies.Count)
+
+            for (int i = 0; i < enemies.Count; i++)
             {
                 bool inRangeTrue = this.rangeCollider.Circle2CircleCollider(enemies[i].hitCollider);
                 if (inRangeTrue)
                 {
                     System.Diagnostics.Debug.Print(this.type + " In Range: true");
                     Bullet bullet = new Bullet(0.01f, 0.01f, 0.005f, this.attackDamage, System.Drawing.Color.AliceBlue);
-                    
+
                     ShootBullet(bullet, enemies[i]);
 
                 }
@@ -74,9 +75,10 @@ namespace ComputerGrafik_Game.Structure
                     System.Diagnostics.Debug.Print(this.type + " In Range: false");
                     //nothing happens
                 }
-                
+
             }
-    }
+        }
+    
 
         private void ShootBullet(Bullet bullet, Enemy enemy)
         {

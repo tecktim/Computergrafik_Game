@@ -19,7 +19,7 @@ namespace ComputerGrafik_Game.Structure
         {
             List<Tower> towerList = new List<Tower>();
             //Tower towerTest1 = new Tower(55, 1.0f, 1.0f, .15f, new Vector2(-0.2f, 0.0f), 100, "rifle", enemies);
-            Tower towerTest2 = new Tower(50, 1.8f, 20.0f, .1f, new Vector2(0.4f, -0.1f), 100, "sniper", enemies);
+            Tower towerTest2 = new Tower(100, 1.8f, 20.0f, .1f, new Vector2(0.4f, -0.1f), 100, "sniper", enemies);
             //towerList.Add(towerTest1);
             towerList.Add(towerTest2);
             return towerList;
