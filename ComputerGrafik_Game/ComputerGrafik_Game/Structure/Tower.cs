@@ -1,17 +1,10 @@
-﻿using OpenTK.Graphics.OpenGL;
-using OpenTK.Windowing.Common;
-using OpenTK.Windowing.Desktop;
-using OpenTK.Mathematics;
-using OpenTK.Windowing.GraphicsLibraryFramework;
-using System;
-using System.Timers;
-using System.Collections.Generic;
-using System.Text;
-using System.Collections;
-using ComputerGrafik_Game.Collision;
+﻿using ComputerGrafik_Game.Collision;
 using ComputerGrafik_Game.Structure.Projectiles;
-using System.Diagnostics;
-using System.Threading;
+using OpenTK.Graphics.OpenGL;
+using OpenTK.Mathematics;
+using System;
+using System.Collections.Generic;
+using System.Timers;
 
 namespace ComputerGrafik_Game.Structure
 {
@@ -25,8 +18,8 @@ namespace ComputerGrafik_Game.Structure
             this.sizeXY = sizeXY;
             this.cost = cost;
             this.position = position;
-            this.center = new Vector2(position.X+ sizeXY/2, position.Y+ sizeXY/2);
-            this.rangeCollider = new CircleCollider(center, attackRange/2);
+            this.center = new Vector2(position.X + sizeXY / 2, position.Y + sizeXY / 2);
+            this.rangeCollider = new CircleCollider(center, attackRange / 2);
             this.type = type;
             this.enemies = enemies;
             SetTimer();
@@ -36,9 +29,9 @@ namespace ComputerGrafik_Game.Structure
 
         public void update(List<Enemy> enemies)
         {
-            
+
         }
-        int i = 0;
+
         //https://docs.microsoft.com/de-de/dotnet/api/system.timers.timer?view=net-5.0
         private void SetTimer()
         {
@@ -78,11 +71,11 @@ namespace ComputerGrafik_Game.Structure
 
             }
         }
-    
+
 
         private void ShootBullet(Bullet bullet, Enemy enemy)
         {
-            
+
             bullet.draw();
             bullet.update();
             if (enemy.health > this.attackDamage)
@@ -92,11 +85,6 @@ namespace ComputerGrafik_Game.Structure
             else
             {
                 enemy.enemyFinalHit(this);
-            }
-            i++;
-            if (i == enemies.Count)
-            {
-                i = 0;
             }
             System.Diagnostics.Debug.Print(this.type + " shooting\n");
 

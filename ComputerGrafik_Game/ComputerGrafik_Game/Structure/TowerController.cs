@@ -1,7 +1,5 @@
 ﻿using OpenTK.Mathematics;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace ComputerGrafik_Game.Structure
 {
@@ -9,7 +7,7 @@ namespace ComputerGrafik_Game.Structure
     {
         List<Enemy> enemies;
 
-       
+
         public TowerController(List<Enemy> enemies)
         {
             this.enemies = enemies;

@@ -1,18 +1,12 @@
-﻿using OpenTK.Graphics.OpenGL;
-using OpenTK.Windowing.Common;
-using OpenTK.Windowing.Desktop;
+﻿using ComputerGrafik_Game.Collision;
+using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;
-using OpenTK.Windowing.GraphicsLibraryFramework;
 using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Collections;
-using ComputerGrafik_Game.Collision;
-using System.ComponentModel;
 
 namespace ComputerGrafik_Game.Structure
 {
-    class Enemy 
+    class Enemy
     {
         public Enemy(double health, float size, float speed, int bounty, Vector2 spawn)
 
@@ -44,8 +38,8 @@ namespace ComputerGrafik_Game.Structure
             this.hbInnerC = new Vector2(hbOuterC.X - 0.02f * (hbOuterD.X + hbOuterC.X), hbOuterC.Y - 0.02f * hbOuterC.Y);
             this.hbInnerD = new Vector2(hbOuterD.X - 0.02f * hbOuterD.X, hbOuterD.Y - 0.02f * hbOuterD.Y);*/
 
-            this.center = new Vector2((this.a.X + this.c.X)/2, (this.a.Y + this.b.Y)/2);
-            this.hitCollider = new CircleCollider(this.center, this.size/2);
+            this.center = new Vector2((this.a.X + this.c.X) / 2, (this.a.Y + this.b.Y) / 2);
+            this.hitCollider = new CircleCollider(this.center, this.size / 2);
         }
 
         private Vector2 left = new Vector2(-0.005f, 0.0f);
@@ -69,11 +63,11 @@ namespace ComputerGrafik_Game.Structure
             this.hbInnerB = this.hbInnerB + direction;
             this.hbInnerC = this.hbInnerC + direction;
             this.hbInnerD = this.hbInnerD + direction;
-        } 
+        }
 
         private void moveLeft()
         {
-                updatePosition(left);
+            updatePosition(left);
         }
         private void moveRight()
         {
@@ -92,7 +86,7 @@ namespace ComputerGrafik_Game.Structure
         public void draw()
         {
             drawEnemy();
-           drawHealth();
+            drawHealth();
         }
 
         public void drawHealth()
@@ -117,7 +111,8 @@ namespace ComputerGrafik_Game.Structure
         private void drawEnemy()
         {
             GL.Begin(PrimitiveType.Triangles);
-            if (health >= 75) {
+            if (health >= 75)
+            {
                 GL.Color3(System.Drawing.Color.Green);
             }
             if (health < 75 && health > 25)
@@ -140,8 +135,9 @@ namespace ComputerGrafik_Game.Structure
         {
             this.center = new Vector2((this.a.X + this.c.X) / 2, (this.a.Y + this.b.Y) / 2);
             this.hitCollider = new CircleCollider(this.center - new Vector2(0f, size / 6), this.size / 1.8f);
-            
-            if(this.health <= 0) {
+
+            if (this.health <= 0)
+            {
                 this.dispose();
             }
 
@@ -201,26 +197,26 @@ namespace ComputerGrafik_Game.Structure
 
         public bool enemyHit(Tower tower)
         {
-            
+
             this.health = this.health - tower.attackDamage;
 
-            float hbOffset1 = (float)this.health / 100/ 35;
+            float hbOffset1 = (float)this.health / 100 / 35;
             System.Diagnostics.Debug.Print("enemy hbOffset 1 " + hbOffset1);
 
             float hbOffset2 = 1 - hbOffset1;
             System.Diagnostics.Debug.Print("enemy hbOffset 2 " + hbOffset2);
 
 
-            this.hbInnerB = new Vector2(this.hbInnerB.X - hbOffset1 , this.hbInnerB.Y);
-            this.hbInnerC = new Vector2(this.hbInnerC.X - hbOffset1 , this.hbInnerC.Y);
+            this.hbInnerB = new Vector2(this.hbInnerB.X - hbOffset1, this.hbInnerB.Y);
+            this.hbInnerC = new Vector2(this.hbInnerC.X - hbOffset1, this.hbInnerC.Y);
 
             //this.hbInnerB = new Vector2(this.hbInnerA.X, this.hbInnerB.Y);
             //this.hbInnerC = new Vector2(this.hbInnerD.X, this.hbInnerC.Y);
-            
+
 
             alive = true;
             System.Diagnostics.Debug.Print("Enemy health: " + this.health);
-            if (health <0) { this.dispose(); return false; }
+            if (health < 0) { this.dispose(); return false; }
             return alive;
         }
 

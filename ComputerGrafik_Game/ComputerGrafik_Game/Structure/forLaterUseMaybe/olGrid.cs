@@ -1,12 +1,4 @@
-﻿using OpenTK.Graphics.OpenGL;
-using OpenTK.Windowing.Common;
-using OpenTK.Windowing.Desktop;
-using OpenTK.Mathematics;
-using OpenTK.Windowing.GraphicsLibraryFramework;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
 
 
 namespace ComputerGrafik_Game.Structure
@@ -28,7 +20,7 @@ namespace ComputerGrafik_Game.Structure
         /// <param name="tileSize">Size of a tile</param>
         public olGrid(float windowWidth, float windowHeight, float tileSize)
         {
-            this.xTiles = Convert.ToInt32(windowWidth / tileSize); 
+            this.xTiles = Convert.ToInt32(windowWidth / tileSize);
             this.yTiles = Convert.ToInt32(windowHeight / tileSize);
 
             System.Diagnostics.Debug.Print("xTiles: " + xTiles);
@@ -36,11 +28,11 @@ namespace ComputerGrafik_Game.Structure
 
             this.tileList = new Tile[xTiles, yTiles];
 
-            for (int i=0;i<xTiles;i++)
+            for (int i = 0; i < xTiles; i++)
             {
-                for(int j=0;j<yTiles;j++)
+                for (int j = 0; j < yTiles; j++)
                 {
-                    Tile tile = new Tile(tileSize * i - windowWidth/2, -(tileSize * j - windowHeight/2), tileSize, i, j);
+                    Tile tile = new Tile(tileSize * i - windowWidth / 2, -(tileSize * j - windowHeight / 2), tileSize, i, j);
                     tileList[i, j] = tile;
                 }
             }
@@ -51,10 +43,10 @@ namespace ComputerGrafik_Game.Structure
         {
             for (int i = 0; i < xTiles; i++)
             {
-                for (int j = 0; j <  yTiles; j++)
+                for (int j = 0; j < yTiles; j++)
                 {
                     tileList[i, j].drawTile();
-                    System.Diagnostics.Debug.Print(""+"i: "+i+", j: "+j+" posX: "+tileList[i,j].posX+" posY: "+tileList[i,j].posY);
+                    System.Diagnostics.Debug.Print("" + "i: " + i + ", j: " + j + " posX: " + tileList[i, j].posX + " posY: " + tileList[i, j].posY);
                 }
             }
         }

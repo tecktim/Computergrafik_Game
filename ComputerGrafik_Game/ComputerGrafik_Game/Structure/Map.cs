@@ -1,9 +1,5 @@
 ﻿using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
 
 namespace ComputerGrafik_Game.Structure
 {
@@ -16,8 +12,8 @@ namespace ComputerGrafik_Game.Structure
         }
 
 
-        
-        
+
+
         public void draw()
         {
             GL.Begin(PrimitiveType.Lines);

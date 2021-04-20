@@ -1,14 +1,11 @@
-﻿using System;
+﻿using ComputerGrafik_Game;
+using ComputerGrafik_Game.Structure;
 using OpenTK.Graphics.OpenGL;
+using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
-using OpenTK.Mathematics;
 using OpenTK.Windowing.GraphicsLibraryFramework;
-using ComputerGrafik_Game;
-using ComputerGrafik_Game.Structure;
 using System.Collections.Generic;
-using ComputerGrafik_Game.Collision;
-using System.Diagnostics;
 //using ComputerGrafik_Game.GlobalVariables;
 
 GameWindow window = new GameWindow(
@@ -50,7 +47,7 @@ void Update(float time)
         System.Diagnostics.Debug.Print("Space");
         waveController.createEnemy(enemies);
     }
-    
+
     for (int i = 0; i < enemies.Count; i++)
     {
         enemies[i].update(wayPointList);
@@ -68,13 +65,13 @@ void Draw()
         enemies[i].hitCollider.DrawCircleCollider();
     }
 
-    for(int i=0;i<towerList.Count;i++)
+    for (int i = 0; i < towerList.Count; i++)
     {
         towerList[i].draw();
         towerList[i].rangeCollider.DrawCircleCollider();
     }
 
-    for(int i=0;i<wayPointList.Count;i++)
+    for (int i = 0; i < wayPointList.Count; i++)
     {
         wayPointList[i].draw();
     }

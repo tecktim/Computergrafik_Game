@@ -1,7 +1,4 @@
 ﻿using OpenTK.Mathematics;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace ComputerGrafik_Game.Structure.Projectiles
 {
@@ -15,7 +12,7 @@ namespace ComputerGrafik_Game.Structure.Projectiles
             this.bulletColor = bulletColor;
         }
 
-        
+
         public void draw()
         {
 

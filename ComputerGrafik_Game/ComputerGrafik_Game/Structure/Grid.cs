@@ -1,11 +1,10 @@
 ﻿using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;
 using System;
-using System.Collections.Generic;
 
 namespace ComputerGrafik_Game.Structure
 {
-    public enum CellType { Empty, Sniper, Rifle};
+    public enum CellType { Empty, Sniper, Rifle };
     class Grid
     {
         public Grid(int row, int column)
@@ -31,7 +30,7 @@ namespace ComputerGrafik_Game.Structure
         public void initialize()
         {
             //make every cell empty
-            
+
         }
 
         public void update()
