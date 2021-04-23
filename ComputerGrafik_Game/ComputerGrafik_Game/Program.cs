@@ -22,8 +22,14 @@ GameWindow window = new GameWindow(
     }
     );
 
-GL.ClearColor(Color4.LightBlue);
 
+Model model = new Model();
+View view = new View();
+Control control = new Control(model, view);
+
+windowSetup(window);
+GL.ClearColor(Color4.LightBlue);
+/*
 WaveController waveController = new WaveController(30, 0.1f);
 List<Enemy> enemies = waveController.createWave();
 
@@ -36,14 +42,9 @@ List<Bullet> bulletList = bulletController.buildBulletList();
 
 TowerController towerController = new TowerController(enemies, bulletList);
 List<Tower> towerList = towerController.towerList();
+*/
 
-KeyboardState input = window.KeyboardState;
-
-window.UpdateFrame += args => Update((float)args.Time);
-window.RenderFrame += _ => Draw();
-window.Run();
-
-void Update(float time)
+/*void Update(float time)
 {
     if (input.IsKeyDown(Keys.Space))
     {
@@ -55,9 +56,9 @@ void Update(float time)
     {
         enemies[i].update(wayPointList, enemies);
     }
-}
+}*/
 
-void Draw()
+/*void Draw()
 {
     GL.Viewport(-1, -1, 1200, 800);
     GL.LoadIdentity();
@@ -84,5 +85,17 @@ void Draw()
         bulletList[i].draw();
     }
     window.SwapBuffers();
-}
+}*/
 
+void windowSetup(GameWindow window)
+{
+    window.RenderFrame += _ => view.Draw(model); // first draw the model
+    window.RenderFrame += _ => window.SwapBuffers(); // then wait for next frame and buffer swap
+    window.UpdateFrame += args =>
+    {
+        control.Update((float)args.Time, window.KeyboardState);
+        model.Update((float)args.Time);
+    }; // call update once each frame
+    window.Title = "MyTowerDefense";
+    window.Run(); // start the game loop with 60Hz
+}
