@@ -12,13 +12,20 @@ namespace ComputerGrafik_Game
         {
             this.model = model;
             this.view = view;
-            this.model.enemies = this.model.waveController.createWave();
         }
-		internal void Update(float deltaTime, KeyboardState keyboard)
+                 
+        /// <summary>
+        /// Check if key is pressed, act accordingly
+        /// </summary>
+        /// <param name="deltaTime"></param>
+        /// <param name="keyboard"></param>
+        internal void Update(float deltaTime, KeyboardState keyboard)
 		{
+            
+            //this.model.createWave(5, 0.1f);
             if (keyboard.IsKeyDown(Keys.Space))
             {
-               this.model.waveController.createEnemy(this.model.enemies);
+               this.model.createEnemy();
             }
 
         }

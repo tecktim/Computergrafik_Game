@@ -11,9 +11,6 @@ namespace ComputerGrafik_Game.Structure
             this.point2 = point2;
         }
 
-
-
-
         public void draw()
         {
             GL.Begin(PrimitiveType.Lines);
