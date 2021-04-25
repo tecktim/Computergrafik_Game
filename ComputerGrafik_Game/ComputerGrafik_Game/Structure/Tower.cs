@@ -1,23 +1,15 @@
-﻿using OpenTK.Graphics.OpenGL;
-using OpenTK.Windowing.Common;
-using OpenTK.Windowing.Desktop;
+﻿using ComputerGrafik_Game.Collision;
+using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;
-using OpenTK.Windowing.GraphicsLibraryFramework;
 using System;
-using System.Timers;
 using System.Collections.Generic;
-using System.Text;
-using System.Collections;
-using ComputerGrafik_Game.Collision;
-using ComputerGrafik_Game.Structure.Projectiles;
-using System.Diagnostics;
-using System.Threading;
+using System.Timers;
 
 namespace ComputerGrafik_Game.Structure
 {
-    class Tower
+    internal class Tower
     {
-        public Tower(int attackSpeedInMills, float attackRange, float attackDamage, float sizeXY, Vector2 position, int cost, string type, List<Enemy> enemies)
+        public Tower(int attackSpeedInMills, float attackRange, float attackDamage, float sizeXY, Vector2 position, int cost, string type, List<Enemy> enemies, List<Bullet> bulletList)
         {
             this.attackSpeed = attackSpeedInMills;
             this.attackRange = attackRange;
@@ -25,25 +17,24 @@ namespace ComputerGrafik_Game.Structure
             this.sizeXY = sizeXY;
             this.cost = cost;
             this.position = position;
-            this.center = new Vector2(position.X+ sizeXY/2, position.Y+ sizeXY/2);
-            this.rangeCollider = new CircleCollider(center, attackRange/2);
+            this.center = new Vector2(position.X + sizeXY / 2, position.Y + sizeXY / 2);
+            this.rangeCollider = new CircleCollider(center, attackRange / 2);
             this.type = type;
             this.enemies = enemies;
+            this.bulletList = bulletList;
             SetTimer();
         }
 
-
-
         public void update(List<Enemy> enemies)
         {
-            
+
         }
-        int i = 0;
+
         //https://docs.microsoft.com/de-de/dotnet/api/system.timers.timer?view=net-5.0
         private void SetTimer()
         {
             // Creating timer with attackSpeed (millis) as interval
-            System.Timers.Timer asTimer = new System.Timers.Timer(this.attackSpeed);
+            System.Timers.Timer asTimer = new System.Timers.Timer(attackSpeed);
             // Hook up elapsed event for the timer
             asTimer.Elapsed += OnTimedEvent;
             asTimer.AutoReset = true;
@@ -52,60 +43,46 @@ namespace ComputerGrafik_Game.Structure
 
         public void OnTimedEvent(Object source, ElapsedEventArgs e)
         {
-            this.CheckRange();
+            CheckRange();
         }
 
-
+        private Bullet bullet;
         public void CheckRange()
         {
-
-            for (int i = 0; i < enemies.Count; i++)
+            if (enemies.Count > 0)
             {
-                bool inRangeTrue = this.rangeCollider.Circle2CircleCollider(enemies[i].hitCollider);
+                bool inRangeTrue = rangeCollider.Circle2CircleCollider(enemies[0].hitCollider);
+
                 if (inRangeTrue)
                 {
-                    System.Diagnostics.Debug.Print(this.type + " In Range: true");
-                    Bullet bullet = new Bullet(0.01f, 0.01f, 0.005f, this.attackDamage, System.Drawing.Color.AliceBlue);
-
-                    ShootBullet(bullet, enemies[i]);
-
+                    bullet = new Bullet(0.01f, 0.01f, 0.005f, System.Drawing.Color.AliceBlue, this.center, enemies[0]);
+                    bulletList.Add(bullet);
+                    ShootBullet(bullet, enemies[0]);
                 }
-                else
-                {
-                    System.Diagnostics.Debug.Print(this.type + " In Range: false");
-                    //nothing happens
-                }
-
             }
         }
-    
-
         private void ShootBullet(Bullet bullet, Enemy enemy)
         {
-            
-            bullet.draw();
-            bullet.update();
-            if (enemy.health > this.attackDamage)
+            if (enemy.health > attackDamage)
             {
-                enemy.enemyHit(this);
+                enemy.enemyHit(this.attackDamage);
+                System.Diagnostics.Debug.Print("bulletlist: " +
+                bulletList.Count);
+                bulletList.Remove(bullet);
             }
             else
             {
-                enemy.enemyFinalHit(this);
+                if (enemy.enemyFinalHit() == false)
+                {
+                    enemies.Remove(enemy);
+                    System.Diagnostics.Debug.Print("enemiesLength: " + enemies.Count);
+                }
             }
-            i++;
-            if (i == enemies.Count)
-            {
-                i = 0;
-            }
-            System.Diagnostics.Debug.Print(this.type + " shooting\n");
-
         }
-
         public void draw()
         {
             GL.Begin(PrimitiveType.Quads);
-            switch (this.type)
+            switch (type)
             {
                 case "rifle":
                     GL.Color3(System.Drawing.Color.Black);
@@ -120,20 +97,18 @@ namespace ComputerGrafik_Game.Structure
             GL.Vertex2(position.X, position.Y + sizeXY);
             GL.End();
         }
-
         public CircleCollider rangeCollider { get; set; }
         public Vector2 center { get; set; }
         public float radius { get; set; }
         public int attackSpeed { get; set; }
         public float attackRange { get; set; }
         public float attackDamage { get; set; }
-        //Ground area (rectangle)
         public float sizeXY { get; set; }
         public Vector2 position { get; set; }
         public int cost { get; set; }
         public string type { get; set; }
-        public System.Timers.Timer asTimer { get; set; }
         public int elapsedMillis { get; set; }
         public List<Enemy> enemies { get; set; }
+        public List<Bullet> bulletList;
     }
 }

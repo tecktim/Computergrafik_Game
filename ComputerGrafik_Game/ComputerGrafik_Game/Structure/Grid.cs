@@ -1,17 +1,17 @@
 ﻿using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;
 using System;
-using System.Collections.Generic;
 
 namespace ComputerGrafik_Game.Structure
 {
-    public enum CellType { Empty, Sniper, Rifle};
-    class Grid
+    public enum CellType { Empty, Sniper, Rifle };
+
+    internal class Grid
     {
         public Grid(int row, int column)
         {
-            this.rows = row;
-            this.columns = column;
+            rows = row;
+            columns = column;
             Cells = new CellType[columns * rows];
             Array.Fill(Cells, CellType.Empty);
         }
@@ -24,14 +24,14 @@ namespace ComputerGrafik_Game.Structure
 
         public CellType this[int x, int y]
         {
-            get { return Cells[x + columns * y]; }
-            set { Cells[x + columns * y] = value; }
+            get => Cells[x + columns * y];
+            set => Cells[x + columns * y] = value;
         }
 
         public void initialize()
         {
             //make every cell empty
-            
+
         }
 
         public void update()
@@ -80,8 +80,8 @@ namespace ComputerGrafik_Game.Structure
             GL.End();
         }
 
-        int rows { get; set; }
-        int columns { get; set; }
+        private int rows { get; set; }
+        private int columns { get; set; }
         public CellType[] Cells;
     }
 }
