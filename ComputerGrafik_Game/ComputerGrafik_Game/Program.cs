@@ -6,7 +6,6 @@ using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 using System.Collections.Generic;
-//using ComputerGrafik_Game.GlobalVariables;
 
 GameWindow window = new GameWindow(
     new GameWindowSettings
@@ -21,6 +20,9 @@ GameWindow window = new GameWindow(
         Profile = ContextProfile.Compatability
     }
     );
+
+
+
 
 Model model = new Model();
 View view = new View();

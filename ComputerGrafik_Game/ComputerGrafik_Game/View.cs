@@ -1,4 +1,5 @@
-﻿using OpenTK.Graphics.OpenGL;
+﻿using ComputerGrafik_Game.Collision;
+using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;
 using System;
 using System.Collections.Generic;
@@ -15,13 +16,15 @@ namespace ComputerGrafik_Game
         {
             
         }
+
+        
+
         internal void Draw(Model model)
         {
             //GL.Viewport(-1, -1, 1200, 800);
             GL.Viewport(0, 0, 1200, 800);
             GL.Clear(ClearBufferMask.ColorBufferBit);
             GL.ClearColor(Color4.LightBlue);
-            
 
             for (int i = 0; i < model.Enemies.Count; i++)
             {
