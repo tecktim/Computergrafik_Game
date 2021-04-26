@@ -26,9 +26,9 @@ Model model = new Model();
 View view = new View();
 Control control = new Control(model, view);
 
-windowSetup(window);
+WindowSetup(window);
 
-void windowSetup(GameWindow window)
+void WindowSetup(GameWindow window)
 {
     window.UpdateFrame += args =>
     {

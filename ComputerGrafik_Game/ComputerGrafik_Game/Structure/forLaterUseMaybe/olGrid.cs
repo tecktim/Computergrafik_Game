@@ -45,7 +45,7 @@ namespace ComputerGrafik_Game.Structure
             {
                 for (int j = 0; j < yTiles; j++)
                 {
-                    tileList[i, j].drawTile();
+                    tileList[i, j].DrawTile();
                     System.Diagnostics.Debug.Print("" + "i: " + i + ", j: " + j + " posX: " + tileList[i, j].posX + " posY: " + tileList[i, j].posY);
                 }
             }

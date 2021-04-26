@@ -10,8 +10,8 @@ namespace ComputerGrafik_Game
     {
         public Control(Model model, View view)
         {
-            this.model = model;
-            this.view = view;
+            this.Model = model;
+            this.View = view;
         }
                  
         /// <summary>
@@ -25,12 +25,12 @@ namespace ComputerGrafik_Game
             //this.model.createWave(5, 0.1f);
             if (keyboard.IsKeyDown(Keys.Space))
             {
-               this.model.createEnemy();
+               this.Model.CreateEnemy();
             }
 
         }
 
-		public Model model { get; set; }
-        public View view { get; set; }
+		public Model Model { get; set; }
+        public View View { get; set; }
     }
 }

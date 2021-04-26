@@ -15,14 +15,14 @@ namespace ComputerGrafik_Game.Structure
             this.enemy = enemy;
         }
 
-        public void draw()
+        public void Draw()
         {
             GL.Begin(PrimitiveType.Quads); // STATUS_STACK_BUFFER_OVERRUN
             GL.Color3(System.Drawing.Color.Black);
             GL.Vertex2(start.X, start.Y);
             GL.Vertex2(start.X + bulletWidth, start.Y + bulletWidth);
-            GL.Vertex2(enemy.center.X, enemy.center.Y);
-            GL.Vertex2(enemy.center.X + bulletWidth, enemy.center.Y + bulletWidth);
+            GL.Vertex2(enemy.Center.X, enemy.Center.Y);
+            GL.Vertex2(enemy.Center.X + bulletWidth, enemy.Center.Y + bulletWidth);
             GL.End();
         }
 

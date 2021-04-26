@@ -11,21 +11,21 @@ namespace ComputerGrafik_Game.Structure
     {
         public Tower(int attackSpeedInMills, float attackRange, float attackDamage, float sizeXY, Vector2 position, int cost, string type, List<Enemy> enemies, List<Bullet> bulletList)
         {
-            this.attackSpeed = attackSpeedInMills;
-            this.attackRange = attackRange;
-            this.attackDamage = attackDamage;
-            this.sizeXY = sizeXY;
-            this.cost = cost;
-            this.position = position;
-            this.center = new Vector2(position.X + sizeXY / 2, position.Y + sizeXY / 2);
-            this.rangeCollider = new CircleCollider(center, attackRange / 2);
-            this.type = type;
-            this.enemies = enemies;
-            this.bulletList = bulletList;
+            this.AttackSpeed = attackSpeedInMills;
+            this.AttackRange = attackRange;
+            this.AttackDamage = attackDamage;
+            this.SizeXY = sizeXY;
+            this.Cost = cost;
+            this.Position = position;
+            this.Center = new Vector2(position.X + sizeXY / 2, position.Y + sizeXY / 2);
+            this.RangeCollider = new CircleCollider(Center, attackRange / 2);
+            this.Type = type;
+            this.Enemies = enemies;
+            this.BulletList = bulletList;
             SetTimer();
         }
 
-        public void update(List<Enemy> enemies)
+        public void Update(List<Enemy> enemies)
         {
 
         }
@@ -34,7 +34,7 @@ namespace ComputerGrafik_Game.Structure
         private void SetTimer()
         {
             // Creating timer with attackSpeed (millis) as interval
-            System.Timers.Timer asTimer = new System.Timers.Timer(attackSpeed);
+            System.Timers.Timer asTimer = new System.Timers.Timer(AttackSpeed);
             // Hook up elapsed event for the timer
             asTimer.Elapsed += OnTimedEvent;
             asTimer.AutoReset = true;
@@ -49,40 +49,40 @@ namespace ComputerGrafik_Game.Structure
         private Bullet bullet;
         public void CheckRange()
         {
-            if (enemies.Count > 0)
+            if (Enemies.Count > 0)
             {
-                bool inRangeTrue = rangeCollider.Circle2CircleCollider(enemies[0].hitCollider);
+                bool inRangeTrue = RangeCollider.Circle2CircleCollider(Enemies[0].HitCollider);
 
                 if (inRangeTrue)
                 {
-                    bullet = new Bullet(0.01f, 0.01f, 0.005f, System.Drawing.Color.AliceBlue, this.center, enemies[0]);
-                    bulletList.Add(bullet);
-                    ShootBullet(bullet, enemies[0]);
+                    bullet = new Bullet(0.01f, 0.01f, 0.005f, System.Drawing.Color.AliceBlue, this.Center, Enemies[0]);
+                    BulletList.Add(bullet);
+                    ShootBullet(bullet, Enemies[0]);
                 }
             }
         }
         private void ShootBullet(Bullet bullet, Enemy enemy)
         {
-            if (enemy.health > attackDamage)
+            if (enemy.Health > AttackDamage)
             {
-                enemy.enemyHit(this.attackDamage);
+                enemy.EnemyHit(this.AttackDamage);
                 System.Diagnostics.Debug.Print("bulletlist: " +
-                bulletList.Count);
-                bulletList.Remove(bullet);
+                BulletList.Count);
+                BulletList.Remove(bullet);
             }
             else
             {
-                if (enemy.enemyFinalHit() == false)
+                if (enemy.EnemyFinalHit() == false)
                 {
-                    enemies.Remove(enemy);
-                    System.Diagnostics.Debug.Print("enemiesLength: " + enemies.Count);
+                    Enemies.Remove(enemy);
+                    System.Diagnostics.Debug.Print("enemiesLength: " + Enemies.Count);
                 }
             }
         }
-        public void draw()
+        public void Draw()
         {
             GL.Begin(PrimitiveType.Quads);
-            switch (type)
+            switch (Type)
             {
                 case "rifle":
                     GL.Color3(System.Drawing.Color.Black);
@@ -91,24 +91,24 @@ namespace ComputerGrafik_Game.Structure
                     GL.Color3(System.Drawing.Color.AntiqueWhite);
                     break;
             }
-            GL.Vertex2(position.X, position.Y);
-            GL.Vertex2(position.X + sizeXY, position.Y);
-            GL.Vertex2(position.X + sizeXY, position.Y + sizeXY);
-            GL.Vertex2(position.X, position.Y + sizeXY);
+            GL.Vertex2(Position.X, Position.Y);
+            GL.Vertex2(Position.X + SizeXY, Position.Y);
+            GL.Vertex2(Position.X + SizeXY, Position.Y + SizeXY);
+            GL.Vertex2(Position.X, Position.Y + SizeXY);
             GL.End();
         }
-        public CircleCollider rangeCollider { get; set; }
-        public Vector2 center { get; set; }
-        public float radius { get; set; }
-        public int attackSpeed { get; set; }
-        public float attackRange { get; set; }
-        public float attackDamage { get; set; }
-        public float sizeXY { get; set; }
-        public Vector2 position { get; set; }
-        public int cost { get; set; }
-        public string type { get; set; }
-        public int elapsedMillis { get; set; }
-        public List<Enemy> enemies { get; set; }
-        public List<Bullet> bulletList;
+        public CircleCollider RangeCollider { get; set; }
+        public Vector2 Center { get; set; }
+        public float Radius { get; set; }
+        public int AttackSpeed { get; set; }
+        public float AttackRange { get; set; }
+        public float AttackDamage { get; set; }
+        public float SizeXY { get; set; }
+        public Vector2 Position { get; set; }
+        public int Cost { get; set; }
+        public string Type { get; set; }
+        public int ElapsedMillis { get; set; }
+        public List<Enemy> Enemies { get; set; }
+        public List<Bullet> BulletList { get; set; }
     }
 }
