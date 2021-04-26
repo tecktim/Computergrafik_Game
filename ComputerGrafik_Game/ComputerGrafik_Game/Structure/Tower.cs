@@ -1,49 +1,40 @@
-﻿using OpenTK.Graphics.OpenGL;
-using OpenTK.Windowing.Common;
-using OpenTK.Windowing.Desktop;
+﻿using ComputerGrafik_Game.Collision;
+using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;
-using OpenTK.Windowing.GraphicsLibraryFramework;
 using System;
-using System.Timers;
 using System.Collections.Generic;
-using System.Text;
-using System.Collections;
-using ComputerGrafik_Game.Collision;
-using ComputerGrafik_Game.Structure.Projectiles;
-using System.Diagnostics;
-using System.Threading;
+using System.Timers;
 
 namespace ComputerGrafik_Game.Structure
 {
-    class Tower
+    internal class Tower
     {
-        public Tower(int attackSpeedInMills, float attackRange, float attackDamage, float sizeXY, Vector2 position, int cost, string type, List<Enemy> enemies)
+        public Tower(int attackSpeedInMills, float attackRange, float attackDamage, float sizeXY, Vector2 position, int cost, string type, List<Enemy> enemies, List<Bullet> bulletList)
         {
-            this.attackSpeed = attackSpeedInMills;
-            this.attackRange = attackRange;
-            this.attackDamage = attackDamage;
-            this.sizeXY = sizeXY;
-            this.cost = cost;
-            this.position = position;
-            this.center = new Vector2(position.X+ sizeXY/2, position.Y+ sizeXY/2);
-            this.rangeCollider = new CircleCollider(center, attackRange/2);
-            this.type = type;
-            this.enemies = enemies;
+            this.AttackSpeed = attackSpeedInMills;
+            this.AttackRange = attackRange;
+            this.AttackDamage = attackDamage;
+            this.SizeXY = sizeXY;
+            this.Cost = cost;
+            this.Position = position;
+            this.Center = new Vector2(position.X + sizeXY / 2, position.Y + sizeXY / 2);
+            this.RangeCollider = new CircleCollider(Center, attackRange / 2);
+            this.Type = type;
+            this.Enemies = enemies;
+            this.BulletList = bulletList;
             SetTimer();
         }
 
-
-
-        public void update(List<Enemy> enemies)
+        public void Update(List<Enemy> enemies)
         {
-            
+
         }
-        int i = 0;
+
         //https://docs.microsoft.com/de-de/dotnet/api/system.timers.timer?view=net-5.0
         private void SetTimer()
         {
             // Creating timer with attackSpeed (millis) as interval
-            System.Timers.Timer asTimer = new System.Timers.Timer(this.attackSpeed);
+            System.Timers.Timer asTimer = new System.Timers.Timer(AttackSpeed);
             // Hook up elapsed event for the timer
             asTimer.Elapsed += OnTimedEvent;
             asTimer.AutoReset = true;
@@ -52,51 +43,46 @@ namespace ComputerGrafik_Game.Structure
 
         public void OnTimedEvent(Object source, ElapsedEventArgs e)
         {
-            this.CheckRange();
+            CheckRange();
         }
 
-
+        private Bullet bullet;
         public void CheckRange()
         {
-            if (i < enemies.Count)
+            if (Enemies.Count > 0)
             {
-                bool inRangeTrue = this.rangeCollider.Circle2CircleCollider(enemies[i].hitCollider);
+                bool inRangeTrue = RangeCollider.Circle2CircleCollider(Enemies[0].HitCollider);
+
                 if (inRangeTrue)
                 {
-                    System.Diagnostics.Debug.Print(this.type + " In Range: true");
-                    Bullet bullet = new Bullet(0.01f, 0.01f, 0.005f, this.attackDamage, System.Drawing.Color.AliceBlue);
-
-                    ShootBullet(bullet, enemies[i]);
-
+                    bullet = new Bullet(0.01f, 0.01f, 0.005f, System.Drawing.Color.AliceBlue, this.Center, Enemies[0]);
+                    BulletList.Add(bullet);
+                    ShootBullet(bullet, Enemies[0]);
                 }
-                else
-                {
-                    System.Diagnostics.Debug.Print(this.type + " In Range: false");
-                    //nothing happens
-                }
-                
             }
-    }
-
+        }
         private void ShootBullet(Bullet bullet, Enemy enemy)
         {
-            
-            bullet.draw();
-            bullet.update();
-            enemy.enemyHit(this);
-            i++;
-            if (i == enemies.Count)
+            if (enemy.Health > AttackDamage)
             {
-                i = 0;
+                enemy.EnemyHit(this.AttackDamage);
+                System.Diagnostics.Debug.Print("bulletlist: " +
+                BulletList.Count);
+                BulletList.Remove(bullet);
             }
-            System.Diagnostics.Debug.Print(this.type + " shooting\n");
-
+            else
+            {
+                if (enemy.EnemyFinalHit() == false)
+                {
+                    Enemies.Remove(enemy);
+                    System.Diagnostics.Debug.Print("enemiesLength: " + Enemies.Count);
+                }
+            }
         }
-
-        public void draw()
+        public void Draw()
         {
             GL.Begin(PrimitiveType.Quads);
-            switch (this.type)
+            switch (Type)
             {
                 case "rifle":
                     GL.Color3(System.Drawing.Color.Black);
@@ -105,26 +91,24 @@ namespace ComputerGrafik_Game.Structure
                     GL.Color3(System.Drawing.Color.AntiqueWhite);
                     break;
             }
-            GL.Vertex2(position.X, position.Y);
-            GL.Vertex2(position.X + sizeXY, position.Y);
-            GL.Vertex2(position.X + sizeXY, position.Y + sizeXY);
-            GL.Vertex2(position.X, position.Y + sizeXY);
+            GL.Vertex2(Position.X, Position.Y);
+            GL.Vertex2(Position.X + SizeXY, Position.Y);
+            GL.Vertex2(Position.X + SizeXY, Position.Y + SizeXY);
+            GL.Vertex2(Position.X, Position.Y + SizeXY);
             GL.End();
         }
-
-        public CircleCollider rangeCollider { get; set; }
-        public Vector2 center { get; set; }
-        public float radius { get; set; }
-        public int attackSpeed { get; set; }
-        public float attackRange { get; set; }
-        public float attackDamage { get; set; }
-        //Ground area (rectangle)
-        public float sizeXY { get; set; }
-        public Vector2 position { get; set; }
-        public int cost { get; set; }
-        public string type { get; set; }
-        public System.Timers.Timer asTimer { get; set; }
-        public int elapsedMillis { get; set; }
-        public List<Enemy> enemies { get; set; }
+        public CircleCollider RangeCollider { get; set; }
+        public Vector2 Center { get; set; }
+        public float Radius { get; set; }
+        public int AttackSpeed { get; set; }
+        public float AttackRange { get; set; }
+        public float AttackDamage { get; set; }
+        public float SizeXY { get; set; }
+        public Vector2 Position { get; set; }
+        public int Cost { get; set; }
+        public string Type { get; set; }
+        public int ElapsedMillis { get; set; }
+        public List<Enemy> Enemies { get; set; }
+        public List<Bullet> BulletList { get; set; }
     }
 }

@@ -1,9 +1,5 @@
 ﻿using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
 
 namespace ComputerGrafik_Game.Structure
 {
@@ -11,24 +7,21 @@ namespace ComputerGrafik_Game.Structure
     {
         public Map(Vector2 point1, Vector2 point2)
         {
-            this.point1 = point1;
-            this.point2 = point2;
+            this.Point1 = point1;
+            this.Point2 = point2;
         }
 
-
-        
-        
-        public void draw()
+        public void Draw()
         {
             GL.Begin(PrimitiveType.Lines);
             GL.Color3(System.Drawing.Color.Black);
-            GL.Vertex2(point1.X, point1.Y);
-            GL.Vertex2(point2.X, point2.Y);
+            GL.Vertex2(this.Point1.X, this.Point1.Y);
+            GL.Vertex2(this.Point2.X, this.Point2.Y);
             GL.End();
         }
 
-        public Vector2 point1 { get; set; }
-        public Vector2 point2 { get; set; }
+        public Vector2 Point1 { get; set; }
+        public Vector2 Point2 { get; set; }
 
     }
 }

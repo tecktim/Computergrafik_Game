@@ -1,34 +1,33 @@
-﻿using OpenTK.Graphics.OpenGL;
-using OpenTK.Windowing.Common;
-using OpenTK.Windowing.Desktop;
+﻿using ComputerGrafik_Game.Collision;
+using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;
-using OpenTK.Windowing.GraphicsLibraryFramework;
 using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Collections;
-using ComputerGrafik_Game.Collision;
-using System.ComponentModel;
 
 namespace ComputerGrafik_Game.Structure
 {
-    class Enemy 
+    internal class Enemy
     {
+
         public Enemy(double health, float size, float speed, int bounty, Vector2 spawn)
 
         {
-            this.health = health;
-            this.size = size;
-            this.speed = speed;
-            this.bounty = bounty;
+            this.Health = health;
+            this.Size = size;
+            this.Speed = speed;
+            this.Bounty = bounty;
             this.alive = true;
-            this.spawn = spawn;
-            this.a = new Vector2(spawn.X, spawn.Y);
-            this.b = new Vector2(spawn.X + size / 2, spawn.Y + size);
-            this.c = new Vector2(spawn.X + size, spawn.Y);
-            this.center = new Vector2((this.a.X + this.c.X)/2, (this.a.Y + this.b.Y)/2);
-            this.hitCollider = new CircleCollider(this.center, this.size/2);
-
+            this.Spawn = spawn;
+            this.A = new Vector2(spawn.X, spawn.Y);
+            this.B = new Vector2(spawn.X + size / 2, spawn.Y + size);
+            this.C = new Vector2(spawn.X + size, spawn.Y);
+            // A IS LOWER LEFT, B IS LOWER RIGHT, C IS UPPER RIGHT, D IS UPPER LEFT (Corners of the healthbar)
+            this.HbInnerA = this.HbOuterA = new Vector2(A.X + 0.01f, B.Y + 0.02f);
+            this.HbInnerB = this.HbOuterB = new Vector2(C.X - 0.01f, B.Y + 0.02f);
+            this.hbInnerC = this.HbOuterC = new Vector2(C.X - 0.01f, B.Y + 0.04f);
+            this.hbInnerD = this.HbOuterD = new Vector2(A.X + 0.01f, B.Y + 0.04f);
+            this.Center = new Vector2((A.X + C.X) / 2, (A.Y + B.Y) / 2);
+            this.HitCollider = new CircleCollider(Center, this.Size / 2);
         }
 
         private Vector2 left = new Vector2(-0.005f, 0.0f);
@@ -36,154 +35,137 @@ namespace ComputerGrafik_Game.Structure
         private Vector2 up = new Vector2(0.0f, 0.005f);
         private Vector2 down = new Vector2(0.0f, -0.005f);
 
-        private void moveLeft()
+        private int i = 0;
+        public void Update(List<Map> wayPointList, List<Enemy> enemyList)
         {
-            a = a + left;
-            b = b + left;
-            c = c + left;
-        }
-        private void moveRight()
-        {
-            a = a + right;
-            b = b + right;
-            c = c + right;
-        }
-        private void moveUp()
-        {
-            a = a + up;
-            b = b + up;
-            c = c + up;
-        }
-        private void moveDown()
-        {
-            a = a + down;
-            b = b + down;
-            c = c + down;
-        }
-
-        public void draw()
-        {
-            drawEnemy();
-        }
-
-        private void drawEnemy()
-        {
-            GL.Begin(PrimitiveType.Triangles);
-            if (health >= 75) {
-                GL.Color3(System.Drawing.Color.Green);
-            }
-            if (health < 75 && health > 25)
-            {
-                GL.Color3(System.Drawing.Color.Orange);
-            }
-            if(health <= 25)
-            {
-                GL.Color3(System.Drawing.Color.Red);
-            }
-
-            GL.Vertex2(this.a);
-            GL.Vertex2(this.b);
-            GL.Vertex2(this.c);
-            GL.End();
-        }
-
-
-        int i = 0;
-        public void update(List<Map> wayPointList)
-        {
-            this.center = new Vector2((this.a.X + this.c.X) / 2, (this.a.Y + this.b.Y) / 2);
-            this.hitCollider = new CircleCollider(this.center - new Vector2(0f, size / 6), this.size / 1.8f);
-            
-            if(this.health <= 0) {
-                dispose();
-                
-            }
-
+            Center = new Vector2((A.X + C.X) / 2, (A.Y + B.Y) / 2);
+            HitCollider = new CircleCollider(Center - new Vector2(0f, Size / 6), Size / 1.8f);
 
             if (i < wayPointList.Count)
             {
                 Map waypoint;
                 waypoint = wayPointList[i];
-
-                if (this.a.X < waypoint.point2.X)
-                {
-                    this.moveRight();
-                    this.correctRound();
-                }
-                else if (this.a.X > waypoint.point2.X)
-                {
-                    this.moveLeft();
-                    this.correctRound();
-                }
-                else if (this.a.Y < waypoint.point2.Y)
-                {
-                    this.moveUp();
-                    this.correctRound();
-                }
-                else if (this.a.Y > waypoint.point2.Y)
-                {
-                    this.moveDown();
-                    this.correctRound();
-                }
+                if (A.X < waypoint.Point2.X)
+                { UpdatePosition(right); CorrectRound(); }
+                else if (A.X > waypoint.Point2.X)
+                { UpdatePosition(left); CorrectRound(); }
+                else if (A.Y < waypoint.Point2.Y)
+                { UpdatePosition(up); CorrectRound(); }
+                else if (A.Y > waypoint.Point2.Y)
+                { UpdatePosition(down); CorrectRound(); }
                 else
-                {
-                    if (this.a.X == waypoint.point2.X && this.a.Y == waypoint.point2.Y)
-                    {
-                        i++;
-                    }
-                }
-            }
-            else
-            {
-                dispose();
-            }
+                { if (A.X == waypoint.Point2.X && A.Y == waypoint.Point2.Y) { i++; } }
+            } else
+            { enemyList.RemoveAt(0); }
         }
 
-        public void dispose()
+        private void UpdatePosition(Vector2 direction)
         {
-            float dead = -5000.0f;
-            this.a = new Vector2(+-dead, +-dead);
-            this.b = new Vector2(+-dead, +-dead);
-            this.c = new Vector2(+-dead, +-dead);
+            A = A + direction;
+            B = B + direction;
+            C = C + direction;
+            HbOuterA = HbOuterA + direction;
+            HbOuterB = HbOuterB + direction;
+            HbOuterC = HbOuterC + direction;
+            HbOuterD = HbOuterD + direction;
+            HbInnerA = HbInnerA + direction;
+            HbInnerB = HbInnerB + direction;
+            hbInnerC = hbInnerC + direction;
+            hbInnerD = hbInnerD + direction;
         }
-
-        private void correctRound()
+        
+        private void CorrectRound()
         {
-            this.a = new Vector2((float)Math.Round((decimal)this.a.X, 3), (float)Math.Round((decimal)this.a.Y, 3));
-            this.b = new Vector2((float)Math.Round((decimal)this.b.X, 3), (float)Math.Round((decimal)this.b.Y, 3));
-            this.c = new Vector2((float)Math.Round((decimal)this.c.X, 3), (float)Math.Round((decimal)this.c.Y, 3));
+            A = new Vector2((float)Math.Round((decimal)A.X, 3), (float)Math.Round((decimal)A.Y, 3));
+            B = new Vector2((float)Math.Round((decimal)B.X, 3), (float)Math.Round((decimal)B.Y, 3));
+            C = new Vector2((float)Math.Round((decimal)C.X, 3), (float)Math.Round((decimal)C.Y, 3));
         }
 
-        public bool enemyHit(Tower tower)
+        public bool EnemyHit(float damage)
         {
-            if (health > 0)
-            {
-                this.health = health - tower.attackDamage;
-                alive = true;
-                System.Diagnostics.Debug.Print("Enemy health: " + health);
-                return alive;
-            }
-            else
-            {
-                dispose();
-                alive = false;
-                System.Diagnostics.Debug.Print("Enemy health: " + health);
-                return alive;
-            }
-            
+            Health = Health - damage;
+            float hbOffset1 = (float)Health / 100 / 35;
+            float hbOffset2 = 1 - hbOffset1;
+            HbInnerB = new Vector2(HbInnerB.X - hbOffset1, HbInnerB.Y);
+            hbInnerC = new Vector2(hbInnerC.X - hbOffset1, hbInnerC.Y);
+            alive = true;
+            return alive;
         }
 
+        public bool EnemyFinalHit()
+        {
+            HbInnerB = new Vector2(HbInnerA.X, HbInnerB.Y);
+            hbInnerC = new Vector2(hbInnerD.X, hbInnerC.Y);
+            Health = 0;
+            alive = false;
+            return alive;
+        }
 
-        public CircleCollider hitCollider { get; set; }
-        public Vector2 center { get; set; }
-        public double health { get; set; }
-        public float size { get; set; }
-        public float speed { get; set; }
-        public int bounty { get; set; }
-        public Vector2 spawn { get; set; }
-        public Vector2 a { get; set; }
-        public Vector2 b { get; set; }
-        public Vector2 c { get; set; }
+        public void Draw()
+        {
+            DrawEnemy();
+            DrawHealth();
+        }
+
+        public void DrawHealth()
+        {
+            GL.Begin(PrimitiveType.Quads);
+            GL.Color3(System.Drawing.Color.DarkOliveGreen);
+            GL.Vertex2(HbInnerA);
+            GL.Vertex2(HbInnerB);
+            GL.Vertex2(hbInnerC);
+            GL.Vertex2(hbInnerD);
+            GL.End();
+            GL.Begin(PrimitiveType.LineLoop);
+            GL.Color3(System.Drawing.Color.Red);
+            GL.LineWidth(5f);
+            GL.Vertex2(HbOuterA);
+            GL.Vertex2(HbOuterB);
+            GL.Vertex2(HbOuterC);
+            GL.Vertex2(HbOuterD);
+            GL.End();
+        }
+
+        private void DrawEnemy()
+        {
+            GL.Begin(PrimitiveType.Triangles);
+            if (Health >= 75)
+            {
+                GL.Color3(System.Drawing.Color.Green);
+            }
+            if (Health < 75 && Health > 25)
+            {
+                GL.Color3(System.Drawing.Color.Orange);
+            }
+            if (Health <= 25)
+            {
+                GL.Color3(System.Drawing.Color.Red);
+            }
+            GL.Vertex2(A);
+            GL.Vertex2(B);
+            GL.Vertex2(C);
+            GL.End();
+        }
+
+        public CircleCollider HitCollider { get; set; }
+        public Vector2 Center { get; set; }
+        public double Health { get; set; }
+        public static double MaxHealth = 100;
+        public float Size { get; set; }
+        public float Speed { get; set; }
+        public int Bounty { get; set; }
+        public Vector2 Spawn { get; set; }
+        public Vector2 A { get; set; }
+        public Vector2 B { get; set; }
+        public Vector2 C { get; set; }
+        public Vector2 HbOuterA { get; set; }
+        public Vector2 HbOuterB { get; set; }
+        public Vector2 HbOuterC { get; set; }
+        public Vector2 HbOuterD { get; set; }
+        public Vector2 HbInnerA { get; set; }
+        public Vector2 HbInnerB { get; set; }
+        public Vector2 hbInnerC { get; set; }
+        public Vector2 hbInnerD { get; set; }
         public bool alive { get; set; }
     }
 }

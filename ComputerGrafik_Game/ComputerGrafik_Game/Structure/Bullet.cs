@@ -1,29 +1,33 @@
-﻿using OpenTK.Mathematics;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using OpenTK.Graphics.OpenGL;
+using OpenTK.Mathematics;
 
-namespace ComputerGrafik_Game.Structure.Projectiles
+namespace ComputerGrafik_Game.Structure
 {
-    class Bullet
+    internal class Bullet
     {
-        public Bullet(float velocity, float bulletLength, float bulletWidth, float damage, Color4 bulletColor)
+        public Bullet(float velocity, float bulletLength, float bulletWidth, Color4 bulletColor, Vector2 center,Enemy enemy)
         {
             this.velocity = velocity;
             this.bulletLength = bulletLength;
             this.bulletWidth = bulletWidth;
             this.bulletColor = bulletColor;
+            this.start = center;
+            this.enemy = enemy;
         }
 
-        
-        public void draw()
+        public void Draw()
         {
-
+            GL.Begin(PrimitiveType.Quads); // STATUS_STACK_BUFFER_OVERRUN
+            GL.Color3(System.Drawing.Color.Black);
+            GL.Vertex2(start.X, start.Y);
+            GL.Vertex2(start.X + bulletWidth, start.Y + bulletWidth);
+            GL.Vertex2(enemy.Center.X, enemy.Center.Y);
+            GL.Vertex2(enemy.Center.X + bulletWidth, enemy.Center.Y + bulletWidth);
+            GL.End();
         }
-        public void update()
-        {
 
-        }
+        public Enemy enemy { get; set; }
+        public Vector2 start { get; set; }
         public float velocity { get; set; }
         public float bulletLength { get; set; }
         public float bulletWidth { get; set; }
