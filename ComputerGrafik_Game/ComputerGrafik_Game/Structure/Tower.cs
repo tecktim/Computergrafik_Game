@@ -55,20 +55,22 @@ namespace ComputerGrafik_Game.Structure
 
                 if (inRangeTrue)
                 {
-                    bullet = new Bullet(0.01f, 0.01f, 0.005f, System.Drawing.Color.AliceBlue, this.center, enemies[0]);
+                    bullet = new Bullet(0.01f, 0.01f, 0.01f, System.Drawing.Color.AliceBlue, this.center, enemies[0], bulletList, this.attackDamage, enemies);
+                    bullet.init();
                     bulletList.Add(bullet);
-                    ShootBullet(bullet, enemies[0]);
+                    
+                    //ShootBullet(bullet, enemies[0]);
                 }
             }
         }
-        private void ShootBullet(Bullet bullet, Enemy enemy)
+        private void ShootBulletTo(Bullet bullet, Enemy enemy)
         {
             if (enemy.health > attackDamage)
             {
                 enemy.enemyHit(this.attackDamage);
                 System.Diagnostics.Debug.Print("bulletlist: " +
                 bulletList.Count);
-                bulletList.Remove(bullet);
+                //bulletList.Remove(bullet);
             }
             else
             {
