@@ -46,7 +46,7 @@ namespace ComputerGrafik_Game.Structure
             CheckRange();
         }
 
-        private Bullet bullet;
+        private Bullet Bullet;
         public void CheckRange()
         {
             if (Enemies.Count > 0)
@@ -55,11 +55,11 @@ namespace ComputerGrafik_Game.Structure
 
                 if (inRangeTrue)
                 {
-                    bullet = new Bullet(0.01f, 0.01f, 0.01f, System.Drawing.Color.AliceBlue, this.center, enemies[0], bulletList, this.attackDamage, enemies);
-                    bullet.init();
-                    bulletList.Add(bullet);
+                    Bullet = new Bullet(0.01f, 0.01f, 0.01f, System.Drawing.Color.AliceBlue, this.Center, Enemies[0], BulletList, this.AttackDamage, Enemies);
+                   
+                    BulletList.Add(Bullet);
                     
-                    //ShootBullet(bullet, enemies[0]);
+                    //ShootBullet(bullet, Enemies[0]);
                 }
             }
         }
@@ -69,8 +69,8 @@ namespace ComputerGrafik_Game.Structure
             {
                 enemy.EnemyHit(this.AttackDamage);
                 System.Diagnostics.Debug.Print("bulletlist: " +
-                bulletList.Count);
-                //bulletList.Remove(bullet);
+                BulletList.Count);
+                //BulletList.Remove(bullet);
             }
             else
             {

@@ -29,6 +29,11 @@ namespace ComputerGrafik_Game
             {
                 this.Enemies[i].Update(this.WayPointList, this.Enemies);
             }
+
+            for (int i = 0; i < this.BulletList.Count; i++)
+            {
+                this.BulletList[i].Update();
+            }
         }
 
         //TOWERS

@@ -16,16 +16,16 @@ namespace ComputerGrafik_Game.Structure
             this.Size = size;
             this.Speed = speed;
             this.Bounty = bounty;
-            this.alive = true;
-            this.Spawn = spawn;
+            this.Alive = true;
+            this.Spawn = spawn; //ist eigentlich static
             this.A = new Vector2(spawn.X, spawn.Y);
             this.B = new Vector2(spawn.X + size / 2, spawn.Y + size);
             this.C = new Vector2(spawn.X + size, spawn.Y);
             // A IS LOWER LEFT, B IS LOWER RIGHT, C IS UPPER RIGHT, D IS UPPER LEFT (Corners of the healthbar)
             this.HbInnerA = this.HbOuterA = new Vector2(A.X + 0.01f, B.Y + 0.02f);
             this.HbInnerB = this.HbOuterB = new Vector2(C.X - 0.01f, B.Y + 0.02f);
-            this.hbInnerC = this.HbOuterC = new Vector2(C.X - 0.01f, B.Y + 0.04f);
-            this.hbInnerD = this.HbOuterD = new Vector2(A.X + 0.01f, B.Y + 0.04f);
+            this.HbInnerC = this.HbOuterC = new Vector2(C.X - 0.01f, B.Y + 0.04f);
+            this.HbInnerD = this.HbOuterD = new Vector2(A.X + 0.01f, B.Y + 0.04f);
             this.Center = new Vector2((A.X + C.X) / 2, (A.Y + B.Y) / 2);
             this.HitCollider = new CircleCollider(Center, this.Size / 2);
         }
@@ -70,8 +70,8 @@ namespace ComputerGrafik_Game.Structure
             HbOuterD = HbOuterD + direction;
             HbInnerA = HbInnerA + direction;
             HbInnerB = HbInnerB + direction;
-            hbInnerC = hbInnerC + direction;
-            hbInnerD = hbInnerD + direction;
+            HbInnerC = HbInnerC + direction;
+            HbInnerD = HbInnerD + direction;
         }
         
         private void CorrectRound()
@@ -87,18 +87,18 @@ namespace ComputerGrafik_Game.Structure
             float hbOffset1 = (float)Health / 100 / 35;
             float hbOffset2 = 1 - hbOffset1;
             HbInnerB = new Vector2(HbInnerB.X - hbOffset1, HbInnerB.Y);
-            hbInnerC = new Vector2(hbInnerC.X - hbOffset1, hbInnerC.Y);
-            alive = true;
-            return alive;
+            HbInnerC = new Vector2(HbInnerC.X - hbOffset1, HbInnerC.Y);
+            Alive = true;
+            return Alive;
         }
 
         public bool EnemyFinalHit()
         {
             HbInnerB = new Vector2(HbInnerA.X, HbInnerB.Y);
-            hbInnerC = new Vector2(hbInnerD.X, hbInnerC.Y);
+            HbInnerC = new Vector2(HbInnerD.X, HbInnerC.Y);
             Health = 0;
-            alive = false;
-            return alive;
+            Alive = false;
+            return Alive;
         }
 
         public void Draw()
@@ -113,8 +113,8 @@ namespace ComputerGrafik_Game.Structure
             GL.Color3(System.Drawing.Color.DarkOliveGreen);
             GL.Vertex2(HbInnerA);
             GL.Vertex2(HbInnerB);
-            GL.Vertex2(hbInnerC);
-            GL.Vertex2(hbInnerD);
+            GL.Vertex2(HbInnerC);
+            GL.Vertex2(HbInnerD);
             GL.End();
             GL.Begin(PrimitiveType.LineLoop);
             GL.Color3(System.Drawing.Color.Red);
@@ -164,9 +164,9 @@ namespace ComputerGrafik_Game.Structure
         public Vector2 HbOuterD { get; set; }
         public Vector2 HbInnerA { get; set; }
         public Vector2 HbInnerB { get; set; }
-        public Vector2 hbInnerC { get; set; }
-        public Vector2 hbInnerD { get; set; }
-        public bool alive { get; set; }
+        public Vector2 HbInnerC { get; set; }
+        public Vector2 HbInnerD { get; set; }
+        public bool Alive { get; set; }
     }
 }
 
