@@ -18,11 +18,7 @@ GameWindow window = new GameWindow(
         Location = new Vector2i(200, 200),
         Size = new Vector2i(1280, 800),
         Profile = ContextProfile.Compatability
-    }
-    );
-
-
-
+    });
 
 Model model = new Model();
 View view = new View();
