@@ -17,8 +17,9 @@ namespace ComputerGrafik_Game.Structure
             this.SizeXY = sizeXY;
             this.Cost = cost;
             this.Position = position;
-            this.Center = new Vector2(position.X + sizeXY / 2, position.Y + sizeXY / 2);
-            this.RangeCollider = new CircleCollider(Center, attackRange / 2);
+            this.Center = new Vector2(position.X - (sizeXY / 2), position.Y + (sizeXY / 2));
+            this.RangeCollider = new CircleCollider(this.Center, attackRange / 2);
+            this.ObjectCollider = new BoxCollider(new Vector2(position.X, position.Y), sizeXY, sizeXY);
             this.Type = type;
             this.Enemies = enemies;
             this.BulletList = bulletList;
@@ -55,7 +56,7 @@ namespace ComputerGrafik_Game.Structure
 
                 if (inRangeTrue)
                 {
-                    Bullet = new Bullet(0.01f, 0.01f, 0.01f, System.Drawing.Color.AliceBlue, this.Center, Enemies[0], BulletList, this.AttackDamage, Enemies);
+                    Bullet = new Bullet(0.01f, 0.01f, 0.005f, System.Drawing.Color.AliceBlue, this.Center, Enemies[0], BulletList, this.AttackDamage, Enemies);
                    
                     BulletList.Add(Bullet);
                     
@@ -100,6 +101,7 @@ namespace ComputerGrafik_Game.Structure
             GL.End();
         }
         public CircleCollider RangeCollider { get; set; }
+        public BoxCollider ObjectCollider { get; set; }
         public Vector2 Center { get; set; }
         public float Radius { get; set; }
         public int AttackSpeed { get; set; }

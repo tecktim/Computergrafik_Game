@@ -14,17 +14,18 @@ namespace ComputerGrafik_Game
     {
         public View()
         {
-            
+            Camera.Scale = 9f;
+            Camera.Center = new Vector2(10f, 7f);
         }
-
-        
+        internal Camera Camera { get; } = new Camera();
 
         internal void Draw(Model model)
         {
-            //GL.Viewport(-1, -1, 1200, 800);
-            GL.Viewport(0, 0, 1200, 800);
+            GL.Viewport(-1, -1, 1200, 800);
             GL.Clear(ClearBufferMask.ColorBufferBit);
             GL.ClearColor(Color4.LightBlue);
+
+            Camera.Draw();
 
             for (int i = 0; i < model.Enemies.Count; i++)
             {
@@ -44,6 +45,11 @@ namespace ComputerGrafik_Game
             {
                 model.BulletList[i].Draw();
             }
+
+        }
+
+        internal void Resize(int width, int height) {
+            Camera.Resize(width, height);
         }
     }
 }

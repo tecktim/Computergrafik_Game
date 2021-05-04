@@ -53,7 +53,7 @@ namespace ComputerGrafik_Game.Structure
             //this.circlePosition.Y = (float)Math.Round((decimal)this.circlePosition.Y, 3);
             for (int i = 0; i < Enemies.Count; i++)
             {
-                var EnemyI = Enemies[i];
+                Enemy EnemyI = Enemies[i];
                 if (BulletCollider.Circle2CircleCollider(EnemyI.HitCollider) == true)
                 {
                     if (EnemyI.Health > this.Damage)
@@ -80,7 +80,7 @@ namespace ComputerGrafik_Game.Structure
         public void Draw()
         {
             
-            //Update();
+            
             GL.Begin(PrimitiveType.Quads); // STATUS_STACK_BUFFER_OVERRUN
             GL.Color3(System.Drawing.Color.Black);
             /*GL.Vertex2(start.X, start.Y);

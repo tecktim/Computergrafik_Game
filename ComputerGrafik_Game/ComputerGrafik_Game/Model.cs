@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using OpenTK.Mathematics;
+using ComputerGrafik_Game.Collision;
 
 namespace ComputerGrafik_Game
 {
@@ -15,7 +16,7 @@ namespace ComputerGrafik_Game
             this.BulletList = new List<Bullet>();
             this.TowerList = new List<Tower>();
             CreateWave(10, 0.15f);
-            TowerListAdd();
+            CreateTowerList();
             CreateMap();
         }
 
@@ -34,15 +35,57 @@ namespace ComputerGrafik_Game
             {
                 this.BulletList[i].Update();
             }
+
         }
 
         //TOWERS
-        public void TowerListAdd()
+        public void CreateTowerList()
         {
             Tower towerTest1 = new Tower(55, 1.0f, 20.0f, .15f, new Vector2(-0.2f, 0.0f), 100, "rifle", this.Enemies, this.BulletList);
             Tower towerTest2 = new Tower(100, 1.8f, 20.0f, .1f, new Vector2(0.4f, -0.1f), 100, "sniper", this.Enemies, this.BulletList);
             this.TowerList.Add(towerTest1);
             this.TowerList.Add(towerTest2);
+        }
+
+        public void AddTowerToList(float x, float y, string type)
+        {
+            Tower tower;
+            if (type == "sniper") {
+                BoxCollider checkCollider = new BoxCollider(new Vector2(x, y), .1f, .1f);
+                
+                for( int i=TowerList.Count;i>0;i--)
+                //for (int i=0;i<TowerList.Count;i++)
+                {
+                    if(checkCollider.Box2BoxCollider(TowerList[i-1].ObjectCollider)==false)
+                    {
+                        tower = new Tower(200, 1.8f, 20.0f, .1f, new Vector2(x, y), 100, type, this.Enemies, this.BulletList);
+                        this.TowerList.Add(tower);
+                        return;
+                    }
+                    else
+                    {
+                        return;
+                    }
+                }
+                
+            }
+            else if(type == "rifle") {
+                BoxCollider checkCollider = new BoxCollider(new Vector2(x, y), .15f, .15f);
+                for (int i = TowerList.Count; i > 0; i--)
+                //for (int i = 0; i < TowerList.Count; i++)
+                {
+                    if (checkCollider.Box2BoxCollider(TowerList[i-1].ObjectCollider)==false)
+                    {
+                        tower = new Tower(50, 1.0f, 20.0f, .15f, new Vector2(x, y), 100, type, this.Enemies, this.BulletList);
+                        this.TowerList.Add(tower);
+                        return;
+                    }
+                    else
+                    {
+                        return;
+                    }
+                }
+            }
         }
 
         //MAP

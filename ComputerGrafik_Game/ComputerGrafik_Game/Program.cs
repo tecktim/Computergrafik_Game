@@ -28,11 +28,13 @@ WindowSetup(window);
 
 void WindowSetup(GameWindow window)
 {
+    window.MouseDown += args => control.Click(window.MousePosition.X, window.Size.Y - 1 - window.MousePosition.Y);
     window.UpdateFrame += args =>
     {
         control.Update((float)args.Time, window.KeyboardState);
         model.Update((float)args.Time);
     }; // call update once each frame
+    window.Resize += args => view.Resize(args.Width, args.Height); // on window resize let the view do whats needs to be done
     window.RenderFrame += _ => view.Draw(model); // first draw the model
     window.RenderFrame += _ => window.SwapBuffers(); // then wait for next frame and buffer swap
     window.Title = "MyTowerDefense";
