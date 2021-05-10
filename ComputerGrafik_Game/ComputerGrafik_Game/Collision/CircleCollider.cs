@@ -7,7 +7,7 @@ namespace ComputerGrafik_Game.Collision
 {
     internal class CircleCollider
     {
-        private Vector2 center;
+        public Vector2 center;
         private float radius;
 
         public CircleCollider(Vector2 center, float radius)
@@ -58,6 +58,7 @@ namespace ComputerGrafik_Game.Collision
         {
             GL.Begin(PrimitiveType.LineLoop);
             GL.Color3(System.Drawing.Color.Black);
+            
             foreach (var point in circlePoints)
             {
                 GL.Vertex2(center + radius * point);

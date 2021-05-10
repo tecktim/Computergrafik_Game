@@ -10,42 +10,35 @@ namespace ComputerGrafik_Game.Structure
     {
         public Grid(int row, int column)
         {
-            rows = row;
-            columns = column;
-            Cells = new CellType[columns * rows];
+            Rows = row;
+            Columns = column;
+            Cells = new CellType[Columns * Rows];
             Array.Fill(Cells, CellType.Empty);
         }
-
-
-
-
-
-
-
         public CellType this[int x, int y]
         {
-            get => Cells[x + columns * y];
-            set => Cells[x + columns * y] = value;
+            get => Cells[x + Columns * y];
+            set => Cells[x + Columns * y] = value;
         }
 
-        public void initialize()
+        public void Initialize()
         {
             //make every cell empty
 
         }
 
-        public void update()
+        public void Update()
         {
         }
 
-        public void draw()
+        public void Draw()
         {
             DrawGrid(this);
         }
 
         private void DrawGrid(Grid grid)
         {
-            DrawGridLines(grid.columns, grid.rows);
+            DrawGridLines(grid.Columns, grid.Rows);
 
             //Use this to draw the towers
 
@@ -80,8 +73,8 @@ namespace ComputerGrafik_Game.Structure
             GL.End();
         }
 
-        private int rows { get; set; }
-        private int columns { get; set; }
+        private int Rows { get; set; }
+        private int Columns { get; set; }
         public CellType[] Cells;
     }
 }

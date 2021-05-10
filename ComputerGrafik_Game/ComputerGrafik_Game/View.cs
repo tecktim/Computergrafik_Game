@@ -14,36 +14,42 @@ namespace ComputerGrafik_Game
     {
         public View()
         {
-            Matrix4 model = Matrix4.CreateRotationX(MathHelper.DegreesToRadians(-55.0f));
-            Matrix4 view = Matrix4.CreateTranslation(0.0f, 0.0f, -3.0f);
-            Matrix4 projection = Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(45.0f), 1200 / 800, 0.1f, 100.0f);
+            Camera.Scale = 9f;
+            Camera.Center = new Vector2(10f, 7f);
         }
+        internal Camera Camera { get; } = new Camera();
 
         internal void Draw(Model model)
         {
-            //GL.Viewport(-1, -1, 1200, 800);
-            GL.Viewport(0, 0, 1200, 800);
+            GL.Viewport(-1, -1, 1200, 800);
             GL.Clear(ClearBufferMask.ColorBufferBit);
             GL.ClearColor(Color4.LightBlue);
 
-            for (int i = 0; i < model.enemies.Count; i++)
+            Camera.Draw();
+
+            for (int i = 0; i < model.Enemies.Count; i++)
             {
-                model.enemies[i].draw();
-                model.enemies[i].hitCollider.DrawCircleCollider();
+                model.Enemies[i].Draw();
+                model.Enemies[i].HitCollider.DrawCircleCollider();
             }
-            for (int i = 0; i < model.towerList.Count; i++)
+            for (int i = 0; i < model.TowerList.Count; i++)
             {
-                model.towerList[i].draw();
-                model.towerList[i].rangeCollider.DrawCircleCollider();
+                model.TowerList[i].Draw();
+                model.TowerList[i].RangeCollider.DrawCircleCollider();
             }
-            for (int i = 0; i < model.wayPointList.Count; i++)
+            for (int i = 0; i < model.WayPointList.Count; i++)
             {
-                model.wayPointList[i].draw();
+                model.WayPointList[i].Draw();
             }
-            for (int i = 0; i < model.bulletList.Count; i++)
+            for (int i = 0; i < model.BulletList.Count; i++)
             {
-                model.bulletList[i].draw();
+                model.BulletList[i].Draw();
             }
+
+        }
+
+        internal void Resize(int width, int height) {
+            Camera.Resize(width, height);
         }
     }
 }

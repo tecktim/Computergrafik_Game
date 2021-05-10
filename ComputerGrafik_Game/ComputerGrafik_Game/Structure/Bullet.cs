@@ -1,4 +1,5 @@
-﻿using OpenTK.Graphics.OpenGL;
+﻿using ComputerGrafik_Game.Collision;
+using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;
 using System;
 using System.Collections.Generic;
@@ -7,116 +8,106 @@ namespace ComputerGrafik_Game.Structure
 {
     internal class Bullet
     {
-        public Bullet(float velocity, float bulletLength, float bulletWidth, Color4 bulletColor, Vector2 center, Enemy enemy, List<Bullet> bulletList, float damage, List<Enemy> enemies)
+        
+        public Bullet(float velocity, float bulletLength, float bulletWidth, Color4 bulletColor, Vector2 Center, Enemy enemy, List<Bullet> bulletList, float damage, List<Enemy> enemies)
         {
-            this.velocity = velocity;
-            this.bulletLength = bulletLength;
-            this.bulletWidth = bulletWidth;
-            this.bulletColor = bulletColor;
-            this.start = center;
-            this.enemy = enemy;
-            this.bulletList = bulletList;
-            this.damage = damage;
-            this.enemies = enemies;
-        }
-        float drawStartX;
-        float drawEndX;
-        float drawStartY;
-        float drawEndY;
-        public void init()
-        {
-            drawStartX = this.start.X;
-            drawStartY = this.start.Y;
-            if (this.enemy.center.X < this.start.X)
-            {
-                drawEndX = this.start.X - bulletLength;
-            }
-            if (this.enemy.center.X > this.start.X)
-            {
-                drawEndX = this.start.X + bulletLength;
-            }
-            if (this.enemy.center.Y < this.start.Y)
-            {
-                drawEndY = this.start.Y - bulletLength;
-            }
-            if (this.enemy.center.Y < this.start.Y)
-            {
-                drawEndY = this.start.Y + bulletLength;
-            }
-        }
-
-        public void update()
-        {
-            if(this.enemy.center.X < this.start.X)
-            {
-                drawStartX -= 0.005f;
-                drawEndX -= 0.005f;
-            }
-            if (this.enemy.center.X > this.start.X)
-            {
-                drawStartX += 0.005f;
-                drawEndX += 0.005f;
-            }
-            if (this.enemy.center.Y < this.start.Y)
-            {
-                drawStartY -= 0.005f;
-                drawEndY -= 0.005f;
-            }
-            if (this.enemy.center.Y > this.start.Y)
-            {
-                drawStartY += 0.005f;
-                drawEndY += 0.005f;
-            }
             
+            this.Velocity = velocity;
+            this.BulletLength = bulletLength;
+            this.BulletWidth = bulletWidth;
+            this.BulletColor = bulletColor;
+            this.Start = Center;
+            this.Enemy = enemy;
+            this.BulletList = bulletList;
+            this.Damage = damage;
+            this.Enemies = enemies;
+            this.BulletCollider = new CircleCollider(this.Start, this.BulletWidth*2);
+        }
+        
+
+        public void Update()
+        {
+            
+            if(this.Enemy.A.X < this.Start.X)
+            {
+                this.BulletCollider.center = this.BulletCollider.center - new Vector2(0.005f,0f);
+            }
+            if (this.Enemy.A.X > this.Start.X)
+            {
+                this.BulletCollider.center = this.BulletCollider.center + new Vector2(0.005f, 0f);
+            }
+            if (this.Enemy.A.Y < this.Start.Y)
+            {
+                this.BulletCollider.center = this.BulletCollider.center - new Vector2(0f, 0.005f);
+            }
+            if (this.Enemy.A.Y > this.Start.Y)
+            {
+                this.BulletCollider.center = this.BulletCollider.center + new Vector2(0f, 0.005f);
+            }
+            Test();
         }
 
-        public void test()
+        public void Test()
         {
-            drawStartX = (float)Math.Round((decimal)drawStartX, 3);
-            drawStartY = (float)Math.Round((decimal)drawStartY, 3);
-            
-            if (drawStartX == enemy.center.X || drawStartY == enemy.center.Y)
+            //this.circlePosition.X = (float)Math.Round((decimal)this.circlePosition.X, 3);
+            //this.circlePosition.Y = (float)Math.Round((decimal)this.circlePosition.Y, 3);
+            for (int i = 0; i < Enemies.Count; i++)
             {
-                if (enemy.health > this.damage)
+                Enemy EnemyI = Enemies[i];
+                if (BulletCollider.Circle2CircleCollider(EnemyI.HitCollider) == true)
                 {
-                    enemy.enemyHit(this.damage);
-
-                    bulletList.Remove(this);
-                }
-                else
-                {
-                    if (enemy.enemyFinalHit() == false)
+                    if (EnemyI.Health > this.Damage)
                     {
-                        enemies.Remove(enemy);
+                        EnemyI.EnemyHit(this.Damage);
+
+                        BulletList.Remove(this);
                     }
+                    else
+                    {
+                        if (EnemyI.EnemyFinalHit() == false)
+                        {
+                            Enemies.Remove(EnemyI); //removing in iteration of list can be dangerous, kopie der liste mit foreach iterieren wäre deutlich besser
+                            //am ende vom frame remove
+                        }
+                    }
+                    BulletList.Remove(this);
                 }
-                bulletList.Remove(this);
             }
+            
             
         }
 
-        public void draw()
+        public void Draw()
         {
+            
+            
             GL.Begin(PrimitiveType.Quads); // STATUS_STACK_BUFFER_OVERRUN
             GL.Color3(System.Drawing.Color.Black);
-            GL.Vertex2(drawStartX, drawStartY);
-            GL.Vertex2(drawStartX + bulletWidth, drawStartY+bulletWidth);
-            GL.Vertex2(drawEndX, drawEndY);
-            GL.Vertex2(drawEndX + bulletWidth, drawEndY+bulletWidth);
+            /*GL.Vertex2(start.X, start.Y);
+            GL.Vertex2(start.X + BulletWidth, start.Y + BulletWidth);
+            GL.Vertex2(enemy.Center.X, enemy.Center.Y);
+            GL.Vertex2(enemy.Center.X + BulletWidth, enemy.Center.Y + BulletWidth);*/
+            /* GL.Vertex2(drawStartX, drawStartY);
+             GL.Vertex2(drawStartX + BulletWidth, drawStartY+BulletWidth);
+             GL.Vertex2(drawEndX, drawEndY);
+             GL.Vertex2(drawEndX + BulletWidth, drawEndY+BulletWidth);*/
+            BulletCollider.DrawCircleCollider();
             GL.End();
-            test();
+            
         }
 
-        public Enemy enemy { get; set; }
+        public Enemy Enemy { get; set; }
 
-        private List<Bullet> bulletList;
-        private float damage;
-        private List<Enemy> enemies;
+        private List<Bullet> BulletList;
+        private float Damage;
+        private List<Enemy> Enemies;
 
-        public Vector2 start { get; set; }
-        public float velocity { get; set; }
-        public float bulletLength { get; set; }
-        public float bulletWidth { get; set; }
-        public Color4 bulletColor { get; set; }
+        public CircleCollider BulletCollider { get; private set; }
+        public Vector2 Start { get; set; }
+        public float Velocity { get; set; }
+        public float BulletLength { get; set; }
+        public float BulletWidth { get; set; }
+        public Color4 BulletColor { get; set; }
+        
     }
 }

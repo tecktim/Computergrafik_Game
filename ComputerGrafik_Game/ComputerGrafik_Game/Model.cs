@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using OpenTK.Mathematics;
+using ComputerGrafik_Game.Collision;
 
 namespace ComputerGrafik_Game
 {
@@ -10,13 +11,13 @@ namespace ComputerGrafik_Game
     {
         public Model()
         {
-            this.enemies = new List<Enemy>();
-            this.wayPointList = new List<Map>();
-            this.bulletList = new List<Bullet>();
-            this.towerList = new List<Tower>();
-            createWave(10, 0.15f);
-            towerListAdd();
-            createMap();
+            this.Enemies = new List<Enemy>();
+            this.WayPointList = new List<Map>();
+            this.BulletList = new List<Bullet>();
+            this.TowerList = new List<Tower>();
+            CreateWave(10, 0.15f);
+            CreateTowerList();
+            CreateMap();
         }
 
         /// <summary>
@@ -25,56 +26,99 @@ namespace ComputerGrafik_Game
         /// </summary>
         internal void Update(float frameTime)
         {
-            for (int i = 0; i < this.enemies.Count; i++)
+            for (int i = 0; i < this.Enemies.Count; i++)
             {
-                this.enemies[i].update(this.wayPointList, this.enemies);
+                this.Enemies[i].Update(this.WayPointList, this.Enemies);
             }
-            for (int i = 0; i< this.bulletList.Count; i++)
+
+            for (int i = 0; i < this.BulletList.Count; i++)
             {
-                this.bulletList[i].update();
+                this.BulletList[i].Update();
             }
+
         }
 
         //TOWERS
-        public void towerListAdd()
+        public void CreateTowerList()
         {
-            Tower towerTest1 = new Tower(55, 1.0f, 20.0f, .15f, new Vector2(-0.2f, 0.0f), 100, "rifle", this.enemies, this.bulletList);
-            Tower towerTest2 = new Tower(100, 1.8f, 20.0f, .1f, new Vector2(0.4f, -0.1f), 100, "sniper", this.enemies, this.bulletList);
-            this.towerList.Add(towerTest1);
-            this.towerList.Add(towerTest2);
+            Tower towerTest1 = new Tower(55, 1.0f, 20.0f, .15f, new Vector2(-0.2f, 0.0f), 100, "rifle", this.Enemies, this.BulletList);
+            Tower towerTest2 = new Tower(100, 1.8f, 20.0f, .1f, new Vector2(0.4f, -0.1f), 100, "sniper", this.Enemies, this.BulletList);
+            this.TowerList.Add(towerTest1);
+            this.TowerList.Add(towerTest2);
+        }
+
+        public void AddTowerToList(float x, float y, string type)
+        {
+            Tower tower;
+            if (type == "sniper") {
+                BoxCollider checkCollider = new BoxCollider(new Vector2(x, y), .1f, .1f);
+                
+                for( int i=TowerList.Count;i>0;i--)
+                //for (int i=0;i<TowerList.Count;i++)
+                {
+                    if(checkCollider.Box2BoxCollider(TowerList[i-1].ObjectCollider)==false)
+                    {
+                        tower = new Tower(200, 1.8f, 20.0f, .1f, new Vector2(x, y), 100, type, this.Enemies, this.BulletList);
+                        this.TowerList.Add(tower);
+                        return;
+                    }
+                    else
+                    {
+                        return;
+                    }
+                }
+                
+            }
+            else if(type == "rifle") {
+                BoxCollider checkCollider = new BoxCollider(new Vector2(x, y), .15f, .15f);
+                for (int i = TowerList.Count; i > 0; i--)
+                //for (int i = 0; i < TowerList.Count; i++)
+                {
+                    if (checkCollider.Box2BoxCollider(TowerList[i-1].ObjectCollider)==false)
+                    {
+                        tower = new Tower(50, 1.0f, 20.0f, .15f, new Vector2(x, y), 100, type, this.Enemies, this.BulletList);
+                        this.TowerList.Add(tower);
+                        return;
+                    }
+                    else
+                    {
+                        return;
+                    }
+                }
+            }
         }
 
         //MAP
-        public void createMap()
+        public void CreateMap()
         {
-            this.wayPointList.Add(new Map(new Vector2(-1.0f, -0.5f), new Vector2(0.1f, -0.5f)));
-            this.wayPointList.Add(new Map(new Vector2(0.1f, -0.5f), new Vector2(0.1f, 0.5f)));
-            this.wayPointList.Add(new Map(new Vector2(0.1f, 0.5f), new Vector2(0.75f, 0.5f)));
-            this.wayPointList.Add(new Map(new Vector2(0.75f, 0.5f), new Vector2(0.75f, -1.0f)));
+            this.WayPointList.Add(new Map(new Vector2(-1.0f, -0.5f), new Vector2(0.1f, -0.5f)));
+            this.WayPointList.Add(new Map(new Vector2(0.1f, -0.5f), new Vector2(0.1f, 0.5f)));
+            this.WayPointList.Add(new Map(new Vector2(0.1f, 0.5f), new Vector2(0.75f, 0.5f)));
+            this.WayPointList.Add(new Map(new Vector2(0.75f, 0.5f), new Vector2(0.75f, -1.0f)));
         }
 
         //WAVE MANIPULATION
-        internal void createWave(int enemyCount, float distance)
+        internal void CreateWave(int enemyCount, float distance)
         {
             for (int i = 0; i < enemyCount; i++)
             {
                 Enemy enemy = new Enemy(100.0, 0.1f, 0.01f, 100, new OpenTK.Mathematics.Vector2(-1.0f - distance * i, -0.5f));
-                this.enemies.Add(enemy);
+                this.Enemies.Add(enemy);
             }
         }
 
-        internal void createEnemy()
+        internal void CreateEnemy()
         {
-            if (this.enemies.Count < 3000)
+            if (this.Enemies.Count < 3000)
             {
                 Enemy enemy = new Enemy(100.0, 0.1f, 0.01f, 100, new OpenTK.Mathematics.Vector2(-1.0f, -0.5f));
-                this.enemies.Add(enemy);
+                this.Enemies.Add(enemy);
             }
         }
 
-        public List<Enemy> enemies { get; set; }
-        public List<Map> wayPointList { get; set; }
-        public List<Bullet> bulletList { get; set; }
-        public List<Tower> towerList { get; set; }
+        public List<Enemy> Enemies { get; set; }
+        public List<Map> WayPointList { get; set; }
+        public List<Bullet> BulletList { get; set; }
+        public List<Tower> TowerList { get; set; }
     }
 }
