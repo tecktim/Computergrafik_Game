@@ -17,11 +17,7 @@ namespace ComputerGrafik_Game
             Matrix4 model = Matrix4.CreateRotationX(MathHelper.DegreesToRadians(-55.0f));
             Matrix4 view = Matrix4.CreateTranslation(0.0f, 0.0f, -3.0f);
             Matrix4 projection = Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(45.0f), 1200 / 800, 0.1f, 100.0f);
-
-            
         }
-
-        
 
         internal void Draw(Model model)
         {

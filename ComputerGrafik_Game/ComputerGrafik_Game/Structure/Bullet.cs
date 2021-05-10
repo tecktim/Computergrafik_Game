@@ -97,14 +97,8 @@ namespace ComputerGrafik_Game.Structure
 
         public void draw()
         {
-            
-            update();
             GL.Begin(PrimitiveType.Quads); // STATUS_STACK_BUFFER_OVERRUN
             GL.Color3(System.Drawing.Color.Black);
-            /*GL.Vertex2(start.X, start.Y);
-            GL.Vertex2(start.X + bulletWidth, start.Y + bulletWidth);
-            GL.Vertex2(enemy.center.X, enemy.center.Y);
-            GL.Vertex2(enemy.center.X + bulletWidth, enemy.center.Y + bulletWidth);*/
             GL.Vertex2(drawStartX, drawStartY);
             GL.Vertex2(drawStartX + bulletWidth, drawStartY+bulletWidth);
             GL.Vertex2(drawEndX, drawEndY);

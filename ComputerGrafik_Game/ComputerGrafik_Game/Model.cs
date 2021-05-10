@@ -29,6 +29,10 @@ namespace ComputerGrafik_Game
             {
                 this.enemies[i].update(this.wayPointList, this.enemies);
             }
+            for (int i = 0; i< this.bulletList.Count; i++)
+            {
+                this.bulletList[i].update();
+            }
         }
 
         //TOWERS

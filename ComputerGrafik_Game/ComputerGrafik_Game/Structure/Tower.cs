@@ -59,7 +59,7 @@ namespace ComputerGrafik_Game.Structure
                     bullet.init();
                     bulletList.Add(bullet);
                     
-                    //ShootBullet(bullet, enemies[0]);
+                    //ShootBulletTo(bullet, enemies[0]);
                 }
             }
         }
