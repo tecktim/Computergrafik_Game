@@ -15,11 +15,12 @@ namespace ComputerGrafik_Game
             this.WayPointList = new List<Map>();
             this.BulletList = new List<Bullet>();
             this.TowerList = new List<Tower>();
-            CreateWave(10, 0.15f);
+            this.currentEnemyCount = 30;
+            CreateWave(currentEnemyCount, 0.15f);
             CreateTowerList();
             CreateMap();
         }
-
+        double nextWaveEnemyPow = 1.03;
         /// <summary>
         /// Game logic update. Should be called once a frame: Moves all objects and resolves collision.
         /// <param name="frameTime">Time in seconds since the last update.</param>
@@ -35,7 +36,12 @@ namespace ComputerGrafik_Game
             {
                 this.BulletList[i].Update();
             }
-
+            if (this.Enemies.Count == 0)
+            {
+                this.currentEnemyCount = (int)Math.Pow((double)this.currentEnemyCount, nextWaveEnemyPow);
+                Console.WriteLine("Currently there are " + currentEnemyCount + " Enemies");
+                CreateWave(currentEnemyCount, 0.15f);
+            }
         }
 
         //TOWERS
@@ -105,20 +111,31 @@ namespace ComputerGrafik_Game
                 Enemy enemy = new Enemy(100.0, 0.1f, 0.01f, 100, new OpenTK.Mathematics.Vector2(-1.0f - distance * i, -0.5f));
                 this.Enemies.Add(enemy);
             }
+            
         }
 
         internal void CreateEnemy()
         {
-            if (this.Enemies.Count < 3000)
+            /*if (this.Enemies.Count < 3000)
             {
                 Enemy enemy = new Enemy(100.0, 0.1f, 0.01f, 100, new OpenTK.Mathematics.Vector2(-1.0f, -0.5f));
                 this.Enemies.Add(enemy);
+            }*/
+            if (this.Enemies.Count <= currentEnemyCount)
+            {
+                this.currentEnemyCount = (int)Math.Pow((double)this.currentEnemyCount, nextWaveEnemyPow);
+                Console.WriteLine("Currently there are " + currentEnemyCount + " Enemies");
+                CreateWave(currentEnemyCount, 0.15f);
             }
+            
+            
         }
 
         public List<Enemy> Enemies { get; set; }
         public List<Map> WayPointList { get; set; }
         public List<Bullet> BulletList { get; set; }
         public List<Tower> TowerList { get; set; }
+
+        private int currentEnemyCount;
     }
 }
