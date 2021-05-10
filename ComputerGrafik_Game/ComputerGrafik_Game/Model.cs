@@ -15,11 +15,13 @@ namespace ComputerGrafik_Game
             this.WayPointList = new List<Map>();
             this.BulletList = new List<Bullet>();
             this.TowerList = new List<Tower>();
-            CreateWave(10, 0.15f);
+            this.currentEnemyCount = 30;
+            CreateWave(currentEnemyCount, 0.15f);
             CreateTowerList();
             CreateMap();
         }
 
+        double nextWaveEnemyPow = 1.03;
         /// <summary>
         /// Game logic update. Should be called once a frame: Moves all objects and resolves collision.
         /// <param name="frameTime">Time in seconds since the last update.</param>
@@ -35,6 +37,13 @@ namespace ComputerGrafik_Game
             {
                 this.BulletList[i].Update();
             }
+            if(this.Enemies.Count == 0)
+            {
+                this.currentEnemyCount = (int)Math.Pow((double)this.currentEnemyCount, nextWaveEnemyPow);
+                Console.WriteLine("Currently there are " + currentEnemyCount + "Enemies.");
+                CreateWave(currentEnemyCount, 0.15f);
+            }
+
 
         }
 
@@ -47,44 +56,54 @@ namespace ComputerGrafik_Game
             this.TowerList.Add(towerTest2);
         }
 
+        public void checkSpot(float x, float y, string type)
+        {
+            BoxCollider checkCollider;
+            if (type == "sniper")
+            {
+                checkCollider = new BoxCollider(new Vector2(x, y), .1f, .1f);
+            }
+            else
+            {
+                checkCollider = new BoxCollider(new Vector2(x, y), .15f, .15f);
+            }
+            foreach(Tower tower in TowerList)
+             {
+                 if (checkCollider.Box2BoxCollider(tower.ObjectCollider))
+                 {
+                     continue;
+                 }
+                 else
+                 {
+                     AddTowerToList(x, y, type);
+                     return;
+                 }
+             }
+           /* for (int i = 0; i < TowerList.Count; i++)
+            {
+                if (checkCollider.Box2BoxCollider(TowerList[i].ObjectCollider))
+                {
+                    return;
+                }
+                else
+                {
+                    AddTowerToList(x, y, type);
+                    return;
+                }
+            }*/
+        }
+
         public void AddTowerToList(float x, float y, string type)
         {
-            Tower tower;
-            if (type == "sniper") {
-                BoxCollider checkCollider = new BoxCollider(new Vector2(x, y), .1f, .1f);
-                
-                for( int i=TowerList.Count;i>0;i--)
-                //for (int i=0;i<TowerList.Count;i++)
-                {
-                    if(checkCollider.Box2BoxCollider(TowerList[i-1].ObjectCollider)==false)
-                    {
-                        tower = new Tower(200, 1.8f, 20.0f, .1f, new Vector2(x, y), 100, type, this.Enemies, this.BulletList);
-                        this.TowerList.Add(tower);
-                        return;
-                    }
-                    else
-                    {
-                        return;
-                    }
-                }
-                
+            if (type == "sniper")
+            {
+                this.TowerList.Add(new Tower(200, 1.8f, 20.0f, .1f, new Vector2(x, y), 100, type, this.Enemies, this.BulletList));
+                return;
             }
-            else if(type == "rifle") {
-                BoxCollider checkCollider = new BoxCollider(new Vector2(x, y), .15f, .15f);
-                for (int i = TowerList.Count; i > 0; i--)
-                //for (int i = 0; i < TowerList.Count; i++)
-                {
-                    if (checkCollider.Box2BoxCollider(TowerList[i-1].ObjectCollider)==false)
-                    {
-                        tower = new Tower(50, 1.0f, 20.0f, .15f, new Vector2(x, y), 100, type, this.Enemies, this.BulletList);
-                        this.TowerList.Add(tower);
-                        return;
-                    }
-                    else
-                    {
-                        return;
-                    }
-                }
+            else if (type == "rifle")
+            {
+                this.TowerList.Add(new Tower(50, 1.0f, 20.0f, .15f, new Vector2(x, y), 100, type, this.Enemies, this.BulletList));
+                return;
             }
         }
 
@@ -109,10 +128,11 @@ namespace ComputerGrafik_Game
 
         internal void CreateEnemy()
         {
-            if (this.Enemies.Count < 3000)
+            if (this.Enemies.Count <= currentEnemyCount)
             {
-                Enemy enemy = new Enemy(100.0, 0.1f, 0.01f, 100, new OpenTK.Mathematics.Vector2(-1.0f, -0.5f));
-                this.Enemies.Add(enemy);
+                this.currentEnemyCount = (int)Math.Pow((double)this.currentEnemyCount, nextWaveEnemyPow);
+                Console.WriteLine("Currently there are " + currentEnemyCount + "Enemies.");
+                CreateWave(currentEnemyCount, 0.15f);
             }
         }
 
@@ -120,5 +140,7 @@ namespace ComputerGrafik_Game
         public List<Map> WayPointList { get; set; }
         public List<Bullet> BulletList { get; set; }
         public List<Tower> TowerList { get; set; }
+
+        private int currentEnemyCount;
     }
 }

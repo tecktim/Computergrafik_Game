@@ -28,7 +28,7 @@ WindowSetup(window);
 
 void WindowSetup(GameWindow window)
 {
-    window.MouseDown += args => control.Click(window.MousePosition.X, window.Size.Y - 1 - window.MousePosition.Y);
+    window.MouseDown += args => control.Click(window.MousePosition.X, window.Size.Y - 1 - window.MousePosition.Y, window.KeyboardState);
     window.UpdateFrame += args =>
     {
         control.Update((float)args.Time, window.KeyboardState);

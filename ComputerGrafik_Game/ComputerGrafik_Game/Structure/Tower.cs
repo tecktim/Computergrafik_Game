@@ -17,9 +17,9 @@ namespace ComputerGrafik_Game.Structure
             this.SizeXY = sizeXY;
             this.Cost = cost;
             this.Position = position;
-            this.Center = new Vector2(position.X - (sizeXY / 2), position.Y + (sizeXY / 2));
-            this.RangeCollider = new CircleCollider(this.Center, attackRange / 2);
-            this.ObjectCollider = new BoxCollider(new Vector2(position.X, position.Y), sizeXY, sizeXY);
+            this.Center = new Vector2(this.Position.X + (this.SizeXY / 2), this.Position.Y + (this.SizeXY / 2));
+            this.RangeCollider = new CircleCollider(this.Center, this.AttackRange / 2);
+            this.ObjectCollider = new BoxCollider(this.Center, this.SizeXY, this.SizeXY);
             this.Type = type;
             this.Enemies = enemies;
             this.BulletList = bulletList;
@@ -59,8 +59,6 @@ namespace ComputerGrafik_Game.Structure
                     Bullet = new Bullet(0.01f, 0.01f, 0.005f, System.Drawing.Color.AliceBlue, this.Center, Enemies[0], BulletList, this.AttackDamage, Enemies);
                    
                     BulletList.Add(Bullet);
-                    
-                    //ShootBullet(bullet, Enemies[0]);
                 }
             }
         }
@@ -71,7 +69,6 @@ namespace ComputerGrafik_Game.Structure
                 enemy.EnemyHit(this.AttackDamage);
                 System.Diagnostics.Debug.Print("bulletlist: " +
                 BulletList.Count);
-                //BulletList.Remove(bullet);
             }
             else
             {
