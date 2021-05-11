@@ -36,6 +36,7 @@ namespace ComputerGrafik_Game
             {
                 model.TowerList[i].Draw();
                 model.TowerList[i].RangeCollider.DrawCircleCollider();
+                model.TowerList[i].ObjectCollider.DrawBoxCollider();
             }
             for (int i = 0; i < model.WayPointList.Count; i++)
             {

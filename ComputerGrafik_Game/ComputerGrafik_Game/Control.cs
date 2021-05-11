@@ -47,7 +47,7 @@ namespace ComputerGrafik_Game
 			camera.Center += movement.TransformDirection(camera.CameraMatrix.Inverted());
 		}
 
-		internal void Click(float x, float y)
+		internal void Click(float x, float y, KeyboardState keyboard)
 		{
 			var cam = this.View.Camera;
 			var fromViewportToWorld = Transformation2d.Combine(cam.InvViewportMatrix, cam.CameraMatrix.Inverted());
@@ -59,8 +59,14 @@ namespace ComputerGrafik_Game
 			var column = (int)Math.Truncate(world.X);
 			var row = (int)Math.Truncate(world.Y);
 			Console.WriteLine($"{column}, {row}");
-
-			this.Model.AddTowerToList(world.X, world.Y, "sniper");
+            if (keyboard.IsKeyDown(Keys.D1))
+			{
+				this.Model.checkSpot(world.X, world.Y, "sniper");
+			}
+			else if (keyboard.IsKeyDown(Keys.D2))
+            {
+				this.Model.checkSpot(world.X, world.Y, "rifle");
+			}
 			Console.WriteLine(this.Model.TowerList.Count);
 		}
 
