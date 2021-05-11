@@ -10,7 +10,6 @@ namespace ComputerGrafik_Game.Structure
     {
 
         public Enemy(double health, float size, float speed, int bounty, Vector2 spawn)
-
         {
             this.Health = health;
             this.Size = size;

@@ -21,7 +21,7 @@ namespace ComputerGrafik_Game
             CreateMap();
         }
 
-        double nextWaveEnemyPow = 1.045;
+        double nextWaveEnemyPow = 1.03;
         /// <summary>
         /// Game logic update. Should be called once a frame: Moves all objects and resolves collision.
         /// <param name="frameTime">Time in seconds since the last update.</param>
@@ -50,7 +50,7 @@ namespace ComputerGrafik_Game
         //TOWERS
         public void CreateTowerList()
         {
-            Tower towerTest1 = new Tower(55, 1.0f, 20.0f, .15f, new Vector2(-0.2f, -0.1f), 100, "rifle", this.Enemies, this.BulletList);
+            Tower towerTest1 = new Tower(55, 1.0f, 20.0f, .15f, new Vector2(-0.2f, 0.0f), 100, "rifle", this.Enemies, this.BulletList);
             Tower towerTest2 = new Tower(100, 1.8f, 20.0f, .1f, new Vector2(0.4f, -0.1f), 100, "sniper", this.Enemies, this.BulletList);
             this.TowerList.Add(towerTest1);
             this.TowerList.Add(towerTest2);
@@ -67,44 +67,43 @@ namespace ComputerGrafik_Game
             {
                 checkCollider = new BoxCollider(new Vector2(x, y), .15f, .15f);
             }
+            bool collided = false;
             foreach(Tower tower in TowerList)
+             {
+                 if (checkCollider.Box2BoxCollider(tower.ObjectCollider)){
+                    collided = true;
+                    break;
+                 }
+             }
+            foreach (Map path in WayPointList)
             {
-                 if (checkCollider.Box2BoxCollider(tower.ObjectCollider))
-                 {
-                    Console.WriteLine("Collided");
-                     return;
-                 }
-                 else
-                 {
-                     AddTowerToList(x, y, type);
-                     return;
-                 }
+                if (checkCollider.Box2BoxCollider(path.MapCollider))
+                {
+                    collided = true;
+                    break;
+                }
             }
-           /* for (int i = 0; i < TowerList.Count; i++)
+            if (collided == false)
             {
-                if (checkCollider.Box2BoxCollider(TowerList[i].ObjectCollider))
-                {
-                    return;
-                }
-                else
-                {
-                    AddTowerToList(x, y, type);
-                    return;
-                }
-            }*/
+                AddTowerToList(x, y, type, collided);
+                return;
+            }
         }
 
-        public void AddTowerToList(float x, float y, string type)
+        public void AddTowerToList(float x, float y, string type, bool collided)
         {
-            if (type == "sniper")
+            if (collided == false)
             {
-                this.TowerList.Add(new Tower(200, 1.8f, 20.0f, .1f, new Vector2(x, y), 100, type, this.Enemies, this.BulletList));
-                return;
-            }
-            else if (type == "rifle")
-            {
-                this.TowerList.Add(new Tower(50, 1.0f, 20.0f, .15f, new Vector2(x, y), 100, type, this.Enemies, this.BulletList));
-                return;
+                if (type == "sniper")
+                {
+                    this.TowerList.Add(new Tower(200, 1.8f, 20.0f, .1f, new Vector2(x, y), 100, type, this.Enemies, this.BulletList));
+                    return;
+                }
+                else if (type == "rifle")
+                {
+                    this.TowerList.Add(new Tower(50, 1.0f, 20.0f, .15f, new Vector2(x, y), 100, type, this.Enemies, this.BulletList));
+                    return;
+                }
             }
         }
 
