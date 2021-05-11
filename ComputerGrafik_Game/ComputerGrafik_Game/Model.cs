@@ -67,43 +67,43 @@ namespace ComputerGrafik_Game
             {
                 checkCollider = new BoxCollider(new Vector2(x, y), .15f, .15f);
             }
+            bool collided = false;
             foreach(Tower tower in TowerList)
              {
-                 if (checkCollider.Box2BoxCollider(tower.ObjectCollider))
-                 {
-                     continue;
-                 }
-                 else
-                 {
-                     AddTowerToList(x, y, type);
-                     return;
+                 if (checkCollider.Box2BoxCollider(tower.ObjectCollider)){
+                    collided = true;
+                    break;
                  }
              }
-           /* for (int i = 0; i < TowerList.Count; i++)
+            foreach (Map path in WayPointList)
             {
-                if (checkCollider.Box2BoxCollider(TowerList[i].ObjectCollider))
+                if (checkCollider.Box2BoxCollider(path.MapCollider))
                 {
-                    return;
+                    collided = true;
+                    break;
                 }
-                else
-                {
-                    AddTowerToList(x, y, type);
-                    return;
-                }
-            }*/
-        }
-
-        public void AddTowerToList(float x, float y, string type)
-        {
-            if (type == "sniper")
+            }
+            if (collided == false)
             {
-                this.TowerList.Add(new Tower(200, 1.8f, 20.0f, .1f, new Vector2(x, y), 100, type, this.Enemies, this.BulletList));
+                AddTowerToList(x, y, type, collided);
                 return;
             }
-            else if (type == "rifle")
+        }
+
+        public void AddTowerToList(float x, float y, string type, bool collided)
+        {
+            if (collided == false)
             {
-                this.TowerList.Add(new Tower(50, 1.0f, 20.0f, .15f, new Vector2(x, y), 100, type, this.Enemies, this.BulletList));
-                return;
+                if (type == "sniper")
+                {
+                    this.TowerList.Add(new Tower(200, 1.8f, 20.0f, .1f, new Vector2(x, y), 100, type, this.Enemies, this.BulletList));
+                    return;
+                }
+                else if (type == "rifle")
+                {
+                    this.TowerList.Add(new Tower(50, 1.0f, 20.0f, .15f, new Vector2(x, y), 100, type, this.Enemies, this.BulletList));
+                    return;
+                }
             }
         }
 

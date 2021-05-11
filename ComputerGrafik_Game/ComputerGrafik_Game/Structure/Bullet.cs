@@ -23,12 +23,28 @@ namespace ComputerGrafik_Game.Structure
             this.Enemies = enemies;
             this.BulletCollider = new CircleCollider(this.Start, this.BulletWidth*2);
         }
-        
 
         public void Update()
         {
+            float tx = this.Enemy.A.X - this.BulletCollider.center.X;
+            float ty = this.Enemy.A.Y - this.BulletCollider.center.Y;
+
+            float length = MathF.Sqrt(tx * tx + ty * ty);
+
+
+
+            if (length > this.Velocity)
+            {
+                this.BulletCollider.center.X = this.BulletCollider.center.X + tx / length * this.Velocity;
+                this.BulletCollider.center.Y = this.BulletCollider.center.Y + ty / length * this.Velocity;
+            }
+            else
+            {
+                this.BulletList.Remove(this);
+            }
             
-            if(this.Enemy.A.X < this.Start.X)
+
+            /*if(this.Enemy.A.X < this.Start.X)
             {
                 this.BulletCollider.center = this.BulletCollider.center - new Vector2(0.005f,0f);
             }
@@ -43,7 +59,7 @@ namespace ComputerGrafik_Game.Structure
             if (this.Enemy.A.Y > this.Start.Y)
             {
                 this.BulletCollider.center = this.BulletCollider.center + new Vector2(0f, 0.005f);
-            }
+            }*/
             Test();
         }
 
