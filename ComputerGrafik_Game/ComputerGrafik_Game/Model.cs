@@ -50,7 +50,7 @@ namespace ComputerGrafik_Game
         //TOWERS
         public void CreateTowerList()
         {
-            Tower towerTest1 = new Tower(55, 1.0f, 20.0f, .15f, new Vector2(-0.2f, 0.0f), 100, "rifle", this.Enemies, this.BulletList);
+            Tower towerTest1 = new Tower(55, 1.0f, 10.0f, .15f, new Vector2(-0.2f, -0.1f), 100, "rifle", this.Enemies, this.BulletList);
             Tower towerTest2 = new Tower(100, 1.8f, 20.0f, .1f, new Vector2(0.4f, -0.1f), 100, "sniper", this.Enemies, this.BulletList);
             this.TowerList.Add(towerTest1);
             this.TowerList.Add(towerTest2);

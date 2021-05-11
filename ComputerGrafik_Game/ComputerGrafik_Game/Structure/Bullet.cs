@@ -27,23 +27,41 @@ namespace ComputerGrafik_Game.Structure
 
         public void Update()
         {
+            float tx = this.Enemy.A.X - this.BulletCollider.center.X;
+            float ty = this.Enemy.A.Y - this.BulletCollider.center.Y;
+
+            float length = MathF.Sqrt(tx * tx + ty * ty);
+
+            if (length > this.Velocity)
+            {
+                this.BulletCollider.center.X = this.BulletCollider.center.X + tx / length * this.Velocity;
+                this.BulletCollider.center.Y = this.BulletCollider.center.Y + ty / length * this.Velocity;
+            }
+            else
+            {
+                this.BulletCollider.center.X = this.Enemy.A.X;
+                this.BulletCollider.center.Y = this.Enemy.A.Y;
+            }
             
+            
+
+            /*
             if(this.Enemy.A.X < this.Start.X)
             {
-                this.BulletCollider.center = this.BulletCollider.center - new Vector2(0.005f,0f);
+                this.BulletCollider.center.X = this.BulletCollider.center.X - 0.005f;
             }
             if (this.Enemy.A.X > this.Start.X)
             {
-                this.BulletCollider.center = this.BulletCollider.center + new Vector2(0.005f, 0f);
+                this.BulletCollider.center.X = this.BulletCollider.center.X + 0.005f;
             }
             if (this.Enemy.A.Y < this.Start.Y)
             {
-                this.BulletCollider.center = this.BulletCollider.center - new Vector2(0f, 0.005f);
+                this.BulletCollider.center.Y = this.BulletCollider.center.Y - 0.005f;
             }
             if (this.Enemy.A.Y > this.Start.Y)
             {
-                this.BulletCollider.center = this.BulletCollider.center + new Vector2(0f, 0.005f);
-            }
+                this.BulletCollider.center.Y = this.BulletCollider.center.Y + 0.005f;
+            }*/
             Test();
         }
 
