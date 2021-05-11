@@ -30,10 +30,10 @@ namespace ComputerGrafik_Game.Structure
             this.HitCollider = new CircleCollider(Center, this.Size / 2);
         }
 
-        private Vector2 left = new Vector2(-0.005f, 0.0f);
-        private Vector2 right = new Vector2(0.005f, 0.0f);
-        private Vector2 up = new Vector2(0.0f, 0.005f);
-        private Vector2 down = new Vector2(0.0f, -0.005f);
+        private Vector2 left = new Vector2(-0.01f, 0.0f);
+        private Vector2 right = new Vector2(0.01f, 0.0f);
+        private Vector2 up = new Vector2(0.0f, 0.01f);
+        private Vector2 down = new Vector2(0.0f, -0.01f);
 
         private int i = 0;
         public void Update(List<Map> wayPointList, List<Enemy> enemyList)
