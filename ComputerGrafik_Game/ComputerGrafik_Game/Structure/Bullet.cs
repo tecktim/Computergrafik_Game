@@ -24,14 +24,13 @@ namespace ComputerGrafik_Game.Structure
             this.BulletCollider = new CircleCollider(this.Start, this.BulletWidth*2);
         }
 
+        //https://stackoverflow.com/questions/13345446/make-an-object-move-towards-another-objects-position
         public void Update()
         {
             float tx = this.Enemy.A.X - this.BulletCollider.center.X;
             float ty = this.Enemy.A.Y - this.BulletCollider.center.Y;
 
             float length = MathF.Sqrt(tx * tx + ty * ty);
-
-
 
             if (length > this.Velocity)
             {
@@ -43,7 +42,6 @@ namespace ComputerGrafik_Game.Structure
                 this.BulletList.Remove(this);
             }
             
-
             /*if(this.Enemy.A.X < this.Start.X)
             {
                 this.BulletCollider.center = this.BulletCollider.center - new Vector2(0.005f,0f);

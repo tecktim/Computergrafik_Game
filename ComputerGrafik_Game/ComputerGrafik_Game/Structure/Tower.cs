@@ -50,18 +50,22 @@ namespace ComputerGrafik_Game.Structure
         private Bullet Bullet;
         public void CheckRange()
         {
-            if (Enemies.Count > 0)
+            if (Enemies.Count != 0)
             {
-                bool inRangeTrue = RangeCollider.Circle2CircleCollider(Enemies[0].HitCollider);
-
-                if (inRangeTrue)
+                Enemy[] newList = Enemies.ToArray();
+                foreach (Enemy enemy in newList)
                 {
-                    Bullet = new Bullet(0.01f, 0.01f, 0.005f, System.Drawing.Color.AliceBlue, this.Center, Enemies[0], BulletList, this.AttackDamage, Enemies);
-                   
-                    BulletList.Add(Bullet);
+                    bool inRangeTrue = RangeCollider.Circle2CircleCollider(enemy.HitCollider);
+
+                    if (inRangeTrue)
+                    {
+                        Bullet = new Bullet(0.01f, 0.01f, 0.005f, System.Drawing.Color.AliceBlue, this.Center, enemy, BulletList, this.AttackDamage, Enemies);
+                        BulletList.Add(Bullet);
+                        break;
+                    }
                 }
             }
-        }
+        } 
         private void ShootBulletTo(Bullet bullet, Enemy enemy)
         {
             if (enemy.Health > AttackDamage)
